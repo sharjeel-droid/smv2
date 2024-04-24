@@ -60,8 +60,8 @@ class LoginViewModel extends GetxController{
 
   requestLogin(){
 
-    // dev.log("requestLogin; url -> ${ApiConst.BASE_URL}${ApiConst.URL_LOGIN}");
-    // dev.log("requestLogin; params -> {username:${userName.value}, password:${password.value.toMD5()}}");
+    dev.log("requestLogin; url -> ${ApiConst.BASE_URL}${ApiConst.URL_LOGIN}");
+    dev.log("requestLogin; params -> {username:${userName.value}, password:${password.value.toMD5()}}");
 
     repo.checkLogin(
         userName.value,

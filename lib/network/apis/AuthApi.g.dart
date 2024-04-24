@@ -13,7 +13,7 @@ class _AuthApi implements AuthApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://154.56.60.109/smartvan/api/v2/';
+    baseUrl ??= 'http://127.0.0.1/SmartVanApiV2/api/v2/';
   }
 
   final Dio _dio;
@@ -25,13 +25,13 @@ class _AuthApi implements AuthApi {
     String username,
     String password,
   ) async {
-    const _extra = <String, dynamic>{};
+    final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'login_id': username,
       r'password': password,
     };
     final _headers = <String, dynamic>{};
-    final Map<String, dynamic>? _data = null;
+    const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<LoginApiResponseNetworkEntity>>(Options(
       method: 'GET',
