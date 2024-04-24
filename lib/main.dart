@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:dio/dio.dart';
 // import 'package:flutter/services.dart';
 
-
 void main() {
   runApp(const MyApp());
 }
