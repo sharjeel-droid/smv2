@@ -24,6 +24,7 @@ class SplashViewModel extends GetxController{
 
     dev.log('checkSessionAndNavigate -> ${isSessPresent}');
     if(isSessPresent){
+      dev.log('SplashViewMode -> ${await AppSession.currentUser.userRole()}');
       navigate().toHome();
       // dev.log('navigating to home');
     }else{

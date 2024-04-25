@@ -89,6 +89,7 @@ class LoginViewModel extends GetxController{
                     login_id: data.login_id,
                     token_id: data.token_id,
                     admin_id: data.bio.admin_id,
+                    s_admin_id: data.bio.s_admin_id,
                     school_id: data.bio.school_id,
                     first_name: data.bio.first_name,
                     last_name: data.bio.last_name,

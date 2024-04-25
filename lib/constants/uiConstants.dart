@@ -869,7 +869,7 @@ class _images{
 class _imagePaths{
   const _imagePaths();
   get logo => 'assets/vectors/logo_main.svg';
-  get avtMale => 'assets/vectors/ic_avt_male.svg';
+  // get avtMale => 'assets/vectors/ic_avt_male.svg';
   get navDrawerHeaderBg => 'assets/images/navDrawerBg.jpg';
   get avtMaleDef => 'assets/images/ic_avt_male_def.jpg';
 }

@@ -1,4 +1,5 @@
 
+
 import 'package:SMV2/constants/valueConstants.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -44,6 +45,11 @@ class _CurrentUser{
   //generics
   Future<void> setString(String key, String value) async => (await _instance).setString(key, value);
   Future<String?> getString(String key) async => (await _instance).getString(key) ?? "";
+  //for int
+  Future<void> setInt(String key, int value) async => (await _instance).setInt(key, value);
+  Future<int> getInt(String key) async => (await _instance).getInt(key) ?? 0;
+
+
 
   //customs
   Future<bool> clear() async => (await _instance).clear();
@@ -55,7 +61,8 @@ class _CurrentUser{
     required user_id,
     required login_id,
     required token_id,
-    required admin_id,
+     admin_id,
+     s_admin_id,
     required school_id,
     required first_name,
     required last_name,
@@ -78,6 +85,7 @@ class _CurrentUser{
     await _set_login_id(login_id);
     await _set_token_id(token_id);
     await _set_admin_id(admin_id);
+    await _set_s_admin_id(s_admin_id??0);
     await _set_school_id(school_id);
     await _set_first_name(first_name);
     await _set_last_name(last_name);
@@ -96,28 +104,31 @@ class _CurrentUser{
   Future<bool> isUserSessionPresent()
   async
   {
-    return !( (await user_id()) ?. isBlank ?? true);
+    int uid = await user_id() ?? 0;
+
+    return (uid > 0) ? true : false;
   }
   Future<UserRole> userRole()
   async{
     var labelId = await label_id();
-    var convertedLID = 0;
-
+    // var convertedLID = 0;
+    //
     if(labelId != null){
-      if(labelId == ""){
-        convertedLID = 0;
-      }else{
-        try{
-          convertedLID = int.parse(labelId);
-        }
-        catch(e){
-          dev.log("invalid String");
-        }
-      }
+    //   if(labelId == ""){
+    //     convertedLID = 0;
+    //   }else{
+    //     try{
+    //       convertedLID = int.parse(labelId);
+    //     }
+    //     catch(e){
+    //       dev.log("invalid String");
+    //     }
+    //   }
 
 
 
-      switch(convertedLID)
+      // switch(convertedLID)
+      switch(labelId)
       {
         case 1 :{
           return UserRole.SADMIN;
@@ -157,15 +168,15 @@ class _CurrentUser{
   }
 
   //access_id
-  Future<void> _set_access_id(String access_id)=> setString("access_id", access_id);
-  Future<String?> access_id()=> getString ("access_id") ;
+  Future<void> _set_access_id(int access_id)=> setInt("access_id", access_id);
+  Future<int?> access_id()=> getInt ("access_id") ;
 
   //label_id
-  Future<void> _set_label_id(String label_id)=> setString("label_id", label_id);
-  Future<String?> label_id()=> getString ("label_id") ;
+  Future<void> _set_label_id(int label_id)=> setInt("label_id", label_id);
+  Future<int?> label_id()=> getInt ("label_id") ;
   //user_id
-  Future<void> _set_user_id(String user_id)=> setString("user_id", user_id);
-  Future<String?> user_id() => getString ("user_id");
+  Future<void> _set_user_id(int user_id)=> setInt("user_id", user_id);
+  Future<int?> user_id() => getInt ("user_id");
   //login_id
   Future<void> _set_login_id(String login_id)=> setString("login_id", login_id);
   Future<String?> login_id()=> getString ("login_id") ;
@@ -173,11 +184,14 @@ class _CurrentUser{
   Future<void> _set_token_id(String token_id)=> setString("token_id", token_id);
   Future<String?> token_id()=> getString ("token_id") ;
   //admin_id
-  Future<void> _set_admin_id(String admin_id)=> setString("admin_id", admin_id);
-  Future<String?> admin_id()=> getString ("admin_id") ;
+  Future<void> _set_admin_id(int admin_id)=> setInt("admin_id", admin_id);
+  Future<int?> admin_id()=> getInt ("admin_id") ;
+  //s_admin_id
+  Future<void> _set_s_admin_id(int s_admin_id)=> setInt("s_admin_id", s_admin_id);
+  Future<int?> s_admin_id()=> getInt ("s_admin_id") ;
   //school_id
-  Future<void> _set_school_id(String school_id)=> setString("school_id", school_id);
-  Future<String?> school_id()=> getString ("school_id") ;
+  Future<void> _set_school_id(int school_id)=> setInt("school_id", school_id);
+  Future<int?> school_id()=> getInt ("school_id") ;
   //first_name
   Future<void> _set_first_name(String first_name)=> setString("first_name", first_name);
   Future<String?> first_name()=> getString ("first_name") ;
