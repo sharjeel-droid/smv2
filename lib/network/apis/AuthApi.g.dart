@@ -13,7 +13,7 @@ class _AuthApi implements AuthApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://127.0.0.1/SmartVanApiV2/api/v2/';
+    baseUrl ??= 'http://154.56.60.109/smartvan/api/v2/';
   }
 
   final Dio _dio;

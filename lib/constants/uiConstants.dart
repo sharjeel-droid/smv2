@@ -809,14 +809,15 @@ class _navDrawerComposer{
     
     var selectionColor = Color(defaults.colors.argb.black);
     
-    var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);
+    // var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);
     var title = Text(
       (listTile.title as Text).data??"",
       style: TextStyle(color: selectionColor, fontWeight: FontWeight.bold)
     );
     
     return ListTile(
-      leading: leadIcon,
+      leading: Icon(Icons.arrow_forward_ios),
+      // leading: leadIcon,
       title: title,
       onTap: listTile.onTap,
       selected: true,
