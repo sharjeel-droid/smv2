@@ -59,7 +59,7 @@ BIONetworkEntity _$BIONetworkEntityFromJson(Map<String, dynamic> json) =>
       user_id: json['user_id'] as int,
       admin_id: json['admin_id'] as int?,
       s_admin_id: json['s_admin_id'] as int?,
-      school_id: json['school_id'] as int,
+      school_id: json['school_id'] as int?,
       first_name: json['first_name'] as String,
       last_name: json['last_name'] as String,
       gender: json['gender'] as String,

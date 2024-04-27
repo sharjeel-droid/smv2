@@ -63,7 +63,7 @@ class _CurrentUser{
     required token_id,
      admin_id,
      s_admin_id,
-    required school_id,
+     school_id,
     required first_name,
     required last_name,
     required gender,

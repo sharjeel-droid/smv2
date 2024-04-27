@@ -53,7 +53,7 @@ class BIODomainModel{
   int user_id;
   int? s_admin_id;
   int? admin_id;
-  int school_id;
+  int? school_id;
   String first_name;
   String last_name;
   String gender;
@@ -71,7 +71,7 @@ class BIODomainModel{
   BIODomainModel({required this.user_id,
      this.s_admin_id,
      this.admin_id,
-    required this.school_id,
+    this.school_id,
     required this.first_name,
     required this.last_name,
     required this.gender,
