@@ -26,15 +26,15 @@ Map<String, dynamic> _$LoginApiResponseDomainModelToJson(
 
 DataDomainModel _$DataDomainModelFromJson(Map<String, dynamic> json) =>
     DataDomainModel(
-      access_id: json['access_id'] as String,
-      label_id: json['label_id'] as String,
-      user_id: json['user_id'] as String,
+      access_id: json['access_id'] as int,
+      label_id: json['label_id'] as int,
+      user_id: json['user_id'] as int,
       login_id: json['login_id'] as String,
       pass: json['pass'] as String,
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
-      is_active: json['is_active'] as String,
-      is_loggedin: json['is_loggedin'] as String,
+      is_active: json['is_active'] as int,
+      is_loggedin: json['is_loggedin'] as int,
       token_id: json['token_id'] as String,
       bio: BIODomainModel.fromJson(json['bio'] as Map<String, dynamic>),
     );
@@ -56,9 +56,10 @@ Map<String, dynamic> _$DataDomainModelToJson(DataDomainModel instance) =>
 
 BIODomainModel _$BIODomainModelFromJson(Map<String, dynamic> json) =>
     BIODomainModel(
-      user_id: json['user_id'] as String,
-      admin_id: json['admin_id'] as String,
-      school_id: json['school_id'] as String,
+      user_id: json['user_id'] as int,
+      s_admin_id: json['s_admin_id'] as int?,
+      admin_id: json['admin_id'] as int?,
+      school_id: json['school_id'] as int?,
       first_name: json['first_name'] as String,
       last_name: json['last_name'] as String,
       gender: json['gender'] as String,
@@ -68,7 +69,7 @@ BIODomainModel _$BIODomainModelFromJson(Map<String, dynamic> json) =>
       contact_2: json['contact_2'] as String?,
       address: json['address'] as String,
       pic: json['pic'] as String,
-      is_active: json['is_active'] as String,
+      is_active: json['is_active'] as int,
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
       loc_users: json['loc_users'] == null
@@ -80,6 +81,7 @@ BIODomainModel _$BIODomainModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$BIODomainModelToJson(BIODomainModel instance) =>
     <String, dynamic>{
       'user_id': instance.user_id,
+      's_admin_id': instance.s_admin_id,
       'admin_id': instance.admin_id,
       'school_id': instance.school_id,
       'first_name': instance.first_name,
@@ -99,9 +101,9 @@ Map<String, dynamic> _$BIODomainModelToJson(BIODomainModel instance) =>
 
 LOCUsersDomainModel _$LOCUsersDomainModelFromJson(Map<String, dynamic> json) =>
     LOCUsersDomainModel(
-      loc_user_id: json['loc_user_id'] as String,
-      user_id: json['user_id'] as String,
-      label_id: json['label_id'] as String,
+      loc_user_id: json['loc_user_id'] as int,
+      user_id: json['user_id'] as int,
+      label_id: json['label_id'] as int,
       longitude: json['longitude'] as String,
       latitude: json['latitude'] as String,
       date_create: json['date_create'] as String,

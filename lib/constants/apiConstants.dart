@@ -2,9 +2,9 @@ class ApiConst{
 
   static const String _PROTOCOL = 'http://';
   static const String _SERVER = '154.56.60.109/';//hostinger nevironment
-  // static const String _SERVER = '192.168.52.1/';//LocalHost ABIC Systems
+  // static const String _SERVER = '127.0.0.1/';//LocalHost
 
-  // static const String _FOLDER_PATH = 'SmartVanApiV2/api';//local abic system
+  // static const String _FOLDER_PATH = 'SmartVanApiV2/api/';//local abic system
   static const String _FOLDER_PATH = 'smartvan/api/';
 
   static const String _API_VERSION = 'v2/';

@@ -1,6 +1,4 @@
-// import 'dart:ffi';
 
-import 'dart:ffi';
 
 import 'package:SMV2/utils/extensions.dart';
 import 'package:flutter/material.dart';
@@ -811,14 +809,15 @@ class _navDrawerComposer{
     
     var selectionColor = Color(defaults.colors.argb.black);
     
-    var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);
+    // var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);
     var title = Text(
       (listTile.title as Text).data??"",
       style: TextStyle(color: selectionColor, fontWeight: FontWeight.bold)
     );
     
     return ListTile(
-      leading: leadIcon,
+      leading: Icon(Icons.arrow_forward_ios),
+      // leading: leadIcon,
       title: title,
       onTap: listTile.onTap,
       selected: true,
@@ -871,7 +870,7 @@ class _images{
 class _imagePaths{
   const _imagePaths();
   get logo => 'assets/vectors/logo_main.svg';
-  get avtMale => 'assets/vectors/ic_avt_male.svg';
+  // get avtMale => 'assets/vectors/ic_avt_male.svg';
   get navDrawerHeaderBg => 'assets/images/navDrawerBg.jpg';
   get avtMaleDef => 'assets/images/ic_avt_male_def.jpg';
 }

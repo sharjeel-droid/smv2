@@ -17,15 +17,15 @@ class LoginApiResponseDomainModel{
 //auth_access
 @JsonSerializable()
 class DataDomainModel{
-  String access_id;
-  String label_id;
-  String user_id;
+  int access_id;
+  int label_id;
+  int user_id;
   String login_id;
   String pass;
   String date_create;
   String? date_update;
-  String is_active;
-  String is_loggedin;
+  int is_active;
+  int is_loggedin;
   String token_id;
   BIODomainModel bio;
 
@@ -50,9 +50,10 @@ class DataDomainModel{
 @JsonSerializable()
 class BIODomainModel{
 
-  String user_id;
-  String admin_id;
-  String school_id;
+  int user_id;
+  int? s_admin_id;
+  int? admin_id;
+  int? school_id;
   String first_name;
   String last_name;
   String gender;
@@ -62,14 +63,15 @@ class BIODomainModel{
   String? contact_2;
   String address;
   String pic;
-  String is_active;
+  int is_active;
   String date_create;
   String? date_update;
   LOCUsersDomainModel? loc_users;
 
   BIODomainModel({required this.user_id,
-    required this.admin_id,
-    required this.school_id,
+     this.s_admin_id,
+     this.admin_id,
+    this.school_id,
     required this.first_name,
     required this.last_name,
     required this.gender,
@@ -92,9 +94,9 @@ class BIODomainModel{
 //loc_users
 @JsonSerializable()
 class LOCUsersDomainModel{
-  String loc_user_id;
-  String user_id;
-  String label_id;
+  int loc_user_id;
+  int user_id;
+  int label_id;
   String longitude;
   String latitude;
   String date_create;

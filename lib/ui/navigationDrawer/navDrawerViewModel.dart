@@ -76,6 +76,13 @@ class NavDrawerViewModel extends GetxController{
 
 
 
+      case UserRole.UNKNOWN:{
+        tree = [];
+        tree.addAll([]);
+        // mappedNavTree([]);
+        break;
+      }
+
       default:{
         tree = [];
         tree.addAll([]);
@@ -137,6 +144,10 @@ class NavDrawerViewModel extends GetxController{
       }
 
 
+      case UserRole.UNKNOWN:{
+        mappedNavView(_getEmptyView());
+        break;
+      }
 
       default:{
         mappedNavView(_getEmptyView());

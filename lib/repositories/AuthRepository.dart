@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:SMV2/domain/models/auth/login/LoginApiResponseDomainModel.dart';
 import 'package:SMV2/network/apis/AuthApi.dart';
@@ -27,7 +26,7 @@ class AuthRepository{
 
       // LoginApiResponseNetworkEntity resp = await api.checkLogin(username, password);
       HttpResponse<LoginApiResponseNetworkEntity> httpResponse = await api.checkLogin(username, password);
-
+      dev.log("response code -> ${httpResponse.response.statusCode}");
       // dev.log('{AuthRepo -> headers:${httpResponse.response.headers}; code:${httpResponse.response.statusCode};'
       //     'message:${httpResponse.response.statusMessage} }');
       // var opt = httpResponse.response.requestOptions;
@@ -38,6 +37,7 @@ class AuthRepository{
       // dev.log('AuthRepo->CheckLogin; response request options -> ${}');
 
       var resp = httpResponse.data;
+
 
       if(resp.success == 1){
         if(resp!=null){
