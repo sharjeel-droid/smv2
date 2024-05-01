@@ -30,11 +30,11 @@ class AppSession
   // {await sPref.clear();}
 
   // final CurrentUser currentUser = Get.find<CurrentUser>();
-  static const currentUser = const _CurrentUser();
+  static /*const*/ _CurrentUser currentUser = /*const*/ _CurrentUser();
 }
 
 class _CurrentUser{
-  const _CurrentUser();
+  /*const*/ _CurrentUser();
   // late final SharedPreferences spref_cu;
   // CurrentUser(this.spref_cu);
 
@@ -54,6 +54,7 @@ class _CurrentUser{
   //customs
   Future<bool> clear() async => (await _instance).clear();
 
+  var userRole = UserRole.UNKNOWN.obs;
 
   handleCurrentUserData({
     required access_id,
@@ -98,6 +99,8 @@ class _CurrentUser{
     await _set_pic(pic);
     await _set_longitude(longitude);
     await _set_latitude(latitude);
+
+    _userRole();
   }
 
   //extras
@@ -108,8 +111,11 @@ class _CurrentUser{
 
     return (uid > 0) ? true : false;
   }
-  Future<UserRole> userRole()
+
+  /*Future<UserRole>*/
+  _userRole()
   async{
+    dev.log("_userRole() -> init");
     var labelId = await label_id();
     // var convertedLID = 0;
     //
@@ -126,42 +132,56 @@ class _CurrentUser{
     //   }
 
 
-
+      dev.log("_userRole() -> labelId -> ${labelId}");
       // switch(convertedLID)
       switch(labelId)
       {
         case 1 :{
-          return UserRole.SADMIN;
+          // return UserRole.SADMIN;
+          dev.log("_userRole() -> is SA");
+          userRole(UserRole.SADMIN) ;
           break;
         }
 
         case 2 :{
-          return UserRole.ADMIN;
+          // return UserRole.ADMIN;
+          dev.log("_userRole() -> is AD");
+          userRole( UserRole.ADMIN);
           break;
         }
 
         case 3 :{
-          return UserRole.SUPERVISOR;
+          dev.log("_userRole() -> is SU");
+          userRole(UserRole.SUPERVISOR);
+          // return UserRole.SUPERVISOR;
           break;
         }
 
         case 4 :{
-          return UserRole.DRIVER;
+          dev.log("_userRole() -> is DR");
+          userRole(UserRole.DRIVER);
+          // return UserRole.DRIVER;
           break;
         }
 
         case 5 :{
-          return UserRole.PARENT;
+          dev.log("_userRole() -> is PR");
+          // return UserRole.PARENT;
+          userRole( UserRole.PARENT);
           break;
         }
 
         default:{
-          return UserRole.UNKNOWN;
+          dev.log("_userRole() -> is UK");
+          // return UserRole.UNKNOWN;
+          userRole(UserRole.UNKNOWN);
           break;
         }
       }
     }else{
-      return UserRole.UNKNOWN;
+      dev.log("_userRole() -> is UK");
+      // return UserRole.UNKNOWN;
+      userRole(UserRole.UNKNOWN);
     }
 
 
