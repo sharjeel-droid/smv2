@@ -14,6 +14,7 @@ import '../admin/supervisors/adminSupervisorsView.dart';
 class NavDrawerViewModel extends GetxController{
 
   final appSessO = Get.find<AppSessionRX>();
+  late BuildContext context;
 
   RxInt selectedNavItemPos = 0.obs;
   RxBool isProcessingLogout = false.obs;
@@ -29,12 +30,22 @@ class NavDrawerViewModel extends GetxController{
 
     mappedNavTree = <Widget>[].obs;//_getFooterNavTree().obs;
     mappedNavView = _getEmptyView().obs;
+
+    selectedNavItemPos.listen((selection) {
+      Navigator.pop(context);
+      dev.log("listening -> ${selection}");
+      mapNavigationTreeForUserRole(context);
+
+    });
+
     // mapNavigationTreeForUserRole();
     // _mapNavigationViewsForUserRole();
   }
 
-  mapNavigationTreeForUserRole()
+  mapNavigationTreeForUserRole(BuildContext buildContext)
   async{
+    context = buildContext;
+
     userRole(appSessO.userRoleObs.value);
 
     dev.log("userRole check -> ${userRole.value}");
@@ -182,6 +193,7 @@ class NavDrawerViewModel extends GetxController{
   }
 
   handleNavselection(int selection){
+    dev.log("handleNavSelection ; selection -> ${selection}");
     selectedNavItemPos(selection);
 
     // Get.back();
@@ -218,7 +230,10 @@ dev.log("getting admin nav tree");
       ListTile(
         leading: const Icon(Icons.school),
         title: const Text('Schools'),
-        onTap: (){onSelection(1);}
+        onTap: (){
+          dev.log("selection -> 1");
+          onSelection(1);
+        }
         // onTap: (){_setNavselection(1);}
         /*() {
           setState(() {
@@ -276,7 +291,7 @@ dev.log("getting admin nav tree");
     // );
   }
   Widget _getAdminNavViews(int selection){
-
+dev.log("selection -> ${selection}");
     switch(selection){
       case 0 : {
         return AdminDashboard();

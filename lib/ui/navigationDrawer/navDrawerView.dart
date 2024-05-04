@@ -19,7 +19,7 @@ class NavigationDrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // _viewModel.init();
-    _viewModel.mapNavigationTreeForUserRole();
+    _viewModel.mapNavigationTreeForUserRole(context);
     return Obx(() =>
 
         defaults.layout.withNavDrawer(
