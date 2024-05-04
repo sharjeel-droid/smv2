@@ -2,6 +2,7 @@ import 'package:SMV2/repositories/AuthRepository.dart';
 import 'package:SMV2/ui/login/loginViewModel.dart';
 import 'package:SMV2/ui/splash/splashViewModel.dart';
 import 'package:SMV2/utils/AppSession.dart';
+import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
@@ -15,6 +16,7 @@ class BaseBindings extends Bindings{
   void dependencies() {
     Get.put<BuildContext>(context as BuildContext);
     //session shared prefrences
+    Get.put<AppSessionRX>( AppSessionRX() );
     // Get.put<AppSession>( AppSession() );
     // Get.putAsync<AppSession>(() async => AppSession(await SharedPreferences.getInstance()));
     // Get.putAsync<CurrentUser>(() async => CurrentUser(await SharedPreferences.getInstance()));

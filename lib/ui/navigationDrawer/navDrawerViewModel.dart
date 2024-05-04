@@ -1,6 +1,7 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/utils/AppSession.dart';
+import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
@@ -12,6 +13,8 @@ import '../admin/supervisors/adminSupervisorsView.dart';
 
 class NavDrawerViewModel extends GetxController{
 
+  final appSessO = Get.find<AppSessionRX>();
+
   RxInt selectedNavItemPos = 0.obs;
   RxBool isProcessingLogout = false.obs;
   Rx<UserRole> userRole = UserRole.UNKNOWN.obs;
@@ -21,16 +24,19 @@ class NavDrawerViewModel extends GetxController{
 
   NavDrawerViewModel(){init();}
   init() {
-    userRole(AppSession.currentUser.userRole());
-    dev.log("userRole init -> ${userRole}");
+    // userRole(appSessO.userRoleObs.value);
+    // dev.log("userRole init -> ${userRole}");
+
     mappedNavTree = <Widget>[].obs;//_getFooterNavTree().obs;
     mappedNavView = _getEmptyView().obs;
-    mapNavigationTreeForUserRole();
+    // mapNavigationTreeForUserRole();
     // _mapNavigationViewsForUserRole();
   }
 
   mapNavigationTreeForUserRole()
   async{
+    userRole(appSessO.userRoleObs.value);
+
     dev.log("userRole check -> ${userRole.value}");
     // UserRole userRole = await AppSession.currentUser.userRole();
     List<Widget> tree = [];
@@ -119,9 +125,9 @@ class NavDrawerViewModel extends GetxController{
   _mapNavigationViewsForUserRole()
   async{
 
-    UserRole userRole = await AppSession.currentUser.userRole();
-    dev.log("userRole -> ${userRole}");
-    switch(userRole){
+    // UserRole userRole = await AppSession.currentUser.userRole();
+    dev.log("userRole -> ${userRole.value}");
+    switch(userRole.value){
       case UserRole.SADMIN:{
         mappedNavView(_getEmptyView());
         break;
