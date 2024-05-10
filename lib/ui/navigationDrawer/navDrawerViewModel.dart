@@ -219,6 +219,7 @@ dev.log("getting admin nav tree");
         leading: const Icon(Icons.dashboard),
         title: const Text('Dashboard'),
         onTap: () {
+          onSelection(0);
           // _setNavselection(0);
           // navigateTo("/home", context);
           // setState(() {
@@ -247,6 +248,7 @@ dev.log("getting admin nav tree");
           leading: const Icon(Icons.supervisor_account),
           title: const Text('Supervisors'),
           onTap: (){
+            onSelection(2);
             // _setNavselection(2);
           }/*() {
           setState(() {

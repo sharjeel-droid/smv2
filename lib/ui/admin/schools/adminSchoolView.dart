@@ -1,13 +1,13 @@
+import 'package:SMV2/ui/admin/schools/adminSchoolViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class AdminSchoolView extends StatefulWidget {
-  const AdminSchoolView(/*{super.key}*/);
+class AdminSchoolView extends StatelessWidget {
+  AdminSchoolView({Key? key}) : super(key: key);
 
-  @override
-  State<AdminSchoolView> createState() => _AdminSchoolViewState();
-}
+  final AdminSchoolViewModel _viewModel = Get.find<AdminSchoolViewModel>();
 
-class _AdminSchoolViewState extends State<AdminSchoolView> {
+
   @override
   Widget build(BuildContext context) {
     return Center(

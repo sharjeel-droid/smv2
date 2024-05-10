@@ -15,6 +15,9 @@ class ApiConst{
   static const String _MODULE_AUTH = 'auth/';
   static const String URL_LOGIN = '${_MODULE_AUTH}login';
 
+  //dc
+  static const String _MODULE_DC = 'dc/';
+  static const String URL_SCHOOL_DETS_FOR_ADMINS = '${_MODULE_DC}getschooldetsforadmin';
 
 
 }
