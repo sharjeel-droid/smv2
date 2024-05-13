@@ -21,10 +21,19 @@ class AdminSchoolView extends StatelessWidget {
         title: const Text('Schools List'),
       ),
       body: ListView(
-        children: _viewModel.schools.map(
+        children:
+        (_viewModel.schools.value == null)?
+
+            [ListTile(title: Text("no item found"),)]
+
+        :
+
+        _viewModel.schools.map(
                 (item) =>
-                    ListTile(title: Text(item!.num_of_records.toString()))
-        ).toList(),
+                ListTile(title: Text(item!.school_name))
+        ).toList()
+
+        ,
       ),
     );
 

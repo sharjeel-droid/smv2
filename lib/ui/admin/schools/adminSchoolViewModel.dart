@@ -14,11 +14,11 @@ class AdminSchoolViewModel extends GetxController{
 
   //non-observables
   final _context = Get.find<BuildContext>();
-//--//
+  //--//
 
-//observables
+  //observables
   RxBool isProcessing = false.obs;
-RxList<DataSchoolsDomainModel?> schools = [null].obs;
+  RxList<SchoolDomainModel?> schools = [null].obs;
 
 
 getSchools() async
@@ -46,14 +46,17 @@ int userId = await AppSession.currentUser.user_id() as int;
           Fluttertoast.showToast(msg: "no Data Found");
           schools(null);
         }else{
-          if(data.isEmpty){
-            Fluttertoast.showToast(msg: "no Schools Found");
-            schools([]);
-          }else{
 
-            schools(data);
+          schools(data.schools);
 
-          }
+          // if(data.isBlank){
+          //   Fluttertoast.showToast(msg: "no Schools Found");
+          //   schools([]);
+          // }else{
+          //
+          //   schools(data);
+          //
+          // }
         }
 
 

@@ -9,10 +9,15 @@ class DCApiResponseNetworkMapper implements EntityMapper<DataCentreApiResponseNe
   DataCentreApiResponseDomainModel mapFromEntity(DataCentreApiResponseNetworkEntity entity) {
 
     return DataCentreApiResponseDomainModel(success: entity.success, message: entity.message,
-        data:
-
-        entity.data?.map((e) => DataSchoolsDomainModel(num_of_records: e.num_of_records)).toList()
-
+        data: DcDataDomainModel(num_of_records: entity.data!.num_of_records,
+            schools:
+            entity.data?.schools?.map((e) =>
+                SchoolDomainModel(school_id: e.school_id, admin_id: e.admin_id,
+                    verification_code: e.verification_code, school_name: e.school_name,
+                    address: e.address, contact_1: e.contact_1, is_active: e.is_active,
+                    date_create: e.date_create)
+            ).toList()
+        )
         );
   }
 
@@ -22,10 +27,17 @@ class DCApiResponseNetworkMapper implements EntityMapper<DataCentreApiResponseNe
     // return DataCentreApiResponseNetworkEntity(success: domain.success);
     return DataCentreApiResponseNetworkEntity(success: domain.success, message: domain.message,
         data:
+            DcDataNetworkEntity(num_of_records: domain.data!.num_of_records,
+                schools: domain.data?.schools?.map((e) =>
+                    SchoolNetworkEntity(school_id: e.school_id, admin_id: e.school_id,
+                        verification_code: e.verification_code, school_name: e.school_name,
+                        address: e.address, contact_1: e.address, is_active: e.school_id,
+                        date_create: e.address)).toList()
+            )
 
-        domain.data?.map((d) => DataSchoolsNetworkEntity(num_of_records: d.num_of_records)
+        // domain.data?.map((d) => DataNetwDataSchoolsNetworkEntity(num_of_records: d.num_of_records)
 
-        ).toList()
+        // ).toList()
 
     );
   }
