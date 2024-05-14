@@ -13,7 +13,7 @@ class _DataCentreApi implements DataCentreApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://127.0.0.1/SmartVanApiV2/api/v2/';
+    baseUrl ??= 'http://192.168.0.109/SmartVanApiV2/api/v2/';
   }
 
   final Dio _dio;

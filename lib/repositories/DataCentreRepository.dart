@@ -55,6 +55,7 @@ class DataCentreRepository{
 
     }
     on DioException catch(e){
+      dev.log("onFailure -> ${e.toString()}");
       onFailure!("${e.response?.statusMessage??"unknown error"}");
       // onFailure!(e.toString());
 

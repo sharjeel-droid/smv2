@@ -29,6 +29,7 @@ getSchools() async
   // schools(["asd", "123", "523"]);
 
 int userId = await AppSession.currentUser.user_id() as int;
+// int userId = 1;
 
 
   dev.log("requestLogin; url -> ${ApiConst.BASE_URL}${ApiConst.URL_LOGIN}");
@@ -39,6 +40,9 @@ int userId = await AppSession.currentUser.user_id() as int;
       // async
       {
         dev.log("on success -> ${response.success}");
+        dev.log("response -> ${response.toJson()}");
+        dev.log("response.data -> ${response.data!.toJson()}");
+        dev.log("response.data.school -> ${response.data!.schools![0].toJson()}");
 
         var data = response.data;
 
