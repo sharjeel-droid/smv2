@@ -1,5 +1,7 @@
+import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/ui/admin/schools/adminSchoolViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class AdminSchoolView extends StatelessWidget {
@@ -18,22 +20,39 @@ class AdminSchoolView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Schools List'),
+        title: Row(
+          children: [
+            const Text('Schools List'),
+            Spacer(flex: 1,),
+            IconButton(onPressed: (){
+              Fluttertoast.showToast(msg: "add school");
+              navigate().toSchoolWizard();
+            }, icon: Icon(Icons.add))
+          ],
+        ),
       ),
-      body: ListView(
-        children:
-        (_viewModel.schools.value == null)?
+      body: Obx(() =>
+         ListView(
+          children:
+          (_viewModel.schools.isEmpty)?
+        
+              [ListTile(title: Text("no item found"),)]
+        
+          :
+        
+          _viewModel.schools!.map(
+                  (item) =>
 
-            [ListTile(title: Text("no item found"),)]
-
-        :
-
-        _viewModel.schools.map(
-                (item) =>
-                ListTile(title: Text(item!.school_name))
-        ).toList()
-
-        ,
+                  Column(
+                    children: [
+                      ListTile(title: Text(item!.school_name),subtitle: Text(item.contact_1),),
+                      Divider()
+                    ],
+                  )
+          ).toList()
+        
+          ,
+        ),
       ),
     );
 

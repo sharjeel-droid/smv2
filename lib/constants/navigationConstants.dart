@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,9 @@ class navigate{
    }
    toSettings(/*{required context}*/){
      Get.to(_settings().routePage());
+   }
+   toSchoolWizard(/*{required context}*/){
+     Get.to(_schoolWizard().routePage());
    }
 
 }
@@ -99,6 +103,18 @@ class _settings implements getXNavGetter{
   @override
   Widget routePage() {
     return SettingsView();
+  }
+
+}
+class _schoolWizard implements getXNavGetter{
+  @override
+  String routeName() {
+    return "/schoolWizard";
+  }
+
+  @override
+  Widget routePage() {
+    return AddSchoolWizardView();
   }
 
 }
