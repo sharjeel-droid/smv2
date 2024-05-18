@@ -2,7 +2,7 @@ class ApiConst{
 
   static const String _PROTOCOL = 'http://';
   // static const String _SERVER = '154.56.60.109/';//hostinger nevironment
-  static const String _SERVER = '10.0.1.24/';//''127.0.0.1/';//LocalHost
+  static const String _SERVER = '192.168.0.109/';//''127.0.0.1/';//LocalHost
 
   static const String _FOLDER_PATH = 'SmartVanApiV2/api/';//local abic system
   // static const String _FOLDER_PATH = 'smartvan/api/';
@@ -18,6 +18,7 @@ class ApiConst{
   //dc
   static const String _MODULE_DC = 'dc/';
   static const String URL_SCHOOL_DETS_FOR_ADMINS = '${_MODULE_DC}getschooldetsforadmin';
+  static const String URL_SCHOOL_NEW_FOR_ADMINS = '${_MODULE_DC}m_addSchoolForAdmin';
 
 
 }

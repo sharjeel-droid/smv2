@@ -13,7 +13,7 @@ class _DataCentreApi implements DataCentreApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.1.24/SmartVanApiV2/api/v2/';
+    baseUrl ??= 'http://192.168.0.109/SmartVanApiV2/api/v2/';
   }
 
   final Dio _dio;
@@ -37,6 +37,37 @@ class _DataCentreApi implements DataCentreApi {
                 .compose(
                   _dio.options,
                   'dc/getschooldetsforadmin',
+                  queryParameters: queryParameters,
+                  data: _data,
+                )
+                .copyWith(
+                    baseUrl: _combineBaseUrls(
+                  _dio.options.baseUrl,
+                  baseUrl,
+                ))));
+    final value = DataCentreApiResponseNetworkEntity.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<DataCentreApiResponseNetworkEntity>> schoolNewForAdmins(
+      DCNewSchoolApiRequestDomainModel SchoolDetails) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = <String, dynamic>{};
+    _data.addAll(SchoolDetails.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<DataCentreApiResponseNetworkEntity>>(
+            Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+                .compose(
+                  _dio.options,
+                  'dc/m_addSchoolForAdmin',
                   queryParameters: queryParameters,
                   data: _data,
                 )

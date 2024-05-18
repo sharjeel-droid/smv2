@@ -471,6 +471,21 @@ class _inputTexts{
       onSaved: onSaved ?? (val)=>"",
     );
   }
+
+  floatingLabeled({String? key,
+    String? initialValue, String? hint,
+    bool? isHiddenField,
+    String? Function(String?)? onError,
+    Function(String?)? onSaved})
+  {
+    return _inputTextFloatingLabeled().compose(key: key??"",
+      text: initialValue??"",
+      hint: hint??"",
+      isHidden: isHiddenField ?? false,
+      onError: onError ?? (val)=>"",
+      onSaved: onSaved ?? (val)=>"",
+    );
+  }
 }
 class _inputTextSimple{
   const _inputTextSimple();
@@ -493,6 +508,61 @@ class _inputTextSimple{
               contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
               border: OutlineInputBorder(),
               // hintText: 'username'
+
+              hintText: hint,
+              // errorStyle: TextStyle(color: Color(defaults.colors.argb.red))
+              // hintText: AppLocalizations.of(context)!.user_name,
+            ),
+            obscureText: isHidden,
+            key: Key(key),
+            autofocus: true,
+            validator: (value){
+
+              return onError(value);
+
+
+              // if(value==null || value.isEmpty){
+              //   // return 'value cannot be empty';
+              //   return err_nullVal;
+              // }
+              // // else {return true;}
+              // return null;
+            },
+            onSaved: (value){
+              onSaved(value);
+              // if(value != null)
+              // {
+              //   _email = value;
+              // }
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+class _inputTextFloatingLabeled{
+  const _inputTextFloatingLabeled();
+  compose({required String key,
+    required String text,
+    required String hint,
+    required bool isHidden,
+    required String? Function(String?) onError,
+    required Function(String?) onSaved,
+  }){
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          flex: 1,
+          child: TextFormField(
+            // textInputAction: TextInputAction.next,
+            initialValue: text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+              // border: OutlineInputBorder(),
+              // hintText: 'username'
+
               hintText: hint,
               // errorStyle: TextStyle(color: Color(defaults.colors.argb.red))
               // hintText: AppLocalizations.of(context)!.user_name,
