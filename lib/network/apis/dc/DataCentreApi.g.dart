@@ -51,7 +51,7 @@ class _DataCentreApi implements DataCentreApi {
   }
 
   @override
-  Future<HttpResponse<DataCentreApiResponseNetworkEntity>> schoolNewForAdmins(
+  Future<HttpResponse<DCnewSchoolApiResponseNetworkEntity>> schoolNewForAdmins(
       DCNewSchoolApiRequestDomainModel SchoolDetails) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -59,7 +59,7 @@ class _DataCentreApi implements DataCentreApi {
     final _data = <String, dynamic>{};
     _data.addAll(SchoolDetails.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<DataCentreApiResponseNetworkEntity>>(
+        _setStreamType<HttpResponse<DCnewSchoolApiResponseNetworkEntity>>(
             Options(
       method: 'POST',
       headers: _headers,
@@ -76,7 +76,7 @@ class _DataCentreApi implements DataCentreApi {
                   _dio.options.baseUrl,
                   baseUrl,
                 ))));
-    final value = DataCentreApiResponseNetworkEntity.fromJson(_result.data!);
+    final value = DCnewSchoolApiResponseNetworkEntity.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

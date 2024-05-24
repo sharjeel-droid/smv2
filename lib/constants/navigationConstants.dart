@@ -40,6 +40,9 @@ class navigate{
    toSchoolWizard(/*{required context}*/){
      Get.to(_schoolWizard().routePage());
    }
+   back(/*{required context}*/){
+     Get.back();//to(_schoolWizard().routePage());
+   }
 
 }
 

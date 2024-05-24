@@ -2,6 +2,7 @@ import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/dataConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DataCentreApiResponseNetworkEntity.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart';
@@ -20,7 +21,7 @@ abstract class DataCentreApi{
       );
 
   @POST(ApiConst.URL_SCHOOL_NEW_FOR_ADMINS)
-  Future<HttpResponse<DataCentreApiResponseNetworkEntity>> schoolNewForAdmins(
+  Future<HttpResponse<DCnewSchoolApiResponseNetworkEntity>> schoolNewForAdmins(
       @Body(nullToAbsent: false) DCNewSchoolApiRequestDomainModel SchoolDetails
       );
 

@@ -9,6 +9,7 @@ part of 'DCNewSchoolApiRequestDomainModel.dart';
 DCNewSchoolApiRequestDomainModel _$DCNewSchoolApiRequestDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCNewSchoolApiRequestDomainModel(
+      adminId: json['adminId'] as int,
       schoolName: json['schoolName'] as String,
       schoolAddress: json['schoolAddress'] as String,
       schoolContact: json['schoolContact'] as String,
@@ -22,6 +23,7 @@ DCNewSchoolApiRequestDomainModel _$DCNewSchoolApiRequestDomainModelFromJson(
 Map<String, dynamic> _$DCNewSchoolApiRequestDomainModelToJson(
         DCNewSchoolApiRequestDomainModel instance) =>
     <String, dynamic>{
+      'adminId': instance.adminId,
       'schoolName': instance.schoolName,
       'schoolAddress': instance.schoolAddress,
       'schoolContact': instance.schoolContact,

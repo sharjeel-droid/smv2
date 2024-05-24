@@ -5,6 +5,7 @@ part 'DCNewSchoolApiRequestDomainModel.g.dart';
 
 @JsonSerializable()
 class DCNewSchoolApiRequestDomainModel{
+  int adminId;
   String schoolName;
   String schoolAddress;
   String schoolContact;
@@ -15,6 +16,7 @@ class DCNewSchoolApiRequestDomainModel{
   String supervisorContact;
 
   DCNewSchoolApiRequestDomainModel({
+    required this.adminId,
     required this.schoolName,
     required this.schoolAddress,
     required this.schoolContact,

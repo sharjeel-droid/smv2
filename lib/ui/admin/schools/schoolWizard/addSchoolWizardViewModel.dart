@@ -1,4 +1,5 @@
 import 'package:SMV2/constants/apiConstants.dart';
+import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
@@ -98,11 +99,23 @@ class AddSchoolWizardViewModel extends GetxController{
 
   }
 
-  void submitNewSchoolForm() {
+  void submitNewSchoolForm()
+  async
+  {
 
-    dev.log("submitNewSchoolForm; url -> ${ApiConst.BASE_URL}${ApiConst.URL_LOGIN}");
+    dev.log("submitNewSchoolForm; url -> ${ApiConst.BASE_URL}${ApiConst.URL_SCHOOL_NEW_FOR_ADMINS}");
+
+
+    int? adminId = await AppSession.currentUser.user_id();
+
+    if(adminId == null) {
+      dev.log("adminId is null");
+      Fluttertoast.showToast(msg: "something wrong! try again");
+      return;
+    }
 
     DCNewSchoolApiRequestDomainModel newSchoolDetails = DCNewSchoolApiRequestDomainModel(
+        adminId: adminId,
         schoolName: schoolName.value,
         schoolAddress: schoolAddress.value,
         schoolContact: schoolContact.value,
@@ -177,6 +190,7 @@ class AddSchoolWizardViewModel extends GetxController{
 
 
           isProcessing(false);
+          navigate().back();
         },
         onFailure: (errorMsg){
           dev.log("error message -> ${errorMsg}");
