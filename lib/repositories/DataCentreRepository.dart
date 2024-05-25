@@ -62,7 +62,8 @@ class DataCentreRepository{
 
     }
     on DioException catch(e){
-      dev.log("onFailure -> ${e.toString()}");
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
       onFailure!("${e.response?.statusMessage??"unknown error"}");
       // onFailure!(e.toString());
 
@@ -81,7 +82,7 @@ class DataCentreRepository{
     }
     catch(e){
       // e as DioException;
-      // dev.log("error -> ${e.toString()}");
+      dev.log("error -> ${e.toString()}");
       onFailure!(e.toString());
 
     }

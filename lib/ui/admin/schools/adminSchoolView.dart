@@ -24,8 +24,15 @@ class AdminSchoolView extends StatelessWidget {
           children: [
             const Text('Schools List'),
             Spacer(flex: 1,),
+
             IconButton(onPressed: (){
-              Fluttertoast.showToast(msg: "add school");
+              // Fluttertoast.showToast(msg: "add school");
+              // navigate().toSchoolWizard();
+              _viewModel.getSchools();
+            }, icon: Icon(Icons.refresh)),
+
+            IconButton(onPressed: (){
+              // Fluttertoast.showToast(msg: "add school");
               navigate().toSchoolWizard();
             }, icon: Icon(Icons.add))
           ],

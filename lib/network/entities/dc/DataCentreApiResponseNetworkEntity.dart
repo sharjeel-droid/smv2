@@ -63,7 +63,7 @@ class SchoolNetworkEntity{
 class SupervisorNetworkEntity{
   int user_id;
   String first_name;
-  String last_name;
+  String? last_name;
   String gender;
   String? nic_number;
   String? email;
@@ -76,7 +76,7 @@ class SupervisorNetworkEntity{
   SupervisorNetworkEntity({
     required this.user_id,
     required this.first_name,
-    required this.last_name,
+    this.last_name,
     required this.gender,
     this.nic_number,
      this.email,

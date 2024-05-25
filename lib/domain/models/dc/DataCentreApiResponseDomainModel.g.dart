@@ -76,7 +76,7 @@ SupervisorDomainModel _$SupervisorDomainModelFromJson(
     SupervisorDomainModel(
       user_id: json['user_id'] as int,
       first_name: json['first_name'] as String,
-      last_name: json['last_name'] as String,
+      last_name: json['last_name'] as String?,
       gender: json['gender'] as String,
       nic_number: json['nic_number'] as String?,
       email: json['email'] as String?,
