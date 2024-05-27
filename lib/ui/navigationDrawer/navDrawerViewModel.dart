@@ -245,10 +245,58 @@ dev.log("getting admin nav tree");
       ),
 
       ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Students'),
+        onTap: (){
+          dev.log("selection -> 2");
+          onSelection(2);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Vans'),
+        onTap: (){
+          dev.log("selection -> 3");
+          onSelection(3);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Routes'),
+        onTap: (){
+          dev.log("selection -> 4");
+          onSelection(4);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
           leading: const Icon(Icons.supervisor_account),
           title: const Text('Supervisors'),
           onTap: (){
-            onSelection(2);
+            onSelection(5);
             // _setNavselection(2);
           }/*() {
           setState(() {
@@ -307,6 +355,18 @@ dev.log("selection -> ${selection}");
         return AdminSupervisorView();
         break;
       }
+      // case 3:{
+      //   // return AdminSupervisorView();
+      //   break;
+      // }
+      // case 4:{
+      //   // return AdminSupervisorView();
+      //   break;
+      // }
+      // case 5:{
+      //   // return AdminSupervisorView();
+      //   break;
+      // }
       default:{
         return _getEmptyView();
       }

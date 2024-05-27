@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
@@ -5,6 +7,7 @@ import 'package:SMV2/ui/login/loginViewModel.dart';
 import 'package:SMV2/utils/deviceConfigHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
 import 'dart:developer' as dev;
@@ -33,16 +36,54 @@ class AddressPickerView extends StatelessWidget {
 
     // var _email = "";
 
-    return defaults.layout.basic(bodyContent:
+    final Completer<GoogleMapController> _controller =
+    Completer<GoogleMapController>();
 
+    const CameraPosition _kGooglePlex = CameraPosition(
+      target: LatLng(37.42796133580664, -122.085749655962),
+      zoom: 14.4746,
+    );
+
+    return defaults.layout.basic(bodyContent:
         SafeArea(child:
-        _PlacePickerDialog()
+            Stack(children: [
+
+
+              GoogleMap(
+                mapType: MapType.hybrid,
+                initialCameraPosition: _kGooglePlex,
+                onMapCreated: (GoogleMapController controller) {
+                  _controller.complete(controller);
+                },
+              ),
+
+
+              Positioned(
+                  top: 50,
+                  left: 50,
+                  right: 50,
+
+                  child:
+                  _PlacePickerDialog()
+              ),
+
+            ],)
+
+
+
+
+
+        // _PlacePickerDialog()
         // Column(crossAxisAlignment: CrossAxisAlignment.center,
-        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     mainAxisAlignment: MainAxisAlignment.start,
         //     mainAxisSize: MainAxisSize.max,
         //
         //   children: [
-        //     _PlacePickerDialog()
+        //     Container(
+        //       color: Colors.blue,
+        //       child: _PlacePickerDialog(),
+        //     )
+        //
         //
         //
         //
