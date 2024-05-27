@@ -30,7 +30,7 @@ class DcDataNetworkEntity{
 class SchoolNetworkEntity{
   int school_id;
   int admin_id;
-  int verification_code;
+  int? verification_code;
   String school_name;
   String address;
   String contact_1;
@@ -43,7 +43,7 @@ class SchoolNetworkEntity{
   SchoolNetworkEntity({
     required this.school_id,
     required this.admin_id,
-    required this.verification_code,
+    this.verification_code,
     required this.school_name,
     required this.address,
     required this.contact_1,

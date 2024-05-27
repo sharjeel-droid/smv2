@@ -1,5 +1,6 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
+import 'package:SMV2/ui/admin/students/adminStudentsView.dart';
 import 'package:SMV2/utils/AppSession.dart';
 import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
@@ -352,21 +353,21 @@ dev.log("selection -> ${selection}");
         break;
       }
       case 2:{
-        return AdminSupervisorView();
+        return AdminStudentsView();
         break;
       }
       // case 3:{
-      //   // return AdminSupervisorView();
+      //   return AdminStudentsView();
       //   break;
       // }
       // case 4:{
       //   // return AdminSupervisorView();
       //   break;
       // }
-      // case 5:{
-      //   // return AdminSupervisorView();
-      //   break;
-      // }
+      case 5:{
+        return AdminSupervisorView();
+        break;
+      }
       default:{
         return _getEmptyView();
       }

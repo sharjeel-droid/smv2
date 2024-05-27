@@ -17,7 +17,7 @@ class AdminStudentsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // _viewModel.getSchools();
+  _viewModel.getStudents();
 
     return Scaffold(
       appBar: AppBar(
@@ -29,12 +29,12 @@ class AdminStudentsView extends StatelessWidget {
             IconButton(onPressed: (){
               // Fluttertoast.showToast(msg: "add school");
               // navigate().toSchoolWizard();
-              // _viewModel.getSchools();
+              _viewModel.getStudents();
             }, icon: Icon(Icons.refresh)),
 
             IconButton(onPressed: (){
-              // Fluttertoast.showToast(msg: "add school");
-              navigate().toSchoolWizard();
+              Fluttertoast.showToast(msg: "add student");
+              // navigate().toSchoolWizard();
             }, icon: Icon(Icons.add))
           ],
         ),
@@ -42,18 +42,18 @@ class AdminStudentsView extends StatelessWidget {
       body: Obx(() =>
          ListView(
           children:
-          (_viewModel.schools.isEmpty)?
+          (_viewModel.students.isEmpty)?
         
               [ListTile(title: Text("no item found"),)]
         
           :
         
-          _viewModel.schools!.map(
+          _viewModel.students!.map(
                   (item) =>
 
                   Column(
                     children: [
-                      ListTile(title: Text(item!.school_name),subtitle: Text(item.contact_1),),
+                      ListTile(title: Text(item!.first_name),subtitle: Text("parent : ${item.parents?[0].first_name}"),),
                       Divider()
                     ],
                   )

@@ -42,7 +42,7 @@ SchoolDomainModel _$SchoolDomainModelFromJson(Map<String, dynamic> json) =>
     SchoolDomainModel(
       school_id: json['school_id'] as int,
       admin_id: json['admin_id'] as int,
-      verification_code: json['verification_code'] as int,
+      verification_code: json['verification_code'] as int?,
       school_name: json['school_name'] as String,
       address: json['address'] as String,
       contact_1: json['contact_1'] as String,

@@ -2,6 +2,7 @@ import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCApiResponseNetworkMapper.dart';
+import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkMapper.dart';
 import 'package:SMV2/repositories/AuthRepository.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
@@ -15,8 +16,13 @@ class RepositoryBindings extends Bindings{
     Get.put(LoginApiResponseNetworkMapper());
     Get.put(DCApiResponseNetworkMapper());
     Get.put(DCnewSchoolApiResponseNetworkMapper());
+    Get.put(DCStdDetApiResponseNetworkMapper());
     Get.put(AuthRepository(Get.find<AuthApi>(), Get.find<LoginApiResponseNetworkMapper>()));
-    Get.put(DataCentreRepository(Get.find<DataCentreApi>(), Get.find<DCApiResponseNetworkMapper>(), Get.find<DCnewSchoolApiResponseNetworkMapper>()));
+    Get.put(DataCentreRepository(Get.find<DataCentreApi>(),
+        Get.find<DCApiResponseNetworkMapper>(),
+        Get.find<DCnewSchoolApiResponseNetworkMapper>(),
+        Get.find<DCStdDetApiResponseNetworkMapper>()
+    ));
 
   }
 }
