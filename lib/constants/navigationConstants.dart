@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardView.dart';
+import 'package:SMV2/ui/admin/students/studentWizard/studentWizardView.dart';
 import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
@@ -43,6 +44,9 @@ class navigate{
    }
    toAddressPicker(/*{required context}*/){
      Get.to(_addressPicker().routePage());
+   }
+   toStudentWizard(/*{required context}*/){
+     Get.to(_studentWizard().routePage());
    }
    back(/*{required context}*/){
      Get.back();//to(_schoolWizard().routePage());
@@ -134,6 +138,19 @@ class _addressPicker implements getXNavGetter{
   @override
   Widget routePage() {
     return AddressPickerView();
+  }
+
+}
+
+class _studentWizard implements getXNavGetter{
+  @override
+  String routeName() {
+    return "/studentWizard";
+  }
+
+  @override
+  Widget routePage() {
+    return StudentWizardView();
   }
 
 }

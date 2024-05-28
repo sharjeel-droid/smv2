@@ -34,7 +34,7 @@ class AdminStudentsView extends StatelessWidget {
 
             IconButton(onPressed: (){
               Fluttertoast.showToast(msg: "add student");
-              // navigate().toSchoolWizard();
+              navigate().toStudentWizard();
             }, icon: Icon(Icons.add))
           ],
         ),

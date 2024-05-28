@@ -1,10 +1,6 @@
-import 'package:SMV2/domain/models/auth/login/LoginApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCStdDetApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
-import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DataCentreApiResponseNetworkEntity.dart';
 import 'package:SMV2/utils/EntityMapper.dart';
 
+import '../../../domain/models/dc/DCStdDetApiResponseDomainModel.dart';
 import 'DCStdDetApiResponseNetworkEntity.dart';
 
 class DCStdDetApiResponseNetworkMapper implements EntityMapper<DCStdDetApiResponseNetworkEntity, DCStdDetApiResponseDomainModel>{

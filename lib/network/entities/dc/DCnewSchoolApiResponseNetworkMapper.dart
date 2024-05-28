@@ -1,17 +1,7 @@
-import 'package:SMV2/domain/models/auth/login/LoginApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
-import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
-import 'package:SMV2/network/entities/dc/DataCentreApiResponseNetworkEntity.dart';
 import 'package:SMV2/utils/EntityMapper.dart';
+
+import '../../../domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
 
 class DCnewSchoolApiResponseNetworkMapper implements EntityMapper<DCnewSchoolApiResponseNetworkEntity, DCnewSchoolApiResponseDomainModel>{
   @override

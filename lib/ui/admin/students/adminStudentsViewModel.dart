@@ -1,12 +1,12 @@
 import 'package:SMV2/constants/apiConstants.dart';
-import 'package:SMV2/domain/models/dc/DCStdDetApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
 import 'package:SMV2/utils/AppSession.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as dev;
+
+import '../../../domain/models/dc/DCStdDetApiResponseDomainModel.dart';
 
 
 class AdminStudentsViewModel extends GetxController{
