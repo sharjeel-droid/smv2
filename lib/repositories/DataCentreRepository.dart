@@ -1,8 +1,8 @@
 
-import 'dart:ffi';
 
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DCVanDetApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewStdApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
@@ -13,6 +13,8 @@ import 'package:SMV2/network/entities/LoginApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkMapper.dart';
+import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewStdApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewStdApiResponseNetworkMapper.dart';
@@ -31,7 +33,10 @@ class DataCentreRepository{
   final DCnewSchoolApiResponseNetworkMapper mapper_newSchool;
   final DCStdDetApiResponseNetworkMapper mapper_students;
   final DCnewStdApiResponseNetworkMapper mapper_newStudents;
-  DataCentreRepository(this.api, this.mapper, this.mapper_newSchool, this.mapper_students, this.mapper_newStudents);
+  final DCVanDetApiResponseNetworkMapper mapper_van;
+  DataCentreRepository(this.api, this.mapper,
+      this.mapper_newSchool, this.mapper_students,
+      this.mapper_newStudents, this.mapper_van);
 
   static const _TAG = "DataCentreRepository.dart";
   // AuthApi _authApi = AuthApi(Dio(BaseOptions(contentType: 'application/json')));
@@ -318,6 +323,45 @@ class DataCentreRepository{
     // if(!resp.isEmpty){}
 
     // return resp;
+
+  }
+
+
+  getVanDetails(int admin_id, {Function(DCVanDetApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> admin_id : ${admin_id}");
+
+      HttpResponse<DCVanDetApiResponseNetworkEntity> httpResponse = await api.vanDetailsForAdmins(admin_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_van.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      onFailure!(e.toString());
+
+    }
 
   }
 

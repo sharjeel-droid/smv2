@@ -4,6 +4,7 @@ import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DataCentreApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewStdApiResponseNetworkEntity.dart';
@@ -36,6 +37,11 @@ abstract class DataCentreApi{
   @POST(ApiConst.URL_STUDENT_NEW_FOR_ADMINS)
   Future<HttpResponse<DCnewStdApiResponseNetworkEntity>> studentNewForAdmins(
       @Body(nullToAbsent: false) DCNewStdApiRequestDomainModel StudentDetails
+      );
+
+  @GET(ApiConst.URL_VANS_DETS_FOR_ADMINS)
+  Future<HttpResponse<DCVanDetApiResponseNetworkEntity>> vanDetailsForAdmins(
+      @Query(dataKeys.ADMIN_ID) int admin_id
       );
 
 }
