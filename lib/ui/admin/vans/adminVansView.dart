@@ -24,7 +24,7 @@ class AdminVansView extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            const Text('Students List'),
+            const Text('VANs List'),
             Spacer(flex: 1,),
 
             IconButton(onPressed: (){
@@ -34,8 +34,8 @@ class AdminVansView extends StatelessWidget {
             }, icon: Icon(Icons.refresh)),
 
             IconButton(onPressed: (){
-              Fluttertoast.showToast(msg: "add student");
-              navigate().toStudentWizard();
+              Fluttertoast.showToast(msg: "add van");
+              navigate().toVanWizard();
             }, icon: Icon(Icons.add))
           ],
         ),

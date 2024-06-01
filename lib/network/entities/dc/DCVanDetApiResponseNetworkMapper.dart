@@ -18,23 +18,12 @@ class DCVanDetApiResponseNetworkMapper implements EntityMapper<DCVanDetApiRespon
                     reg_number:e.reg_number, is_active: e.is_active,
                     date_create: e.date_create, date_update: e.date_update,
                     school_name: e.school_name,
-                    driver:
-
+                    driver: (e.driver==null)?null:
                     DriverDomainModel(user_id: e.driver!.user_id, admin_id: e.driver!.admin_id, school_id: e.driver!.school_id, vehicle_id: e.driver!.vehicle_id,
                         first_name: e.driver!.first_name, gender: e.driver!.first_name, is_active: e.driver!.is_active)
-                        // e.driver!.map((e2) =>
-                        //
-                        //     DriverDomainModel(user_id: e2.user_id, admin_id: e2.admin_id, school_id: e2.school_id, vehicle_id: e2.vehicle_id,
-                        //         first_name: e2.first_name, gender: e2.first_name, is_active: e2.is_active)
-                        // ).toList(),
-                  ,route:
+                  ,route: e.route==null ? null :
                     RouteDomainModel(route_id: e.route!.route_id, vehicle_id: e.route!.vehicle_id, driver_id: e.route!.driver_id, school_id: e.route!.school_id, is_active: e.route!.is_active)
 
-                    // e.route!.map((e2) =>
-                    //
-                    //     RouteDomainModel(route_id: e2.route_id, vehicle_id: e2.vehicle_id, driver_id: e2.driver_id, school_id: e2.school_id, is_active: e2.is_active)
-                    //
-                    // ).toList()
 
 
                 )
@@ -56,7 +45,7 @@ class DCVanDetApiResponseNetworkMapper implements EntityMapper<DCVanDetApiRespon
                         school_id: e.school_id, driver_id: e.driver_id, vehicle_type: e.vehicle_type,
                         is_active: e.is_active, date_create:e.date_create, date_update: e.date_update,
                         school_name: e.school_name,
-                      driver:
+                      driver: e.driver==null ? null :
                       DriverNetworkEntity(user_id: e.driver!.user_id, admin_id: e.driver!.admin_id,
                           school_id: e.driver!.school_id, vehicle_id: e.driver!.vehicle_id,
                           first_name: e.driver!.first_name, gender: e.driver!.gender, is_active: e.driver!.is_active),
@@ -68,7 +57,7 @@ class DCVanDetApiResponseNetworkMapper implements EntityMapper<DCVanDetApiRespon
                       //         first_name: e2.first_name, gender: e2.gender, is_active: e2.is_active)
                       // ).toList(),
 
-                      route:
+                      route: e.route == null ? null :
                       RouteNetworkEntity(route_id: e.route!.route_id, vehicle_id: e.route!.vehicle_id, driver_id: e.route!.driver_id, school_id: e.route!.school_id, is_active: e.route!.is_active)
 
                         // e.route!.map((e2) =>

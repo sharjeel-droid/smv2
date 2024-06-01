@@ -2,9 +2,11 @@
 
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCVanDetApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewStdApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DCnewVanApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
@@ -18,6 +20,8 @@ import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewStdApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewStdApiResponseNetworkMapper.dart';
+import 'package:SMV2/network/entities/dc/DCnewVanApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCnewVanApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DataCentreApiResponseNetworkEntity.dart';
 import 'package:dio/dio.dart';
 import 'dart:developer' as dev;
@@ -34,9 +38,10 @@ class DataCentreRepository{
   final DCStdDetApiResponseNetworkMapper mapper_students;
   final DCnewStdApiResponseNetworkMapper mapper_newStudents;
   final DCVanDetApiResponseNetworkMapper mapper_van;
+  final DCnewVanApiResponseNetworkMapper mapper_newVan;
   DataCentreRepository(this.api, this.mapper,
       this.mapper_newSchool, this.mapper_students,
-      this.mapper_newStudents, this.mapper_van);
+      this.mapper_newStudents, this.mapper_van, this.mapper_newVan);
 
   static const _TAG = "DataCentreRepository.dart";
   // AuthApi _authApi = AuthApi(Dio(BaseOptions(contentType: 'application/json')));
@@ -359,9 +364,86 @@ class DataCentreRepository{
     catch(e){
       // e as DioException;
       dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
       onFailure!(e.toString());
 
     }
+
+  }
+
+  newVan(DCNewVanApiRequestDomainModel newVanDetails,
+      {Function(DCnewVanApiResponseDomainModel response)? onSuccess,
+        Function(String? errorMessage)? onFailure}
+      )
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> vanDetails : ${newVanDetails.toJson()}");
+
+      HttpResponse<DCnewVanApiResponseNetworkEntity> httpResponse = await api.vanNewForAdmins(newVanDetails);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      switch(httpResponse.response.statusCode){
+
+        case 200 : {
+
+          var response = httpResponse.data;
+
+
+          if(response.success == 1){
+            if(response!=null){
+
+              dev.log("response not null");
+              onSuccess!(this.mapper_newVan.mapFromEntity(response));
+
+            }else{
+              dev.log("response null");
+              onFailure!("Empty response");
+            }
+
+          }else{
+            dev.log("un successfull");
+            onFailure!("request un-succcessful");
+          }
+
+          break;
+        }
+
+        case 400 : {
+          dev.log("error response");
+          onFailure!("400; "+ ("${httpResponse.response.statusMessage??"unknown error"}"));
+          break;
+        }
+
+        default : {
+          dev.log("def; unknown response -> ${httpResponse.data.message}");
+          break;
+        }
+
+
+      }
+
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.toString()}");
+      dev.log("onFailure trace-> ${e.stackTrace}");
+      // dev.log("onFailure stat code-> ${e.response?.statusCode}");
+      // dev.log("onFailure stat data-> ${(e.response?.data as Map<String, dynamic>)["message"]}");
+      onFailure!("DIO Exc; " + ("${e.response?.statusMessage??"unknown error"}"));
+
+    }
+    catch(e){
+      onFailure!("exc; "+(e.toString()));
+
+    }
+
+
+    // if(!resp.isEmpty){}
+
+    // return resp;
 
   }
 

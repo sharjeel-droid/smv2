@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardView.dart';
 import 'package:SMV2/ui/admin/students/studentWizard/studentWizardView.dart';
+import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardView.dart';
 import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
@@ -47,6 +48,9 @@ class navigate{
    }
    toStudentWizard(/*{required context}*/){
      Get.to(_studentWizard().routePage());
+   }
+   toVanWizard(/*{required context}*/){
+     Get.to(_vanWizard().routePage());
    }
    back(/*{required context}*/){
      Get.back();//to(_schoolWizard().routePage());
@@ -151,6 +155,18 @@ class _studentWizard implements getXNavGetter{
   @override
   Widget routePage() {
     return StudentWizardView();
+  }
+
+}
+class _vanWizard implements getXNavGetter{
+  @override
+  String routeName() {
+    return "/vanWizard";
+  }
+
+  @override
+  Widget routePage() {
+    return VanWizardView();
   }
 
 }

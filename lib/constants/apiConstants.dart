@@ -22,6 +22,7 @@ class ApiConst{
   static const String URL_STUDENT_DETS_FOR_ADMINS = '${_MODULE_DC}m_getstudentsforadmin';
   static const String URL_STUDENT_NEW_FOR_ADMINS = '${_MODULE_DC}m_addstudentforadmin';
   static const String URL_VANS_DETS_FOR_ADMINS = '${_MODULE_DC}m_getvansforadmin';
+  static const String URL_VANS_NEW_FOR_ADMINS = '${_MODULE_DC}m_addvanforadmin';
 
 
   //Google Maps Related
