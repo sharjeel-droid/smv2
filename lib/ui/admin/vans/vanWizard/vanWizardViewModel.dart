@@ -2,6 +2,7 @@
 import 'dart:ffi';
 
 import 'package:SMV2/constants/navigationConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
@@ -29,7 +30,8 @@ class VanWizardViewModel extends GetxController{
   RxBool isProcessing = false.obs;
 
   RxString vehicleRegNum = "".obs;
-  RxString vehicleType = "".obs;
+  // RxString vehicleType = "".obs;
+  Rx<VehicleTypes> vehicleType = VehicleTypes.BUS.obs;
   RxInt schoolSelect = 0.obs;
   RxString driverName = "".obs;
   RxString driverNIC = "".obs;
@@ -39,7 +41,7 @@ class VanWizardViewModel extends GetxController{
   handleVehicleRegNumChanges(String? updatedValue){
     vehicleRegNum(updatedValue);
   }
-  handleVehicleTypeChanges(String? updatedValue){
+  handleVehicleTypeChanges(VehicleTypes updatedValue){
     vehicleType(updatedValue);
   }
   handleSchoolSelectedChanges(int? updatedValue){
@@ -118,7 +120,7 @@ class VanWizardViewModel extends GetxController{
         adminId: adminId,
         schoolId: schoolSelect.value,
     vehicleRegNum: vehicleRegNum.value,
-    vehicleType: vehicleType.value,
+    vehicleType: vehicleType.value.toString(),
     driverName: driverName.value,
     driverNIC: driverNIC.value,
     driverContact: driverContact.value,

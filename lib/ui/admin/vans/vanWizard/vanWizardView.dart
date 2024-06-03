@@ -1,6 +1,7 @@
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/ui/admin/schools/adminSchoolViewModel.dart';
 import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardViewModel.dart';
 import 'package:SMV2/ui/admin/students/studentWizard/studentWizardViewModel.dart';
@@ -10,6 +11,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
+import 'dart:developer' as dev;
+
 
 class VanWizardView extends StatelessWidget {
   VanWizardView({Key? key}) : super(key: key);
@@ -24,7 +27,7 @@ class VanWizardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   // _viewModel.getSchools();
-
+  //   VehicleTypes dropdownValue = VehicleTypes.BUS;
     return Scaffold(
       backgroundColor: Colors.amber,
       appBar: AppBar(
@@ -55,15 +58,57 @@ class VanWizardView extends StatelessWidget {
               //   navigate().toAddressPicker();
               // }),
               // _PlacePickerDialog(),
-              defaults.widget.inputTexts.floatingLabeled(key:"",
-                  initialValue:_viewModel.vehicleType.value.toString(),
-                  hint: "Vehicle Type",
-                  onError: (value)=> (value==null||value.isEmpty) ? 'cannot be empty' : null,
-                  onSaved: (value)=> {
-                    _viewModel.handleVehicleTypeChanges(value)
+              // defaults.widget.inputTexts.floatingLabeled(key:"",
+              //     initialValue:_viewModel.vehicleType.value.toString(),
+              //     hint: "Vehicle Type",
+              //     onError: (value)=> (value==null||value.isEmpty) ? 'cannot be empty' : null,
+              //     onSaved: (value)=> {
+              //       _viewModel.handleVehicleTypeChanges(value)
+              //     }
+              // ),
+              // SizedBox(height: 10.0),
+
+            Row(mainAxisSize: MainAxisSize.max,
+            children: [
+              Text("Vehicle Type :"),
+              Obx(() => DropdownButton<VehicleTypes>(
+                value: _viewModel.vehicleType.value, // currently selected value
+                onChanged: (value) {
+                  dev.log("changed -> ${value}");
+                  if(value!=null){
+                    _viewModel.handleVehicleTypeChanges(value);
                   }
-              ),
+
+                },
+                items: VehicleTypes.values.map<DropdownMenuItem<VehicleTypes>>((VehicleTypes value) {
+                  return DropdownMenuItem<VehicleTypes>(
+                    value: value,
+                    child: Text(value.name),
+                  );
+                }).toList(),
+              ))
+
+            ],),
+
               SizedBox(height: 10.0),
+              Row(mainAxisSize: MainAxisSize.max,
+                children: [
+                  Text("School :"),
+                  DropdownButton<VehicleTypes>(
+                    value: _viewModel.vehicleType.value, // currently selected value
+                    onChanged: (value) {
+                      dev.log("changed");
+                    },
+                    items: VehicleTypes.values.map<DropdownMenuItem<VehicleTypes>>((VehicleTypes value) {
+                      return DropdownMenuItem<VehicleTypes>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    }).toList(),
+                  )
+                ],),
+              SizedBox(height: 10.0),
+
               defaults.widget.inputTexts.floatingLabeled(key:"",
                   initialValue:_viewModel.driverName.value,
                   hint: "Driver's Name",
