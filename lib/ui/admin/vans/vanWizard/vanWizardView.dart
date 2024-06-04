@@ -31,7 +31,7 @@ class VanWizardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  _viewModel.getSchoolList();
+  _viewModel.getSchools();
   //   VehicleTypes dropdownValue = VehicleTypes.BUS;
     return Scaffold(
       backgroundColor: Colors.amber,
@@ -100,37 +100,61 @@ class VanWizardView extends StatelessWidget {
                 children: [
                   Text("School :"),
                   (
-                    _viewModel.schoolSelect.value!=null ?
+
 
                     Obx(() =>
-                        DropdownButton<SchoolDomainModel>(
-                          value: (_viewModel.schoolList.value.map(
-                                  (e) {
-                                    if(e.school_id == _viewModel.schoolSelect.value){
-                                      return e;
 
-                                    }
 
-                                  }
+                    (_viewModel.schoolDDList.value!=null && _viewModel.schoolDDList.isNotEmpty && _viewModel.schoolSelect.value!=null) ?
 
-                          ) as SchoolDomainModel), // currently selected value
+
+                        DropdownButton<String>(
+                          value: _viewModel.schoolSelect.value, // currently selected value
                           onChanged: (value) {
-                            // _viewModel.handleSchoolSelectedChanges(value);
+                            if(value!=null)
+                            _viewModel.handleSchoolSelectedChanges(value);
 
                             // dev.log("changed");
                           },
-                          items: _viewModel.schoolList.map<DropdownMenuItem<SchoolDomainModel>>((SchoolDomainModel value) {
-                            return DropdownMenuItem<SchoolDomainModel>(
+                          items: _viewModel.schoolDDList.map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(value.school_name),
+                              child: Text(value),
                             );
                           }).toList(),
                         )
+
+
+                        :
+
+                        Container()
+
+                        // DropdownButton<SchoolDomainModel>(
+                        //   value: (_viewModel.schoolList.value.map(
+                        //           (e) {
+                        //             if(e.school_id == _viewModel.schoolSelect.value){
+                        //               return e;
+                        //
+                        //             }
+                        //
+                        //           }
+                        //
+                        //   ) as SchoolDomainModel), // currently selected value
+                        //   onChanged: (value) {
+                        //     // _viewModel.handleSchoolSelectedChanges(value);
+                        //
+                        //     // dev.log("changed");
+                        //   },
+                        //   items: _viewModel.schoolList.map<DropdownMenuItem<SchoolDomainModel>>((SchoolDomainModel value) {
+                        //     return DropdownMenuItem<SchoolDomainModel>(
+                        //       value: value,
+                        //       child: Text(value.school_name),
+                        //     );
+                        //   }).toList(),
+                        // )
                     )
 
-                    :
 
-                    Container()
                   )
                   ,
 
