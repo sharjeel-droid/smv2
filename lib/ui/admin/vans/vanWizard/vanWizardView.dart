@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
@@ -33,6 +35,15 @@ class VanWizardView extends StatelessWidget {
   Widget build(BuildContext context) {
   _viewModel.getSchools();
   //   VehicleTypes dropdownValue = VehicleTypes.BUS;
+
+  // List<Bool> values = List.filled(5, false);
+  Map<String, bool> values = {
+    "shaukat": false,
+    "kashif": false,
+    "taha": false,
+    "daniyal": false,
+  };
+
     return Scaffold(
       backgroundColor: Colors.amber,
       appBar: AppBar(
@@ -188,15 +199,93 @@ class VanWizardView extends StatelessWidget {
                   }
               ),
               SizedBox(height: 10.0),
-              defaults.widget.inputTexts.floatingLabeled(key:"",
-                  initialValue:_viewModel.studentsList.value,
-                  hint: "Students",
-                  onError: (value)=> (value==null||value.isEmpty) ? ' cannot be empty' : null,
-                  onSaved: (value)=> {
-                    _viewModel.handleStudentListChanges(value)
-                  }
+              // defaults.widget.inputTexts.floatingLabeled(key:"",
+              //     initialValue:_viewModel.studentList.value,
+              //     hint: "Students",
+              //     onError: (value)=> (value==null||value.isEmpty) ? ' cannot be empty' : null,
+              //     onSaved: (value)=> {
+              //       _viewModel.handleStudentListChanges(value)
+              //     }
+              // ),
+              Text("Students :"),
+              SizedBox(height: 300,
+              child:
+
+              ListView.builder(
+                itemCount: values.length,
+                itemBuilder: (context, index) {
+                  return CheckboxListTile(
+                    secondary: Icon(Icons.person),
+                    title: Text(
+                      values.keys.elementAt(index),
+                    ),
+                    subtitle: Text(
+                        "hey"
+                      // _data[index].subTitle + " " + (index + 1).toString(),
+                    ),
+                    value: values.values.elementAt(index),
+                    onChanged: (val) {
+                      dev.log("hey -> ${val}");
+                      values[values.keys.elementAt(index)] = val??false;
+                      // setState(
+                      //       () {
+                      //     _data[index].isSelected = val;
+                      //   },
+                      // );
+                    },
+                  );
+                },
               ),
-              SizedBox(height: 20.0), // Add spacing after fields
+
+
+                  ),
+
+              // ListView.builder(
+              //   itemCount: values.length,
+              //   itemBuilder: (context, index) {
+              //     return CheckboxListTile(
+              //       secondary: Icon(Icons.person),
+              //       title: Text(
+              //         values.keys.elementAt(index),
+              //       ),
+              //       subtitle: Text(
+              //         "hey"
+              //         // _data[index].subTitle + " " + (index + 1).toString(),
+              //       ),
+              //       value: values.values.elementAt(index),
+              //       onChanged: (val) {
+              //         dev.log("hey -> ${val}");
+              //         // setState(
+              //         //       () {
+              //         //     _data[index].isSelected = val;
+              //         //   },
+              //         // );
+              //       },
+              //     );
+              //   },
+              // ),
+
+
+
+          // ListView
+          //   (
+          //   children: values.keys.map((String key) {
+          //
+          //     return new CheckboxListTile(
+          //       title: new Text(key),
+          //       value: values[key],
+          //       onChanged : (value) {
+          //         dev.log("changed -> ${value}");
+          //       },
+          //     );
+          //
+          //
+          //   }).toList()
+          // ),
+
+
+
+            SizedBox(height: 20.0), // Add spacing after fields
               ElevatedButton(
                 onPressed: (){
                   _viewModel.checkSubmission();

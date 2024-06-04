@@ -6,6 +6,7 @@ import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DCStdDetApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
 import 'package:SMV2/utils/AppSession.dart';
@@ -38,11 +39,15 @@ class VanWizardViewModel extends GetxController{
   RxString driverName = "".obs;
   RxString driverNIC = "".obs;
   RxString driverContact = "".obs;
-  RxString studentsList = "".obs;
+  // RxString studentsList = "".obs;
   RxList<SchoolDomainModel> schoolList = <SchoolDomainModel>[].obs;
   RxList<String> schoolDDList = <String>[].obs;
   Rx<String> schoolSelect = "".obs;
   RxInt schoolSelectIndex = 0.obs;
+
+  //student list
+  RxList<StudentsDomainModel> studentList = <StudentsDomainModel>[].obs;
+  RxMap<String, bool> studentCheckMap = RxMap();
 
   // Rx<SchoolDomainModel?> schoolSelect = SchoolDomainModel(school_id: 1, admin_id: 1, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
   // Rx<SchoolDomainModel> schoolSelect = SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
@@ -82,8 +87,11 @@ class VanWizardViewModel extends GetxController{
   handleDriverContactChanges(String? updatedValue){
     driverContact(updatedValue);
   }
-  handleStudentListChanges(String? updatedValue){
-    studentsList(updatedValue);
+  // handleStudentListChanges(String? updatedValue){
+  //   studentsList(updatedValue);
+  // }
+  handleStudentListChanges(List<StudentsDomainModel>? updatedValue){
+    studentList(updatedValue);
   }
 
   checkSubmission() {
@@ -99,7 +107,7 @@ class VanWizardViewModel extends GetxController{
           && driverName!=null
           && driverNIC!=null
           && driverContact!=null
-          && studentsList!=null
+          // && studentsList!=null
       ){
         isProcessing(true);
 
@@ -151,7 +159,9 @@ class VanWizardViewModel extends GetxController{
     driverName: driverName.value,
     driverNIC: driverNIC.value,
     driverContact: driverContact.value,
-    students: studentsList.value);
+    // students: studentsList.value
+    students: ""
+    );
 
     dev.log("submitNewVanForm; params -> ${newVanDetails.toJson()}");
 
@@ -282,6 +292,61 @@ class VanWizardViewModel extends GetxController{
           isProcessing(false);
           Fluttertoast.showToast(
               msg: "Error in fethcing school details",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        });
+
+
+
+
+
+
+  }
+
+
+  getStudents() async
+  {
+
+    isProcessing(true);
+
+    int userId = await AppSession.currentUser.user_id() as int;
+
+    dev.log("requestLogin; url -> ${ApiConst.BASE_URL}${ApiConst.URL_STUDENT_DETS_FOR_ADMINS}");
+
+    repo.getStudentDetails(userId,
+        onSuccess: (response)
+        // async
+        {
+          dev.log("on success -> ${response.success}");
+          dev.log("on message -> ${response.message}");
+
+          var data = response.data;
+
+          if(data == null){
+            Fluttertoast.showToast(msg: "no Data Found");
+            this.studentList(null);
+          }else{
+
+            this.studentList(data.students);
+
+
+
+
+          }
+
+
+          isProcessing(false);
+        },
+        onFailure: (errorMsg){
+          dev.log("error message -> ${errorMsg}");
+          isProcessing(false);
+          Fluttertoast.showToast(
+              msg: "Error in fethcing student details",
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,
