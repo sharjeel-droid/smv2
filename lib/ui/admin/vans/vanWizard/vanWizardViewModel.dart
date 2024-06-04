@@ -5,6 +5,7 @@ import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
 import 'package:SMV2/utils/AppSession.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ import 'dart:developer' as dev;
 
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/state_manager.dart';
 
 
 class VanWizardViewModel extends GetxController{
@@ -32,11 +34,14 @@ class VanWizardViewModel extends GetxController{
   RxString vehicleRegNum = "".obs;
   // RxString vehicleType = "".obs;
   Rx<VehicleTypes> vehicleType = VehicleTypes.BUS.obs;
-  RxInt schoolSelect = 0.obs;
   RxString driverName = "".obs;
   RxString driverNIC = "".obs;
   RxString driverContact = "".obs;
   RxString studentsList = "".obs;
+  RxList<SchoolDomainModel> schoolList = [
+    SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0")].obs;
+  // Rx<SchoolDomainModel> schoolSelect = SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
+  RxInt schoolSelect = 0.obs;//SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
 
   handleVehicleRegNumChanges(String? updatedValue){
     vehicleRegNum(updatedValue);
@@ -44,6 +49,9 @@ class VanWizardViewModel extends GetxController{
   handleVehicleTypeChanges(VehicleTypes updatedValue){
     vehicleType(updatedValue);
   }
+  // handleSchoolSelectedChanges(SchoolDomainModel? updatedValue){
+  //   schoolSelect(updatedValue);
+  // }
   handleSchoolSelectedChanges(int? updatedValue){
     schoolSelect(updatedValue);
   }
@@ -91,7 +99,7 @@ class VanWizardViewModel extends GetxController{
         //     ", supervisorContact -> ${supervisorContact}"
         // );
 
-        submitNewVanForm();
+        _submitNewVanForm();
 
       }
 
@@ -101,7 +109,7 @@ class VanWizardViewModel extends GetxController{
 
   }
 
-  void submitNewVanForm()
+  void _submitNewVanForm()
   async
   {
 
@@ -118,6 +126,7 @@ class VanWizardViewModel extends GetxController{
 
     DCNewVanApiRequestDomainModel newVanDetails = DCNewVanApiRequestDomainModel(
         adminId: adminId,
+        // schoolId: schoolSelect.value!.school_id,
         schoolId: schoolSelect.value,
     vehicleRegNum: vehicleRegNum.value,
     vehicleType: vehicleType.value.toString(),
@@ -194,6 +203,18 @@ class VanWizardViewModel extends GetxController{
           );
         }
         );
+
+
+  }
+
+  void getSchoolList(){
+
+    List<SchoolDomainModel> lst_schl = [
+      new SchoolDomainModel(school_id: 1, admin_id: 1, school_name: "one", address: "addr one", contact_1: "+1", is_active: 1, date_create: "010101"),
+      new SchoolDomainModel(school_id: 2, admin_id: 2, school_name: "two", address: "addr two", contact_1: "+2", is_active: 1, date_create: "020202"),
+    ];
+
+    schoolList(lst_schl);
 
 
   }

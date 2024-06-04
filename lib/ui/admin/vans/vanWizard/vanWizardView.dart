@@ -2,6 +2,11 @@ import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/ui/admin/schools/adminSchoolViewModel.dart';
 import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardViewModel.dart';
 import 'package:SMV2/ui/admin/students/studentWizard/studentWizardViewModel.dart';
@@ -26,7 +31,7 @@ class VanWizardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  // _viewModel.getSchools();
+  _viewModel.getSchoolList();
   //   VehicleTypes dropdownValue = VehicleTypes.BUS;
     return Scaffold(
       backgroundColor: Colors.amber,
@@ -94,18 +99,41 @@ class VanWizardView extends StatelessWidget {
               Row(mainAxisSize: MainAxisSize.max,
                 children: [
                   Text("School :"),
-                  DropdownButton<VehicleTypes>(
-                    value: _viewModel.vehicleType.value, // currently selected value
-                    onChanged: (value) {
-                      dev.log("changed");
-                    },
-                    items: VehicleTypes.values.map<DropdownMenuItem<VehicleTypes>>((VehicleTypes value) {
-                      return DropdownMenuItem<VehicleTypes>(
-                        value: value,
-                        child: Text(value.name),
-                      );
-                    }).toList(),
+                  (
+                    _viewModel.schoolSelect.value!=null ?
+
+                    Obx(() =>
+                        DropdownButton<SchoolDomainModel>(
+                          value: (_viewModel.schoolList.value.map(
+                                  (e) {
+                                    if(e.school_id == _viewModel.schoolSelect.value){
+                                      return e;
+
+                                    }
+
+                                  }
+
+                          ) as SchoolDomainModel), // currently selected value
+                          onChanged: (value) {
+                            // _viewModel.handleSchoolSelectedChanges(value);
+
+                            // dev.log("changed");
+                          },
+                          items: _viewModel.schoolList.map<DropdownMenuItem<SchoolDomainModel>>((SchoolDomainModel value) {
+                            return DropdownMenuItem<SchoolDomainModel>(
+                              value: value,
+                              child: Text(value.school_name),
+                            );
+                          }).toList(),
+                        )
+                    )
+
+                    :
+
+                    Container()
                   )
+                  ,
+
                 ],),
               SizedBox(height: 10.0),
 
