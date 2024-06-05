@@ -33,16 +33,16 @@ class VanWizardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-  _viewModel.getSchools();
+  _viewModel.init();//getSchools();
   //   VehicleTypes dropdownValue = VehicleTypes.BUS;
 
   // List<Bool> values = List.filled(5, false);
-  Map<String, bool> values = {
-    "shaukat": false,
-    "kashif": false,
-    "taha": false,
-    "daniyal": false,
-  };
+  // Map<String, bool> values = {
+  //   "shaukat": false,
+  //   "kashif": false,
+  //   "taha": false,
+  //   "daniyal": false,
+  // };
 
     return Scaffold(
       backgroundColor: Colors.amber,
@@ -211,31 +211,41 @@ class VanWizardView extends StatelessWidget {
               SizedBox(height: 300,
               child:
 
-              ListView.builder(
-                itemCount: values.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    secondary: Icon(Icons.person),
-                    title: Text(
-                      values.keys.elementAt(index),
-                    ),
-                    subtitle: Text(
-                        "hey"
-                      // _data[index].subTitle + " " + (index + 1).toString(),
-                    ),
-                    value: values.values.elementAt(index),
-                    onChanged: (val) {
-                      dev.log("hey -> ${val}");
-                      values[values.keys.elementAt(index)] = val??false;
-                      // setState(
-                      //       () {
-                      //     _data[index].isSelected = val;
-                      //   },
-                      // );
-                    },
-                  );
-                },
-              ),
+                  Obx(() =>
+
+                    _viewModel.studentCheckMap.isEmpty ?
+                      Text("No Student Found")
+                        :
+                      ListView.builder(
+                      itemCount: _viewModel.studentCheckMap.length,
+                      itemBuilder: (context, index) {
+                        return CheckboxListTile(
+                          secondary: Icon(Icons.person),
+                          title: Text(
+                            _viewModel.studentCheckMap.keys.elementAt(index),
+                          ),
+                          subtitle: Text(
+                              "hey"
+                            // _data[index].subTitle + " " + (index + 1).toString(),
+                          ),
+                          value: _viewModel.studentCheckMap.values.elementAt(index),
+                          onChanged: (val) {
+                            dev.log("hey -> ${val}");
+                            _viewModel.studentCheckMap[_viewModel.studentCheckMap.keys.elementAt(index)] = val??false;
+                            // setState(
+                            //       () {
+                            //     _data[index].isSelected = val;
+                            //   },
+                            // );
+                          },
+                        );
+                      },
+                    )
+
+
+                  )
+
+                ,
 
 
                   ),

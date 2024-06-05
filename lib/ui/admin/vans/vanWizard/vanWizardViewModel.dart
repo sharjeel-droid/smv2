@@ -49,6 +49,11 @@ class VanWizardViewModel extends GetxController{
   RxList<StudentsDomainModel> studentList = <StudentsDomainModel>[].obs;
   RxMap<String, bool> studentCheckMap = RxMap();
 
+  void init() {
+    getSchools();
+    getStudents();
+  }
+
   // Rx<SchoolDomainModel?> schoolSelect = SchoolDomainModel(school_id: 1, admin_id: 1, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
   // Rx<SchoolDomainModel> schoolSelect = SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
   //RxInt schoolSelect;//SchoolDomainModel(school_id: 0, admin_id: 0, school_name: "Select School", address: "0", contact_1: "0", is_active: 0, date_create: "0").obs;
@@ -149,6 +154,19 @@ class VanWizardViewModel extends GetxController{
       return;
     }
 
+    //preparing std list
+    List<DCNewVanApiStdRequestDomainModel> lst = List.empty(growable: true);
+    for(int i=0; i<studentCheckMap.length; i++){
+
+      if(studentCheckMap.values.elementAt(i) == true){
+        lst.add(new DCNewVanApiStdRequestDomainModel(studentId: studentList[i].student_id, sortingIndex: i));
+      }
+
+
+    }
+    dev.log("maped std list -> ${lst.length}");
+    //--//
+
     DCNewVanApiRequestDomainModel newVanDetails = DCNewVanApiRequestDomainModel(
         adminId: adminId,
         // schoolId: 0,
@@ -160,7 +178,7 @@ class VanWizardViewModel extends GetxController{
     driverNIC: driverNIC.value,
     driverContact: driverContact.value,
     // students: studentsList.value
-    students: ""
+    students: lst
     );
 
     dev.log("submitNewVanForm; params -> ${newVanDetails.toJson()}");
@@ -334,7 +352,9 @@ class VanWizardViewModel extends GetxController{
 
             this.studentList(data.students);
 
-
+            //mapping
+            studentCheckMap(Map.fromIterable(studentList.value, key: (element) => element.first_name, value: (element) => false,));
+            dev.log("student size -> ${studentCheckMap.length}");
 
 
           }
@@ -362,6 +382,8 @@ class VanWizardViewModel extends GetxController{
 
 
   }
+
+
 
 
 }

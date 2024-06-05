@@ -12,7 +12,7 @@ class DCNewVanApiRequestDomainModel{
   String driverName;
   String driverNIC;
   String driverContact;
-  String students;
+  List<DCNewVanApiStdRequestDomainModel> students;
 
   DCNewVanApiRequestDomainModel({
     required this.adminId,
@@ -27,4 +27,19 @@ class DCNewVanApiRequestDomainModel{
 
   factory DCNewVanApiRequestDomainModel.fromJson(Map<String, dynamic> json) => _$DCNewVanApiRequestDomainModelFromJson(json);
   Map<String, dynamic> toJson() => _$DCNewVanApiRequestDomainModelToJson(this);
+}
+
+
+@JsonSerializable()
+class DCNewVanApiStdRequestDomainModel{
+  int studentId;
+  int sortingIndex;
+
+  DCNewVanApiStdRequestDomainModel({
+    required this.studentId,
+    required this.sortingIndex
+  });
+
+  factory DCNewVanApiStdRequestDomainModel.fromJson(Map<String, dynamic> json) => _$DCNewVanApiStdRequestDomainModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DCNewVanApiStdRequestDomainModelToJson(this);
 }
