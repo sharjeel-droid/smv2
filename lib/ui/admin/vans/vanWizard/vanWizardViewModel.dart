@@ -1,5 +1,4 @@
 
-import 'dart:ffi';
 
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';

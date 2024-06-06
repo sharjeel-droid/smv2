@@ -15,6 +15,7 @@ import '../network/entities/dc/DCnewSchoolApiResponseNetworkMapper.dart';
 class RepositoryBindings extends Bindings{
   @override
   void dependencies() {
+    //mappers
     Get.put(LoginApiResponseNetworkMapper());
     Get.put(DCApiResponseNetworkMapper());
     Get.put(DCnewSchoolApiResponseNetworkMapper());
@@ -22,6 +23,7 @@ class RepositoryBindings extends Bindings{
     Get.put(DCnewStdApiResponseNetworkMapper());
     Get.put(DCVanDetApiResponseNetworkMapper());
     Get.put(DCnewVanApiResponseNetworkMapper());
+    //repo
     Get.put(AuthRepository(Get.find<AuthApi>(), Get.find<LoginApiResponseNetworkMapper>()));
     Get.put(DataCentreRepository(Get.find<DataCentreApi>(),
         Get.find<DCApiResponseNetworkMapper>(),

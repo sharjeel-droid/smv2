@@ -7,6 +7,7 @@ import 'package:SMV2/ui/admin/students/adminStudentsViewModel.dart';
 import 'package:SMV2/ui/admin/students/studentWizard/studentWizardViewModel.dart';
 import 'package:SMV2/ui/admin/vans/adminVansViewModel.dart';
 import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardViewModel.dart';
+import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:SMV2/ui/login/loginViewModel.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerViewModel.dart';
 import 'package:SMV2/ui/splash/splashViewModel.dart';
@@ -21,6 +22,7 @@ class ViewBindings extends Bindings{
 
     //viewModels
     Get.put<SplashViewModel>(SplashViewModel());//
+    Get.put<NavDrawerViewModel>(NavDrawerViewModel());//
     Get.put<LoginViewModel>(LoginViewModel(Get.find<AuthRepository>()));//
     Get.put<AdminSchoolViewModel>(AdminSchoolViewModel(Get.find<DataCentreRepository>()));//
     Get.put<AddSchoolWizardViewModel>(AddSchoolWizardViewModel(Get.find<DataCentreRepository>()));//
@@ -28,6 +30,8 @@ class ViewBindings extends Bindings{
     Get.put<StudentWizardViewModel>(StudentWizardViewModel(Get.find<DataCentreRepository>()));//
     Get.put<AdminVansViewModel>(AdminVansViewModel(Get.find<DataCentreRepository>()));//
     Get.put<VanWizardViewModel>(VanWizardViewModel(Get.find<DataCentreRepository>()));//
-    Get.put<NavDrawerViewModel>(NavDrawerViewModel());//
+    //drivers
+    Get.put<DriverDashboardViewModel>(DriverDashboardViewModel(Get.find<DataCentreRepository>()));//
+
   }
 }

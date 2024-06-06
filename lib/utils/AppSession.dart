@@ -70,13 +70,13 @@ class _CurrentUser{
     required last_name,
     required gender,
     required nic_number,
-    required email,
+    email,
     required contact1,
     contact2,
     required address,
-    required pic,
-    required longitude,
-    required latitude,
+    pic,
+    longitude,
+    latitude,
   })
   async
   {
@@ -93,13 +93,13 @@ class _CurrentUser{
     await _set_last_name(last_name);
     await _set_gender(gender);
     await _set_nic_number(nic_number);
-    await _set_email(email);
+    await _set_email(email??"");
     await _set_contact_1(contact1);
     await _set_contact_2(contact2??"");
     await _set_address(address);
-    await _set_pic(pic);
-    await _set_longitude(longitude);
-    await _set_latitude(latitude);
+    await _set_pic(pic??"");
+    await _set_longitude(longitude??"");
+    await _set_latitude(latitude??"");
 
     // _userRole();
     final appSessO = Get.find<AppSessionRX>();
