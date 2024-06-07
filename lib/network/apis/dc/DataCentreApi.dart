@@ -4,6 +4,7 @@ import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCDriverDashApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCnewSchoolApiResponseNetworkEntity.dart';
@@ -49,6 +50,12 @@ abstract class DataCentreApi{
   @POST(ApiConst.URL_VANS_NEW_FOR_ADMINS)
   Future<HttpResponse<DCnewVanApiResponseNetworkEntity>> vanNewForAdmins(
       @Body(nullToAbsent: false) DCNewVanApiRequestDomainModel VanDetails
+      );
+
+
+  @GET(ApiConst.URL_DASH_DET_FOR_DRIVER)
+  Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>> dashboardDetailsForDriver(
+      @Query(dataKeys.ADMIN_ID) int driver_id
       );
 
 }
