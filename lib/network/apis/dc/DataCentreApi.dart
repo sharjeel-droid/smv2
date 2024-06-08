@@ -55,7 +55,7 @@ abstract class DataCentreApi{
 
   @GET(ApiConst.URL_DASH_DET_FOR_DRIVER)
   Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>> dashboardDetailsForDriver(
-      @Query(dataKeys.ADMIN_ID) int driver_id
+      @Query(dataKeys.DRIVER_ID) int driver_id
       );
 
 }

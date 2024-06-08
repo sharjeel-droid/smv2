@@ -13,7 +13,7 @@ class _DataCentreApi implements DataCentreApi {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'http://10.0.1.24/SmartVanApiV2/api/v2/';
+    baseUrl ??= 'http://192.168.0.110/SmartVanApiV2/api/v2/';
   }
 
   final Dio _dio;
@@ -203,7 +203,7 @@ class _DataCentreApi implements DataCentreApi {
   Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>>
       dashboardDetailsForDriver(int driver_id) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'admin_id': driver_id};
+    final queryParameters = <String, dynamic>{r'driver_id': driver_id};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(

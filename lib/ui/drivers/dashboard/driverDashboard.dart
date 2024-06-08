@@ -15,13 +15,14 @@ class DriverDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _viewModel.getDashboardDetails();
 
     return Column(mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
 
-        defaults.widget.flashCard(value: "003", title: "Driver Dash")
+        defaults.widget.flashCard(value: _viewModel.schools.value?.school_name ?? "~", title: "School Name")
 
       ],);
 

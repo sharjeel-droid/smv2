@@ -1,5 +1,6 @@
 
 
+import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
@@ -13,6 +14,8 @@ import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCApiResponseNetworkMapper.dart';
+import 'package:SMV2/network/entities/dc/DCDriverDashApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/dc/DCDriverDashApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCVanDetApiResponseNetworkEntity.dart';
@@ -39,9 +42,11 @@ class DataCentreRepository{
   final DCnewStdApiResponseNetworkMapper mapper_newStudents;
   final DCVanDetApiResponseNetworkMapper mapper_van;
   final DCnewVanApiResponseNetworkMapper mapper_newVan;
+  final DCDriverDashApiResponseNetworkMapper mapper_driverDash;
   DataCentreRepository(this.api, this.mapper,
       this.mapper_newSchool, this.mapper_students,
-      this.mapper_newStudents, this.mapper_van, this.mapper_newVan);
+      this.mapper_newStudents, this.mapper_van, this.mapper_newVan,
+      this.mapper_driverDash);
 
   static const _TAG = "DataCentreRepository.dart";
   // AuthApi _authApi = AuthApi(Dio(BaseOptions(contentType: 'application/json')));
@@ -447,10 +452,45 @@ class DataCentreRepository{
 
   }
 
+  getDriverDashboardDetails(int driver_id, {Function(DCDriverDashApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
 
-  // void _handleDioValidateStat(Function(Int?) resp){
-  //
-  // }
+    try{
+
+      dev.log("request parameter -> driver_id : ${driver_id}");
+
+      HttpResponse<DCDriverDashApiResponseNetworkEntity> httpResponse = await api.dashboardDetailsForDriver(driver_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_driverDash.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
 
   void authCallback(){}
 
