@@ -22,7 +22,19 @@ class DriverDashboard extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
 
-        defaults.widget.flashCard(value: _viewModel.schools.value?.school_name ?? "~", title: "School Name")
+        Obx(() =>
+            defaults.widget.flashCard(value: _viewModel.schools.value?.school_name ?? "~", title: "School Name"),
+        ),
+        Obx(() =>
+            defaults.widget.flashCard(value: "${_viewModel.vehicle.value?.vehicle_type ?? "~"} : ${_viewModel.vehicle.value?.reg_number ?? "~"}", title: "Vehicle"),
+        ),
+        Obx(() =>
+          defaults.widget.flashCard(value: _viewModel.route.value?.route_title ?? "~", title: "Route")
+        ),
+        // Obx(() =>
+          defaults.widget.flashCard(value: "No Trip Today", title: "Trips")
+        // ),
+
 
       ],);
 

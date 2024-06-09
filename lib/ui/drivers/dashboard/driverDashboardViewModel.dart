@@ -22,6 +22,8 @@ class DriverDashboardViewModel extends GetxController{
   //observables
   RxBool isProcessing = false.obs;
   Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
+  Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
+  Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
 
 
 
@@ -55,9 +57,13 @@ getDashboardDetails() async
         if(data == null){
           Fluttertoast.showToast(msg: "no Data Found");
           schools(null);
+          vehicle(null);
+          route(null);
         }else{
 
           schools(data.school);
+          vehicle(data.vehicle);
+          route(data.route);
 
         }
 

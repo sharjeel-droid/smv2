@@ -32,7 +32,7 @@ class DcDriverDashDataNetworkEntity{
 @JsonSerializable()
 class DcDriverDashDataSchoolNetworkEntity{
   // int num_of_records;
-  String? verification_code;
+  int? verification_code;
   String? school_name;
   String? address;
   String? contact_1;

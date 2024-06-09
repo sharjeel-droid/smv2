@@ -53,7 +53,7 @@ Map<String, dynamic> _$DcDriverDashDataDomainModelToJson(
 DcDriverDashDataSchoolDomainModel _$DcDriverDashDataSchoolDomainModelFromJson(
         Map<String, dynamic> json) =>
     DcDriverDashDataSchoolDomainModel(
-      verification_code: json['verification_code'] as String?,
+      verification_code: json['verification_code'] as int?,
       school_name: json['school_name'] as String?,
       address: json['address'] as String?,
       contact_1: json['contact_1'] as String?,

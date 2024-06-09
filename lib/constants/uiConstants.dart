@@ -348,8 +348,8 @@ class _cardFlash{
       mainAxisSize: MainAxisSize.min,
       children: [
         Center(child: Padding(
-          padding: EdgeInsets.only(top: defaults.dimens.padding.x4, bottom: defaults.dimens.padding.x4),
-          child: Text(value, style: TextStyle(color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),),
+          padding: EdgeInsets.only(top: defaults.dimens.padding.x2, bottom: defaults.dimens.padding.x2),
+          child: Text(value, style: TextStyle(color: textColor, fontSize: defaults.font.size.body, fontWeight: FontWeight.bold),),
         ),),
 
       Card(color: Color(defaults.colors.argb.white20),
@@ -362,7 +362,7 @@ class _cardFlash{
         children: [
           Padding(padding: EdgeInsets.only(top: defaults.dimens.padding.tiny,
               bottom: defaults.dimens.padding.tiny),
-            child: Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.head),),)
+            child: Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),),)
 
         ],
         )

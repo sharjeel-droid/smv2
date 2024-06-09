@@ -53,7 +53,7 @@ Map<String, dynamic> _$DcDriverDashDataNetworkEntityToJson(
 DcDriverDashDataSchoolNetworkEntity
     _$DcDriverDashDataSchoolNetworkEntityFromJson(Map<String, dynamic> json) =>
         DcDriverDashDataSchoolNetworkEntity(
-          verification_code: json['verification_code'] as String?,
+          verification_code: json['verification_code'] as int?,
           school_name: json['school_name'] as String?,
           address: json['address'] as String?,
           contact_1: json['contact_1'] as String?,
