@@ -6,8 +6,8 @@ import 'package:SMV2/ui/admin/schools/schoolWizard/addSchoolWizardViewModel.dart
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
+// import 'package:google_places_flutter/google_places_flutter.dart';
+// import 'package:google_places_flutter/model/prediction.dart';
 
 class AddSchoolWizardView extends StatelessWidget {
   AddSchoolWizardView({Key? key}) : super(key: key);
@@ -143,7 +143,7 @@ class AddSchoolWizardView extends StatelessWidget {
     // );
   }
 
-  _PlacePickerDialog(){
+  /*_PlacePickerDialog(){
     final controller = TextEditingController();
     return GooglePlaceAutoCompleteTextField(
         textEditingController: controller,
@@ -186,5 +186,5 @@ class AddSchoolWizardView extends StatelessWidget {
 
 
     );
-  }
+  }*/
 }

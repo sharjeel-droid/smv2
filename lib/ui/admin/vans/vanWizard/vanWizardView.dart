@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
@@ -16,8 +15,8 @@ import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
+// import 'package:google_places_flutter/google_places_flutter.dart';
+// import 'package:google_places_flutter/model/prediction.dart';
 import 'dart:developer' as dev;
 
 
@@ -323,7 +322,7 @@ class VanWizardView extends StatelessWidget {
     // );
   }
 
-  _PlacePickerDialog(){
+  /*_PlacePickerDialog(){
     final controller = TextEditingController();
     return GooglePlaceAutoCompleteTextField(
         textEditingController: controller,
@@ -366,5 +365,5 @@ class VanWizardView extends StatelessWidget {
 
 
     );
-  }
+  }*/
 }

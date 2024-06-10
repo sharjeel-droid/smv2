@@ -16,27 +16,57 @@ class SplashViewModel extends GetxController{
   checkSessionAndNavigate()
   async
   {
-    dev.log('processing');
 
-    isProcessing(true);
 
-    dev.log('find start');
-    bool isSessPresent = await AppSession.currentUser.isUserSessionPresent();
-    dev.log('find done');
-    await Future.delayed(Duration(milliseconds: 3000), (){});
-    isProcessing(false);
+    try{
+      dev.log('processing');
 
-    dev.log('checkSessionAndNavigate -> ${isSessPresent}');
-    if(isSessPresent){
-      // dev.log('SplashViewMode -> ${await AppSession.currentUser.userRole()}');
-      // dev.log('SplashViewMode -> ${AppSession.currentUser.userRole.value}');
-      dev.log('SplashViewMode -> ${appSessO.userRoleObs.value}');
-      navigate().toHome();
-      // dev.log('navigating to home');
-    }else{
-      navigate().toLogin();
-      // dev.log('navigating to login');
+      isProcessing(true);
+
+      dev.log('find start');
+      bool isSessPresent = await AppSession.currentUser.isUserSessionPresent();
+      dev.log('find done');
+      await Future.delayed(Duration(milliseconds: 3000), (){});
+      isProcessing(false);
+
+      dev.log('checkSessionAndNavigate -> ${isSessPresent}');
+      if(isSessPresent){
+        // dev.log('SplashViewMode -> ${await AppSession.currentUser.userRole()}');
+        // dev.log('SplashViewMode -> ${AppSession.currentUser.userRole.value}');
+        dev.log('SplashViewMode -> ${appSessO.userRoleObs.value}');
+        navigate().toHome();
+        // dev.log('navigating to home');
+      }else{
+        navigate().toLogin();
+        // dev.log('navigating to login');
+      }
     }
+    catch(e){
+      dev.log("error -> ${e}");
+      navigate().toLogin();
+    }
+
+    // dev.log('processing');
+    //
+    // isProcessing(true);
+    //
+    // dev.log('find start');
+    // bool isSessPresent = await AppSession.currentUser.isUserSessionPresent();
+    // dev.log('find done');
+    // await Future.delayed(Duration(milliseconds: 3000), (){});
+    // isProcessing(false);
+    //
+    // dev.log('checkSessionAndNavigate -> ${isSessPresent}');
+    // if(isSessPresent){
+    //   // dev.log('SplashViewMode -> ${await AppSession.currentUser.userRole()}');
+    //   // dev.log('SplashViewMode -> ${AppSession.currentUser.userRole.value}');
+    //   dev.log('SplashViewMode -> ${appSessO.userRoleObs.value}');
+    //   navigate().toHome();
+    //   // dev.log('navigating to home');
+    // }else{
+    //   navigate().toLogin();
+    //   // dev.log('navigating to login');
+    // }
 
 
 

@@ -7,9 +7,9 @@ import 'package:SMV2/ui/login/loginViewModel.dart';
 import 'package:SMV2/utils/deviceConfigHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_places_flutter/google_places_flutter.dart';
-import 'package:google_places_flutter/model/prediction.dart';
+// import 'package:google_maps_flutter/google_maps_flutter.dart';
+// import 'package:google_places_flutter/google_places_flutter.dart';
+// import 'package:google_places_flutter/model/prediction.dart';
 import 'dart:developer' as dev;
 
 import 'package:provider/provider.dart';
@@ -29,6 +29,11 @@ class AddressPickerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    return Placeholder(child: Text("placeholder"),);
+
+
+
     // deviceConfig.screen.setToNormal();
 
     // String respo = Provider.of<LoginViewModel>(context).fetchTest();
@@ -36,67 +41,67 @@ class AddressPickerView extends StatelessWidget {
 
     // var _email = "";
 
-    final Completer<GoogleMapController> _controller =
-    Completer<GoogleMapController>();
+    // final Completer<GoogleMapController> _controller =
+    // Completer<GoogleMapController>();
+    //
+    // const CameraPosition _kGooglePlex = CameraPosition(
+    //   target: LatLng(37.42796133580664, -122.085749655962),
+    //   zoom: 14.4746,
+    // );
 
-    const CameraPosition _kGooglePlex = CameraPosition(
-      target: LatLng(37.42796133580664, -122.085749655962),
-      zoom: 14.4746,
-    );
-
-    return defaults.layout.basic(bodyContent:
-        SafeArea(child:
-            Stack(children: [
-
-
-              GoogleMap(
-                mapType: MapType.hybrid,
-                initialCameraPosition: _kGooglePlex,
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-              ),
-
-
-              Positioned(
-                  top: 50,
-                  left: 50,
-                  right: 50,
-
-                  child:
-                  _PlacePickerDialog()
-              ),
-
-            ],)
-
-
-
-
-
-        // _PlacePickerDialog()
-        // Column(crossAxisAlignment: CrossAxisAlignment.center,
-        //     mainAxisAlignment: MainAxisAlignment.start,
-        //     mainAxisSize: MainAxisSize.max,
-        //
-        //   children: [
-        //     Container(
-        //       color: Colors.blue,
-        //       child: _PlacePickerDialog(),
-        //     )
-        //
-        //
-        //
-        //
-        //   ],
-        // )
-
-
-
-        )
-
-
-
-    );
+    // return defaults.layout.basic(bodyContent:
+    //     SafeArea(child:
+    //         Stack(children: [
+    //
+    //
+    //           GoogleMap(
+    //             mapType: MapType.hybrid,
+    //             initialCameraPosition: _kGooglePlex,
+    //             onMapCreated: (GoogleMapController controller) {
+    //               _controller.complete(controller);
+    //             },
+    //           ),
+    //
+    //
+    //           Positioned(
+    //               top: 50,
+    //               left: 50,
+    //               right: 50,
+    //
+    //               child:
+    //               // _PlacePickerDialog()
+    //           ),
+    //
+    //         ],)
+    //
+    //
+    //
+    //
+    //
+    //     // _PlacePickerDialog()
+    //     // Column(crossAxisAlignment: CrossAxisAlignment.center,
+    //     //     mainAxisAlignment: MainAxisAlignment.start,
+    //     //     mainAxisSize: MainAxisSize.max,
+    //     //
+    //     //   children: [
+    //     //     Container(
+    //     //       color: Colors.blue,
+    //     //       child: _PlacePickerDialog(),
+    //     //     )
+    //     //
+    //     //
+    //     //
+    //     //
+    //     //   ],
+    //     // )
+    //
+    //
+    //
+    //     )
+    //
+    //
+    //
+    // );
 
     // return SafeArea(child:
     //   defaults.layout.basic(bodyContent:
@@ -105,7 +110,7 @@ class AddressPickerView extends StatelessWidget {
     // );
   }
 
-  _PlacePickerDialog(){
+  /*_PlacePickerDialog(){
     final controller = TextEditingController();
     return GooglePlaceAutoCompleteTextField(
       textEditingController: controller,
@@ -148,5 +153,5 @@ class AddressPickerView extends StatelessWidget {
 
 
     );
-  }
+  }*/
 }
