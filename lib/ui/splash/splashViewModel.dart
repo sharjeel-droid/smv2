@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
 class SplashViewModel extends GetxController{
-  final appSessO = Get.find<AppSessionRX>();
+  // final appSessO = Get.find<AppSessionRX>();
   // Rx<UserRole> userRole = UserRole.UNKNOWN.obs;
   // CurrentUser sess;
   // SplashViewModel(this.sess);
@@ -33,7 +33,7 @@ class SplashViewModel extends GetxController{
       if(isSessPresent){
         // dev.log('SplashViewMode -> ${await AppSession.currentUser.userRole()}');
         // dev.log('SplashViewMode -> ${AppSession.currentUser.userRole.value}');
-        dev.log('SplashViewMode -> ${appSessO.userRoleObs.value}');
+        // dev.log('SplashViewMode -> ${appSessO.userRoleObs.value}');
         navigate().toHome();
         // dev.log('navigating to home');
       }else{
