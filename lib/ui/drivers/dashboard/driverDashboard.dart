@@ -1,6 +1,7 @@
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
@@ -32,7 +33,11 @@ class DriverDashboard extends StatelessWidget {
           defaults.widget.flashCard(value: _viewModel.route.value?.route_title ?? "~", title: "Route")
         ),
         // Obx(() =>
-          defaults.widget.flashCard(value: "No Trip Today", title: "Trips")
+          defaults.widget.flashCardActionable(value: "No Trip Today", title: "Trips", onButtonPressed: () {
+
+            Fluttertoast.showToast(msg: "new trip");
+
+          },)
         // ),
 
 

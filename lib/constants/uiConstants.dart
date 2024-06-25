@@ -331,10 +331,16 @@ class _widgets{
   flashCard({Color? color, Color? textColor, String? title, required String value}){
     return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value);
   }
+  flashCardActionable({Color? color, Color? textColor, String? title, required String value, Function()? onButtonPressed}){
+    return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value, onButtonPressed: onButtonPressed);
+  }
 }
 class _cardFlash{
   const _cardFlash();
-  compose({required Color color, required Color textColor, required String title, required String value}){
+  compose({required Color color, required Color textColor, required String title, required String value, Function()? onButtonPressed = null}){
+
+    bool showAction = onButtonPressed!=null;
+
 
     return Card(color: color,
       margin: EdgeInsets.all(defaults.dimens.padding.def),
@@ -362,7 +368,18 @@ class _cardFlash{
         children: [
           Padding(padding: EdgeInsets.only(top: defaults.dimens.padding.tiny,
               bottom: defaults.dimens.padding.tiny),
-            child: Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),),)
+            child:
+            Row(
+              children: [
+                Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),),
+                showAction ?
+                    ElevatedButton(onPressed: onButtonPressed, child: Text("start new", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),))
+                    : Container()
+
+
+              ],
+            ),
+          )
 
         ],
         )

@@ -90,6 +90,11 @@ getDashboardDetails() async
 
 }
 
+bool shouldShowNewTripAction(){
+
+  return (route!=null);
+
+}
 
 
 }

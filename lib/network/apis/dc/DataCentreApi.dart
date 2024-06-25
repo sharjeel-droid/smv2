@@ -58,4 +58,16 @@ abstract class DataCentreApi{
       @Query(dataKeys.DRIVER_ID) int driver_id
       );
 
+  @POST(ApiConst.URL_NEW_TRIP_BY_DRIVER)
+  Future<HttpResponse<DCnewVanApiResponseNetworkEntity>> newTripByDriver(
+      @Query(dataKeys.ROUTE_ID) int route_id,
+      @Query(dataKeys.TIME_START) String time_start
+      );
+
+  @GET(ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER)
+  Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>> activeTripsForDriver(
+      @Query(dataKeys.DRIVER_ID) int driver_id
+      );
+
+
 }
