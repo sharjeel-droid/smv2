@@ -331,10 +331,16 @@ class _widgets{
   flashCard({Color? color, Color? textColor, String? title, required String value}){
     return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value);
   }
+  flashCardActionable({Color? color, Color? textColor, String? title, required String value, Function()? onButtonPressed}){
+    return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value, onButtonPressed: onButtonPressed);
+  }
 }
 class _cardFlash{
   const _cardFlash();
-  compose({required Color color, required Color textColor, required String title, required String value}){
+  compose({required Color color, required Color textColor, required String title, required String value, Function()? onButtonPressed = null}){
+
+    bool showAction = onButtonPressed!=null;
+
 
     return Card(color: color,
       margin: EdgeInsets.all(defaults.dimens.padding.def),
@@ -348,8 +354,8 @@ class _cardFlash{
       mainAxisSize: MainAxisSize.min,
       children: [
         Center(child: Padding(
-          padding: EdgeInsets.only(top: defaults.dimens.padding.x4, bottom: defaults.dimens.padding.x4),
-          child: Text(value, style: TextStyle(color: textColor, fontSize: 20.0, fontWeight: FontWeight.bold),),
+          padding: EdgeInsets.only(top: defaults.dimens.padding.x2, bottom: defaults.dimens.padding.x2),
+          child: Text(value, style: TextStyle(color: textColor, fontSize: defaults.font.size.body, fontWeight: FontWeight.bold),),
         ),),
 
       Card(color: Color(defaults.colors.argb.white20),
@@ -362,7 +368,18 @@ class _cardFlash{
         children: [
           Padding(padding: EdgeInsets.only(top: defaults.dimens.padding.tiny,
               bottom: defaults.dimens.padding.tiny),
-            child: Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.head),),)
+            child:
+            Row(
+              children: [
+                Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),),
+                showAction ?
+                    ElevatedButton(onPressed: onButtonPressed, child: Text("start new", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),))
+                    : Container()
+
+
+              ],
+            ),
+          )
 
         ],
         )
@@ -471,6 +488,21 @@ class _inputTexts{
       onSaved: onSaved ?? (val)=>"",
     );
   }
+
+  floatingLabeled({String? key,
+    String? initialValue, String? hint,
+    bool? isHiddenField,
+    String? Function(String?)? onError,
+    Function(String?)? onSaved})
+  {
+    return _inputTextFloatingLabeled().compose(key: key??"",
+      text: initialValue??"",
+      hint: hint??"",
+      isHidden: isHiddenField ?? false,
+      onError: onError ?? (val)=>"",
+      onSaved: onSaved ?? (val)=>"",
+    );
+  }
 }
 class _inputTextSimple{
   const _inputTextSimple();
@@ -493,6 +525,61 @@ class _inputTextSimple{
               contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
               border: OutlineInputBorder(),
               // hintText: 'username'
+
+              hintText: hint,
+              // errorStyle: TextStyle(color: Color(defaults.colors.argb.red))
+              // hintText: AppLocalizations.of(context)!.user_name,
+            ),
+            obscureText: isHidden,
+            key: Key(key),
+            autofocus: true,
+            validator: (value){
+
+              return onError(value);
+
+
+              // if(value==null || value.isEmpty){
+              //   // return 'value cannot be empty';
+              //   return err_nullVal;
+              // }
+              // // else {return true;}
+              // return null;
+            },
+            onSaved: (value){
+              onSaved(value);
+              // if(value != null)
+              // {
+              //   _email = value;
+              // }
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
+class _inputTextFloatingLabeled{
+  const _inputTextFloatingLabeled();
+  compose({required String key,
+    required String text,
+    required String hint,
+    required bool isHidden,
+    required String? Function(String?) onError,
+    required Function(String?) onSaved,
+  }){
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(
+          flex: 1,
+          child: TextFormField(
+            // textInputAction: TextInputAction.next,
+            initialValue: text,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+              // border: OutlineInputBorder(),
+              // hintText: 'username'
+
               hintText: hint,
               // errorStyle: TextStyle(color: Color(defaults.colors.argb.red))
               // hintText: AppLocalizations.of(context)!.user_name,
@@ -806,7 +893,8 @@ class _navDrawerComposer{
   }
 
   _highlightedNavListTile(ListTile listTile){
-    
+
+
     var selectionColor = Color(defaults.colors.argb.black);
     
     // var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);

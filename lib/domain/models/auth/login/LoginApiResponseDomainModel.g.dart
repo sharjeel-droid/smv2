@@ -35,7 +35,7 @@ DataDomainModel _$DataDomainModelFromJson(Map<String, dynamic> json) =>
       date_update: json['date_update'] as String?,
       is_active: json['is_active'] as int,
       is_loggedin: json['is_loggedin'] as int,
-      token_id: json['token_id'] as String,
+      token_id: json['token_id'] as String?,
       bio: BIODomainModel.fromJson(json['bio'] as Map<String, dynamic>),
     );
 
@@ -64,11 +64,11 @@ BIODomainModel _$BIODomainModelFromJson(Map<String, dynamic> json) =>
       last_name: json['last_name'] as String,
       gender: json['gender'] as String,
       nic_number: json['nic_number'] as String,
-      email: json['email'] as String,
+      email: json['email'] as String?,
       contact_1: json['contact_1'] as String,
       contact_2: json['contact_2'] as String?,
       address: json['address'] as String,
-      pic: json['pic'] as String,
+      pic: json['pic'] as String?,
       is_active: json['is_active'] as int,
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
@@ -104,8 +104,8 @@ LOCUsersDomainModel _$LOCUsersDomainModelFromJson(Map<String, dynamic> json) =>
       loc_user_id: json['loc_user_id'] as int,
       user_id: json['user_id'] as int,
       label_id: json['label_id'] as int,
-      longitude: json['longitude'] as String,
-      latitude: json['latitude'] as String,
+      longitude: json['longitude'] as String?,
+      latitude: json['latitude'] as String?,
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
     );

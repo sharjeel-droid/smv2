@@ -58,11 +58,11 @@ class BIONetworkEntity{
   String last_name;
   String gender;
   String nic_number;
-  String email;
+  String? email;
   String contact_1;
   String? contact_2;
   String address;
-  String pic;
+  String? pic;
   int is_active;
   String date_create;
   String? date_update;
@@ -76,11 +76,11 @@ class BIONetworkEntity{
     required this.last_name,
     required this.gender,
     required this.nic_number,
-    required this.email,
+     this.email,
     required this.contact_1,
     this.contact_2,
     required this.address,
-    required this.pic,
+    this.pic,
     required this.is_active,
     required this.date_create,
     this.date_update,
@@ -97,16 +97,16 @@ class LOCUsersNetworkEntity{
   int loc_user_id;
   int user_id;
   int label_id;
-  String longitude;
-  String latitude;
+  String? longitude;
+  String? latitude;
   String date_create;
   String? date_update;
 
   LOCUsersNetworkEntity({required this.loc_user_id,
     required this.user_id,
     required this.label_id,
-    required this.longitude,
-    required this.latitude,
+     this.longitude,
+     this.latitude,
     required this.date_create,
     this.date_update});
 

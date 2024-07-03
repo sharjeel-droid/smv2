@@ -1,8 +1,13 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
+import 'package:SMV2/ui/admin/students/adminStudentsView.dart';
+import 'package:SMV2/ui/admin/vans/adminVansView.dart';
+import 'package:SMV2/ui/drivers/dashboard/driverDashboard.dart';
 import 'package:SMV2/utils/AppSession.dart';
+import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 import 'dart:developer' as dev;
 
 import '../admin/dashboard/adminDashboard.dart';
@@ -11,26 +16,45 @@ import '../admin/supervisors/adminSupervisorsView.dart';
 
 class NavDrawerViewModel extends GetxController{
 
+  final appSessO = Get.find<AppSessionRX>();
+  late BuildContext context;
+
   RxInt selectedNavItemPos = 0.obs;
   RxBool isProcessingLogout = false.obs;
+  Rx<UserRole> userRole = UserRole.UNKNOWN.obs;
 
   late RxList<Widget> mappedNavTree;// = _getFooterNavTree().obs; //= [].obs;
   late Rx<Widget> mappedNavView;// = _getEmptyView().obs;// = [].obs;
 
   NavDrawerViewModel(){init();}
-  init(){
+  init() {
+    // userRole(appSessO.userRoleObs.value);
+    // dev.log("userRole init -> ${userRole}");
+
     mappedNavTree = <Widget>[].obs;//_getFooterNavTree().obs;
     mappedNavView = _getEmptyView().obs;
-    mapNavigationTreeForUserRole();
+
+    selectedNavItemPos.listen((selection) {
+      Navigator.pop(context);
+      dev.log("listening -> ${selection}");
+      mapNavigationTreeForUserRole(context);
+
+    });
+
+    // mapNavigationTreeForUserRole();
     // _mapNavigationViewsForUserRole();
   }
 
-  mapNavigationTreeForUserRole()
+  mapNavigationTreeForUserRole(BuildContext buildContext)
   async{
+    context = buildContext;
 
-    UserRole userRole = await AppSession.currentUser.userRole();
+    userRole(appSessO.userRoleObs.value);
+
+    dev.log("userRole check -> ${userRole.value}");
+    // UserRole userRole = await AppSession.currentUser.userRole();
     List<Widget> tree = [];
-    switch(userRole)
+    switch(userRole.value)
     {
       case UserRole.SADMIN:{
         // mappedNavTree([]);
@@ -61,7 +85,12 @@ class NavDrawerViewModel extends GetxController{
 
       case UserRole.DRIVER:{
         tree = [];
-        tree.addAll([]);
+        tree.addAll(
+          _getDriverNavTree(onSelection: (int selectedPosition){
+            handleNavselection(selectedPosition);
+          })
+
+        );
         // mappedNavTree([]);
         break;
       }
@@ -115,8 +144,9 @@ class NavDrawerViewModel extends GetxController{
   _mapNavigationViewsForUserRole()
   async{
 
-    UserRole userRole = await AppSession.currentUser.userRole();
-    switch(userRole){
+    // UserRole userRole = await AppSession.currentUser.userRole();
+    dev.log("userRole -> ${userRole.value}");
+    switch(userRole.value){
       case UserRole.SADMIN:{
         mappedNavView(_getEmptyView());
         break;
@@ -133,7 +163,8 @@ class NavDrawerViewModel extends GetxController{
       }
 
       case UserRole.DRIVER:{
-        mappedNavView(_getEmptyView());
+        // mappedNavView(_getEmptyView());
+        mappedNavView(_getDriverNavViews(selectedNavItemPos.value));
         break;
       }
 
@@ -171,6 +202,7 @@ class NavDrawerViewModel extends GetxController{
   }
 
   handleNavselection(int selection){
+    dev.log("handleNavSelection ; selection -> ${selection}");
     selectedNavItemPos(selection);
 
     // Get.back();
@@ -196,6 +228,7 @@ dev.log("getting admin nav tree");
         leading: const Icon(Icons.dashboard),
         title: const Text('Dashboard'),
         onTap: () {
+          onSelection(0);
           // _setNavselection(0);
           // navigateTo("/home", context);
           // setState(() {
@@ -207,7 +240,58 @@ dev.log("getting admin nav tree");
       ListTile(
         leading: const Icon(Icons.school),
         title: const Text('Schools'),
-        onTap: (){onSelection(1);}
+        onTap: (){
+          dev.log("selection -> 1");
+          onSelection(1);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Students'),
+        onTap: (){
+          dev.log("selection -> 2");
+          onSelection(2);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Vans'),
+        onTap: (){
+          dev.log("selection -> 3");
+          onSelection(3);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Routes'),
+        onTap: (){
+          dev.log("selection -> 4");
+          onSelection(4);
+        }
         // onTap: (){_setNavselection(1);}
         /*() {
           setState(() {
@@ -221,6 +305,7 @@ dev.log("getting admin nav tree");
           leading: const Icon(Icons.supervisor_account),
           title: const Text('Supervisors'),
           onTap: (){
+            onSelection(5);
             // _setNavselection(2);
           }/*() {
           setState(() {
@@ -265,7 +350,7 @@ dev.log("getting admin nav tree");
     // );
   }
   Widget _getAdminNavViews(int selection){
-
+dev.log("selection -> ${selection}");
     switch(selection){
       case 0 : {
         return AdminDashboard();
@@ -276,6 +361,18 @@ dev.log("getting admin nav tree");
         break;
       }
       case 2:{
+        return AdminStudentsView();
+        break;
+      }
+      case 3:{
+        return AdminVansView();
+        break;
+      }
+      // case 4:{
+      //   // return AdminSupervisorView();
+      //   break;
+      // }
+      case 5:{
         return AdminSupervisorView();
         break;
       }
@@ -426,6 +523,200 @@ dev.log("getting admin nav tree");
     //   ],
     // );
   }
+
+
+
+  //driver views
+  _getDriverNavTree({required Function(int selectedPosition) onSelection}){
+    dev.log("getting driver nav tree");
+
+    return [
+
+      ListTile(
+        leading: const Icon(Icons.dashboard),
+        title: const Text('Dashboard'),
+        onTap: () {
+          onSelection(0);
+          // _setNavselection(0);
+          // navigateTo("/home", context);
+          // setState(() {
+          //   selectedNavItemPos = 0;
+          // });
+        },
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('Routes'),
+        onTap: (){
+          dev.log("selection -> 1");
+          onSelection(1);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+      // ListTile(
+      //   leading: const Icon(Icons.school),
+      //   title: const Text('Students'),
+      //   onTap: (){
+      //     dev.log("selection -> 2");
+      //     onSelection(2);
+      //   }
+      //   // onTap: (){_setNavselection(1);}
+      //   /*() {
+      //     setState(() {
+      //       selectedNavItemPos = 1;
+      //     });
+      //     // navigateTo("/about", context);
+      //   }*/,
+      // ),
+      //
+      // ListTile(
+      //   leading: const Icon(Icons.school),
+      //   title: const Text('Vans'),
+      //   onTap: (){
+      //     dev.log("selection -> 3");
+      //     onSelection(3);
+      //   }
+      //   // onTap: (){_setNavselection(1);}
+      //   /*() {
+      //     setState(() {
+      //       selectedNavItemPos = 1;
+      //     });
+      //     // navigateTo("/about", context);
+      //   }*/,
+      // ),
+      //
+      // ListTile(
+      //   leading: const Icon(Icons.school),
+      //   title: const Text('Routes'),
+      //   onTap: (){
+      //     dev.log("selection -> 4");
+      //     onSelection(4);
+      //   }
+      //   // onTap: (){_setNavselection(1);}
+      //   /*() {
+      //     setState(() {
+      //       selectedNavItemPos = 1;
+      //     });
+      //     // navigateTo("/about", context);
+      //   }*/,
+      // ),
+      //
+      // ListTile(
+      //     leading: const Icon(Icons.supervisor_account),
+      //     title: const Text('Supervisors'),
+      //     onTap: (){
+      //       onSelection(5);
+      //       // _setNavselection(2);
+      //     }/*() {
+      //     setState(() {
+      //       selectedNavItemPos = 2;
+      //     });
+      //     // navigateTo("/about", context);
+      //   },*/
+      // ),
+
+    ];
+
+  }
+  Widget _getDriverNavViews(int selection){
+    dev.log("selection -> ${selection}");
+    switch(selection){
+      case 0 : {
+        return DriverDashboard();
+        break;
+      }
+      case 1:{
+        // return AdminSchoolView();
+        return _getEmptyView();
+        break;
+      }
+      default:{
+        return _getEmptyView();
+      }
+    }
+
+
+    // return [
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.dashboard),
+    //     title: const Text('Dashboard'),
+    //     onTap: () {
+    //       // navigateTo("/home", context);
+    //       setState(() {
+    //         selectedNavItemPos = 0;
+    //       });
+    //     },
+    //   ),
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.school),
+    //     title: const Text('Schools'),
+    //     onTap: () {
+    //       setState(() {
+    //         selectedNavItemPos = 1;
+    //       });
+    //       // navigateTo("/about", context);
+    //     },
+    //   ),
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.supervisor_account),
+    //     title: const Text('Supervisors'),
+    //     onTap: () {
+    //       setState(() {
+    //         selectedNavItemPos = 2;
+    //       });
+    //       // navigateTo("/about", context);
+    //     },
+    //   ),
+    //
+    // ];
+
+
+    //   ListView(
+    //   padding: EdgeInsets.all(defaults.dimens.padding.none),
+    //   children: <Widget>[
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.dashboard),
+    //       title: const Text('Dashboard'),
+    //       onTap: () {
+    //         // navigateTo("/home", context);
+    //       },
+    //     ),
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.school),
+    //       title: const Text('Schools'),
+    //       onTap: () {
+    //         // navigateTo("/about", context);
+    //       },
+    //     ),
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.supervisor_account),
+    //       title: const Text('Supervisors'),
+    //       onTap: () {
+    //         // navigateTo("/about", context);
+    //       },
+    //     ),
+    //
+    //   ],
+    // );
+  }
+
+
+
+
 
   //General Footer Views
   _getFooterNavTree(){

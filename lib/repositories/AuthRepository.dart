@@ -50,6 +50,8 @@ class AuthRepository{
 
     }
     on DioException catch(e){
+      dev.log("dioException -> ${e}");
+      dev.log("dioException trace -> ${e.stackTrace}");
       onFailure!("${e.response?.statusMessage??"unknown error"}");
       // onFailure!(e.toString());
 
@@ -68,7 +70,7 @@ class AuthRepository{
     }
     catch(e){
       // e as DioException;
-      // dev.log("error -> ${e.toString()}");
+      // dev.log("error no dio exception -> ${e.toString()}");
       onFailure!(e.toString());
 
     }

@@ -1,6 +1,7 @@
 
 
 import 'package:SMV2/constants/valueConstants.dart';
+import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:developer' as dev;
@@ -30,11 +31,11 @@ class AppSession
   // {await sPref.clear();}
 
   // final CurrentUser currentUser = Get.find<CurrentUser>();
-  static const currentUser = const _CurrentUser();
+  static /*const*/ _CurrentUser currentUser = /*const*/ _CurrentUser();
 }
 
 class _CurrentUser{
-  const _CurrentUser();
+  /*const*/ _CurrentUser();
   // late final SharedPreferences spref_cu;
   // CurrentUser(this.spref_cu);
 
@@ -54,6 +55,7 @@ class _CurrentUser{
   //customs
   Future<bool> clear() async => (await _instance).clear();
 
+  // var userRole = UserRole.UNKNOWN.obs;
 
   handleCurrentUserData({
     required access_id,
@@ -68,13 +70,13 @@ class _CurrentUser{
     required last_name,
     required gender,
     required nic_number,
-    required email,
+    email,
     required contact1,
     contact2,
     required address,
-    required pic,
-    required longitude,
-    required latitude,
+    pic,
+    longitude,
+    latitude,
   })
   async
   {
@@ -91,13 +93,18 @@ class _CurrentUser{
     await _set_last_name(last_name);
     await _set_gender(gender);
     await _set_nic_number(nic_number);
-    await _set_email(email);
+    await _set_email(email??"");
     await _set_contact_1(contact1);
     await _set_contact_2(contact2??"");
     await _set_address(address);
-    await _set_pic(pic);
-    await _set_longitude(longitude);
-    await _set_latitude(latitude);
+    await _set_pic(pic??"");
+    await _set_longitude(longitude??"");
+    await _set_latitude(latitude??"");
+
+    // _userRole();
+    final appSessO = Get.find<AppSessionRX>();
+    appSessO.updUserRole();
+
   }
 
   //extras
@@ -108,64 +115,81 @@ class _CurrentUser{
 
     return (uid > 0) ? true : false;
   }
-  Future<UserRole> userRole()
-  async{
-    var labelId = await label_id();
-    // var convertedLID = 0;
-    //
-    if(labelId != null){
-    //   if(labelId == ""){
-    //     convertedLID = 0;
-    //   }else{
-    //     try{
-    //       convertedLID = int.parse(labelId);
-    //     }
-    //     catch(e){
-    //       dev.log("invalid String");
-    //     }
-    //   }
 
-
-
-      // switch(convertedLID)
-      switch(labelId)
-      {
-        case 1 :{
-          return UserRole.SADMIN;
-          break;
-        }
-
-        case 2 :{
-          return UserRole.ADMIN;
-          break;
-        }
-
-        case 3 :{
-          return UserRole.SUPERVISOR;
-          break;
-        }
-
-        case 4 :{
-          return UserRole.DRIVER;
-          break;
-        }
-
-        case 5 :{
-          return UserRole.PARENT;
-          break;
-        }
-
-        default:{
-          return UserRole.UNKNOWN;
-          break;
-        }
-      }
-    }else{
-      return UserRole.UNKNOWN;
-    }
-
-
-  }
+  /*Future<UserRole>*/
+  // _userRole()
+  // async{
+  //   dev.log("_userRole() -> init");
+  //   var labelId = await label_id();
+  //   // var convertedLID = 0;
+  //   //
+  //   if(labelId != null){
+  //   //   if(labelId == ""){
+  //   //     convertedLID = 0;
+  //   //   }else{
+  //   //     try{
+  //   //       convertedLID = int.parse(labelId);
+  //   //     }
+  //   //     catch(e){
+  //   //       dev.log("invalid String");
+  //   //     }
+  //   //   }
+  //
+  //
+  //     dev.log("_userRole() -> labelId -> ${labelId}");
+  //     // switch(convertedLID)
+  //     switch(labelId)
+  //     {
+  //       case 1 :{
+  //         // return UserRole.SADMIN;
+  //         dev.log("_userRole() -> is SA");
+  //         userRole(UserRole.SADMIN) ;
+  //         break;
+  //       }
+  //
+  //       case 2 :{
+  //         // return UserRole.ADMIN;
+  //         dev.log("_userRole() -> is AD");
+  //         userRole( UserRole.ADMIN);
+  //         break;
+  //       }
+  //
+  //       case 3 :{
+  //         dev.log("_userRole() -> is SU");
+  //         userRole(UserRole.SUPERVISOR);
+  //         // return UserRole.SUPERVISOR;
+  //         break;
+  //       }
+  //
+  //       case 4 :{
+  //         dev.log("_userRole() -> is DR");
+  //         userRole(UserRole.DRIVER);
+  //         // return UserRole.DRIVER;
+  //         break;
+  //       }
+  //
+  //       case 5 :{
+  //         dev.log("_userRole() -> is PR");
+  //         // return UserRole.PARENT;
+  //         userRole( UserRole.PARENT);
+  //         break;
+  //       }
+  //
+  //       default:{
+  //         dev.log("_userRole() -> is UK");
+  //         // return UserRole.UNKNOWN;
+  //         userRole(UserRole.UNKNOWN);
+  //         break;
+  //       }
+  //     }
+  //   }else{
+  //     dev.log("_userRole() -> is UK");
+  //     // return UserRole.UNKNOWN;
+  //     userRole(UserRole.UNKNOWN);
+  //   }
+  //
+  //
+  // }
 
   //access_id
   Future<void> _set_access_id(int access_id)=> setInt("access_id", access_id);

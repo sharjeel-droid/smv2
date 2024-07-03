@@ -11,3 +11,13 @@ enum UserRole{
   PARENT,
   UNKNOWN
 }
+
+enum VehicleTypes{
+  BUS,
+  COASTER,
+  HI_ACE,
+  HI_ROOF,
+  CAR,
+  RIKSHAW,
+  BIKE,
+}
