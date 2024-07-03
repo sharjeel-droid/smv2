@@ -5,44 +5,60 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
-
 class DriverDashboard extends StatelessWidget {
   // const DriverDashboard({super.key});
   DriverDashboard({Key? key}) : super(key: key);
 
-  final DriverDashboardViewModel _viewModel = Get.find<DriverDashboardViewModel>();
-
-
+  final DriverDashboardViewModel _viewModel =
+      Get.find<DriverDashboardViewModel>();
 
   @override
   Widget build(BuildContext context) {
     _viewModel.getDashboardDetails();
 
-    return Column(mainAxisSize: MainAxisSize.max,
+    var trip = 0;
+
+    return Column(
+      mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-
-        Obx(() =>
-            defaults.widget.flashCard(value: _viewModel.schools.value?.school_name ?? "~", title: "School Name"),
+        Obx(
+          () => defaults.widget.flashCard(
+              value: _viewModel.schools.value?.school_name ?? "~",
+              title: "School Name"),
         ),
-        Obx(() =>
-            defaults.widget.flashCard(value: "${_viewModel.vehicle.value?.vehicle_type ?? "~"} : ${_viewModel.vehicle.value?.reg_number ?? "~"}", title: "Vehicle"),
+        Obx(
+          () => defaults.widget.flashCard(
+              value:
+                  "${_viewModel.vehicle.value?.vehicle_type ?? "~"} : ${_viewModel.vehicle.value?.reg_number ?? "~"}",
+              title: "Vehicle"),
         ),
-        Obx(() =>
-          defaults.widget.flashCard(value: _viewModel.route.value?.route_title ?? "~", title: "Route")
-        ),
+        Obx(() => defaults.widget.flashCard(
+            value: _viewModel.route.value?.route_title ?? "~", title: "Route")),
         // Obx(() =>
-          defaults.widget.flashCardActionable(value: "No Trip Today", title: "Trips", onButtonPressed: () {
-
-            Fluttertoast.showToast(msg: "new trip");
-
-          },)
+        trip == 1
+            ? defaults.widget.flashCardActionable(
+                value: "Continue Trip",
+                title: "Trips",
+                buttonText: 'Continue',
+                buttonColor: Colors.black,
+                onButtonPressed: () {
+                  Fluttertoast.showToast(msg: "continue trip");
+                },
+              )
+            : defaults.widget.flashCardActionable(
+                value: "Start a New Trip",
+                title: "Trips",
+                buttonText: 'Start',
+                buttonColor: Colors.black,
+                onButtonPressed: () {
+                  Fluttertoast.showToast(msg: "Start a New Trip");
+                },
+              )
         // ),
-
-
-      ],);
-
+      ],
+    );
   }
 }
 

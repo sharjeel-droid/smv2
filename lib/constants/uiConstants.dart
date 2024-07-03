@@ -1,5 +1,3 @@
-
-
 import 'package:SMV2/utils/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 // import 'package:google_fonts/google_fonts.dart';
 
-class defaults{
+class defaults {
   //colors
   static const colors = const _color();
   //font
@@ -29,8 +27,9 @@ class defaults{
   //images
   static const images = _images();
 }
+
 //Color
-class _color{
+class _color {
   const _color();
 
   _argb get argb => _argb();
@@ -44,10 +43,9 @@ class _color{
   Color get WindowBg => Color(argb.white);
   Color get PrimaryText => Color(argb.black);
   Color get SecondaryText => Color(argb.white);
-
-
 }
-class _argb{
+
+class _argb {
   const _argb();
   int get yellow => 0XFFFFCA28;
   int get yellowXLight => 0XFFFDD835;
@@ -64,26 +62,26 @@ class _argb{
   int get green => 0XFF4CAF50;
   int get greenLight => 0XFF81C784;
 }
-class _grads{
+
+class _grads {
   const _grads();
 
   LinearGradient get bottomToTop_blackToOpaque => LinearGradient(
-    begin: Alignment.bottomCenter,
-      end: Alignment.topCenter,
-      colors: [
-        Color(defaults.colors.argb.black),
-        Colors.transparent,
-      ]);
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Color(defaults.colors.argb.black),
+            Colors.transparent,
+          ]);
 
   LinearGradient get bottomToTop_whiteToOpaque => LinearGradient(
-      begin: Alignment.bottomCenter,
-      end: Alignment.topCenter,
-      colors: [
-        Color(defaults.colors.argb.white),
-        Colors.transparent,
-        Colors.transparent,
-      ]);
-
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [
+            Color(defaults.colors.argb.white),
+            Colors.transparent,
+            Colors.transparent,
+          ]);
 
   // int get yellowXLight => 0XFFFDD835;
   // int get yellowLight => 0XFFFFCC80;
@@ -97,17 +95,19 @@ class _grads{
   // int get green => 0XFF4CAF50;
   // int get greenLight => 0XFF81C784;
 }
+
 //--//
 //Fonts
-class _font{
+class _font {
   const _font();
   _fontSize get size => _fontSize();
 
   //fonts
-  get monsterrat =>  GoogleFonts.montserrat().fontFamily;
+  get monsterrat => GoogleFonts.montserrat().fontFamily;
   // static var fontFamily = font.fontFamily;
 }
-class _fontSize{
+
+class _fontSize {
   const _fontSize();
 
   get micro => 10.0;
@@ -117,16 +117,17 @@ class _fontSize{
   get head => 26.0;
   get large => 32.0;
 }
+
 //--//
 //Dimens
-class _dimens{
+class _dimens {
   const _dimens();
 
   _paddings get padding => _paddings();
   _radius get cornerRadius => _radius();
-
 }
-class _paddings{
+
+class _paddings {
   const _paddings();
 
   get none => 0.0;
@@ -136,7 +137,8 @@ class _paddings{
   get x3 => 24.0;
   get x4 => 32.0;
 }
-class _radius{
+
+class _radius {
   const _radius();
 
   get none => 0.0;
@@ -146,12 +148,12 @@ class _radius{
   get x3 => 24.0;
   get x4 => 32.0;
 }
+
 //--//
 //Layouts
-class _layouts{
+class _layouts {
   const _layouts();
   get cards => _cards();
-
 
   // fullScreen(
   // {
@@ -168,12 +170,17 @@ class _layouts{
   //    );
   // }
 
-  withNavDrawer({String? title, required Widget bodyContent, Color? bgColor, List<Widget>? navigationDrawerItems, int? currentSelection,
-  }){
+  withNavDrawer({
+    String? title,
+    required Widget bodyContent,
+    Color? bgColor,
+    List<Widget>? navigationDrawerItems,
+    int? currentSelection,
+  }) {
     return _layoutWithNavDrawer().compose(
-        title:title??"",
-        bgColor: bgColor ?? defaults.colors.Primary,
-        bodyContent: bodyContent,
+      title: title ?? "",
+      bgColor: bgColor ?? defaults.colors.Primary,
+      bodyContent: bodyContent,
       navigationDrawerItems: navigationDrawerItems,
       currentSelection: currentSelection,
       // onAboutTap: onAboutTap,
@@ -182,18 +189,12 @@ class _layouts{
     );
   }
 
-  basic({required Widget bodyContent, Color? bgColor})
-  {
-    return
-      _basic().compose(
-        bgColor: bgColor ?? defaults.colors.Primary,
-          bodyContent: bodyContent
-     );
+  basic({required Widget bodyContent, Color? bgColor}) {
+    return _basic().compose(
+        bgColor: bgColor ?? defaults.colors.Primary, bodyContent: bodyContent);
   }
-
-
-
 }
+
 // class _fullScreen{
 //   _fullScreen(){
 //     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -226,95 +227,93 @@ class _layouts{
 //   }
 //
 // }
-class _basic{
+class _basic {
   _basic();
 
-  compose({required Color bgColor, required Widget bodyContent}/*{required Function() body}*/){
-
-    return Scaffold(
-      backgroundColor: bgColor,
-      body: bodyContent
-    );
+  compose(
+      {required Color bgColor,
+      required Widget bodyContent} /*{required Function() body}*/) {
+    return Scaffold(backgroundColor: bgColor, body: bodyContent);
   }
-
 }
-class _layoutWithNavDrawer{
+
+class _layoutWithNavDrawer {
   _layoutWithNavDrawer();
 
-  compose({required String title, required Color bgColor, List<Widget>? navigationDrawerItems, int? currentSelection,required Widget bodyContent}/*{required Function() body}*/){
-
+  compose(
+      {required String title,
+      required Color bgColor,
+      List<Widget>? navigationDrawerItems,
+      int? currentSelection,
+      required Widget bodyContent} /*{required Function() body}*/) {
     return Scaffold(
-        appBar: AppBar(title: Text(title),),
-        drawer: _navDrawers().light(navTreeList: navigationDrawerItems, currentSelection: currentSelection),
-        body: bodyContent
-    );
+        appBar: AppBar(
+          title: Text(title),
+        ),
+        drawer: _navDrawers().light(
+            navTreeList: navigationDrawerItems,
+            currentSelection: currentSelection),
+        body: bodyContent);
 
-
-    return Scaffold(
-        backgroundColor: bgColor,
-        body: bodyContent
-    );
+    return Scaffold(backgroundColor: bgColor, body: bodyContent);
   }
-
 }
 
-class _cards{
+class _cards {
   const _cards();
 
-  basic({Color? color, required Widget content}){
-    return _cardBasic().compose(color: color??Colors.white, content: content);
+  basic({Color? color, required Widget content}) {
+    return _cardBasic().compose(color: color ?? Colors.white, content: content);
   }
-  
-
-
 }
 
-class _cardBasic{
+class _cardBasic {
   const _cardBasic();
-  compose({required Color color, required Widget content}){
-
-    return Card(color: color,
+  compose({required Color color, required Widget content}) {
+    return Card(
+      color: color,
       margin: EdgeInsets.all(20.0),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(defaults.dimens.cornerRadius.def)
-      ),
-      child: Padding(padding: EdgeInsets.all(defaults.dimens.padding.def),
-        child:
-          content
-        // Column(
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   mainAxisSize: MainAxisSize.min,
-        //   children: [
-        //     content
-        //   ],
-        // )
-        // Row(
-        //   mainAxisAlignment: MainAxisAlignment.center,
-        //   children: [
-        //
-        //   content
-        //
-        // ],),
-      ),
+          borderRadius:
+              BorderRadius.circular(defaults.dimens.cornerRadius.def)),
+      child: Padding(
+          padding: EdgeInsets.all(defaults.dimens.padding.def), child: content
+          // Column(
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   mainAxisSize: MainAxisSize.min,
+          //   children: [
+          //     content
+          //   ],
+          // )
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.center,
+          //   children: [
+          //
+          //   content
+          //
+          // ],),
+          ),
     );
   }
 }
 
 //--//
 //widgets
-class _widgets{
+class _widgets {
   const _widgets();
 
-  circularProgIndicator({Color? color}){
-    return _circularProgressIndicator().compose(color: color??_argb().black.toColor());
+  circularProgIndicator({Color? color}) {
+    return _circularProgressIndicator()
+        .compose(color: color ?? _argb().black.toColor());
   }
 
-  emptySpace15dp(){
+  emptySpace15dp() {
     double size = 15.0;
     return SizedBox(
-        height: size,
-        width: size,);
+      height: size,
+      width: size,
+    );
   }
 
   _labels get label => _labels();
@@ -324,70 +323,119 @@ class _widgets{
   /*labelSimple({String? labelText}){
     return _labelSimple().compose(text: labelText??"Sample Text for SmartVan V2");
   }*/
-  imageSVG({String? imagePath, double? width, double? height}){
-    return _imageSvg().compose(imagePath: imagePath??"", w: width, h: height);
+  imageSVG({String? imagePath, double? width, double? height}) {
+    return _imageSvg().compose(imagePath: imagePath ?? "", w: width, h: height);
   }
+
   //dashboard flassh cards
-  flashCard({Color? color, Color? textColor, String? title, required String value}){
-    return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value);
+  flashCard(
+      {Color? color, Color? textColor, String? title, required String value}) {
+    return _cardFlash().compose(
+        color: color ?? Color(defaults.colors.argb.black),
+        textColor: textColor ?? Colors.white,
+        title: title ?? "",
+        value: value);
   }
-  flashCardActionable({Color? color, Color? textColor, String? title, required String value, Function()? onButtonPressed}){
-    return _cardFlash().compose(color: color??Color(defaults.colors.argb.black), textColor: textColor??Colors.white, title: title??"", value: value, onButtonPressed: onButtonPressed);
+
+  flashCardActionable(
+      {Color? color,
+      Color? textColor,
+      String? title,
+      required String value,
+      Function()? onButtonPressed,
+      String? buttonText,
+      Color? buttonColor}) {
+    return _cardFlash().compose(
+        color: color ?? Color(defaults.colors.argb.black),
+        textColor: textColor ?? Colors.white,
+        title: title ?? "",
+        value: value,
+        onButtonPressed: onButtonPressed,
+        buttonText: buttonText,
+        buttonColor: buttonColor);
   }
 }
-class _cardFlash{
+
+class _cardFlash {
   const _cardFlash();
-  compose({required Color color, required Color textColor, required String title, required String value, Function()? onButtonPressed = null}){
+  compose(
+      {required Color color,
+      required Color textColor,
+      required String title,
+      required String value,
+      Function()? onButtonPressed = null,
+      String? buttonText,
+      Color? buttonColor}) {
+    bool showAction = onButtonPressed != null;
 
-    bool showAction = onButtonPressed!=null;
-
-
-    return Card(color: color,
+    return Card(
+      color: color,
       margin: EdgeInsets.all(defaults.dimens.padding.def),
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(defaults.dimens.cornerRadius.def)
-      ),
-      child:
-      Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Center(child: Padding(
-          padding: EdgeInsets.only(top: defaults.dimens.padding.x2, bottom: defaults.dimens.padding.x2),
-          child: Text(value, style: TextStyle(color: textColor, fontSize: defaults.font.size.body, fontWeight: FontWeight.bold),),
-        ),),
-
-      Card(color: Color(defaults.colors.argb.white20),
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(defaults.dimens.cornerRadius.def)
-      ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
+          borderRadius:
+              BorderRadius.circular(defaults.dimens.cornerRadius.def)),
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(padding: EdgeInsets.only(top: defaults.dimens.padding.tiny,
-              bottom: defaults.dimens.padding.tiny),
-            child:
-            Row(
-              children: [
-                Text(title.toUpperCase(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),),
-                showAction ?
-                    ElevatedButton(onPressed: onButtonPressed, child: Text("start new", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: defaults.font.size.small),))
-                    : Container()
-
-
-              ],
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(
+                  top: defaults.dimens.padding.x2,
+                  bottom: defaults.dimens.padding.x2),
+              child: Text(
+                value,
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: defaults.font.size.body,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
-          )
+          ),
 
-        ],
-        )
-      ),
-        
-        
-        
-        /*Container(
+          Card(
+              color: Color(defaults.colors.argb.white20),
+              shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(defaults.dimens.cornerRadius.def)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        top: defaults.dimens.padding.tiny,
+                        bottom: defaults.dimens.padding.tiny),
+                    child: Row(
+                      children: [
+                        Text(
+                          title.toUpperCase(),
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: defaults.font.size.small),
+                        ),
+                        SizedBox(width: 10),
+                        showAction
+                            ? ElevatedButton(
+                                onPressed: onButtonPressed,
+                                child: Text(
+                                  buttonText ?? 'Button',
+                                  style: TextStyle(
+                                      color: buttonColor ?? Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: defaults.font.size.small),
+                                ))
+                            : Container()
+                      ],
+                    ),
+                  )
+                ],
+              )),
+
+          /*Container(
           color: Color(defaults.colors.argb.grey),
           child:
           Row(mainAxisSize: MainAxisSize.max,
@@ -397,122 +445,141 @@ class _cardFlash{
             Text(title)
           ],)
         )*/
-        
-        
-        
-        
-        // Expanded(child: Text(title, style: TextStyle(color: textColor, backgroundColor: Color(defaults.colors.argb.grey)),)),
-        // Row(mainAxisAlignment: MainAxisAlignment.center,
-        //   mainAxisSize: MainAxisSize.max,
-        //   crossAxisAlignment: CrossAxisAlignment.center,
-        //   children: [
-        //     Flexible(child: Text(title, style: TextStyle(color: textColor, backgroundColor: Color(defaults.colors.argb.grey)),),
-        //       flex: 1,),
-        // ],)
-      ],
-        ),
+
+          // Expanded(child: Text(title, style: TextStyle(color: textColor, backgroundColor: Color(defaults.colors.argb.grey)),)),
+          // Row(mainAxisAlignment: MainAxisAlignment.center,
+          //   mainAxisSize: MainAxisSize.max,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
+          //     Flexible(child: Text(title, style: TextStyle(color: textColor, backgroundColor: Color(defaults.colors.argb.grey)),),
+          //       flex: 1,),
+          // ],)
+        ],
+      ),
     );
   }
 }
-class _circularProgressIndicator{
+
+class _circularProgressIndicator {
   const _circularProgressIndicator();
-  compose({required Color color}){
+  compose({required Color color}) {
     var size = 15.0;
     var strokeWidth = 2.0;
     return SizedBox(
         height: size,
         width: size,
-        child: CircularProgressIndicator(color: color,
-        strokeWidth: strokeWidth,));
+        child: CircularProgressIndicator(
+          color: color,
+          strokeWidth: strokeWidth,
+        ));
   }
 }
-class _labels{
+
+class _labels {
   const _labels();
-  simple({String? labelText, Color? textColor, bool? isBold}){
-    return _labelSimple().compose(text: labelText??"Sample Text for SmartVan V2", textColor: textColor??defaults.colors.PrimaryText, isBold: isBold??false);
+  simple({String? labelText, Color? textColor, bool? isBold}) {
+    return _labelSimple().compose(
+        text: labelText ?? "Sample Text for SmartVan V2",
+        textColor: textColor ?? defaults.colors.PrimaryText,
+        isBold: isBold ?? false);
   }
-  small({String? labelText, bool? isBold, Color? textColor}){
-    return _labelSmall().compose(text: labelText??"Small Text for SmartVan V2", isBold: isBold??false, textColor: textColor??defaults.colors.PrimaryText);
+
+  small({String? labelText, bool? isBold, Color? textColor}) {
+    return _labelSmall().compose(
+        text: labelText ?? "Small Text for SmartVan V2",
+        isBold: isBold ?? false,
+        textColor: textColor ?? defaults.colors.PrimaryText);
   }
 }
-class _labelSimple{
+
+class _labelSimple {
   const _labelSimple();
-  compose({required String text, required Color textColor, required bool isBold}){
+  compose(
+      {required String text, required Color textColor, required bool isBold}) {
     return Text(
       text,
       style: TextStyle(
           fontSize: defaults.font.size.small,
           fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-        color: textColor
-      ),
+          color: textColor),
     );
   }
 }
-class _labelSmall{
+
+class _labelSmall {
   const _labelSmall();
-  compose({required String text, required bool isBold, required Color textColor}){
+  compose(
+      {required String text, required bool isBold, required Color textColor}) {
     return Text(
       text,
       style: TextStyle(
-          fontSize: defaults.font.size.micro,
-          fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+        fontSize: defaults.font.size.micro,
+        fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
         color: textColor,
       ),
     );
   }
 }
-class _imageSvg{
+
+class _imageSvg {
   const _imageSvg();
-  compose({required String imagePath, double? w, double? h}){
+  compose({required String imagePath, double? w, double? h}) {
     return SvgPicture.asset(
-        imagePath,
+      imagePath,
       width: w,
       height: h,
     );
   }
 }
-class _inputTexts{
+
+class _inputTexts {
   const _inputTexts();
 
-  simple({String? key,
-    String? initialValue, String? hint,
-    bool? isHiddenField,
-    String? Function(String?)? onError,
-    Function(String?)? onSaved})
-  {
-    return _inputTextSimple().compose(key: key??"",
-        text: initialValue??"",
-      hint: hint??"",
+  simple(
+      {String? key,
+      String? initialValue,
+      String? hint,
+      bool? isHiddenField,
+      String? Function(String?)? onError,
+      Function(String?)? onSaved}) {
+    return _inputTextSimple().compose(
+      key: key ?? "",
+      text: initialValue ?? "",
+      hint: hint ?? "",
       isHidden: isHiddenField ?? false,
-      onError: onError ?? (val)=>"",
-      onSaved: onSaved ?? (val)=>"",
+      onError: onError ?? (val) => "",
+      onSaved: onSaved ?? (val) => "",
     );
   }
 
-  floatingLabeled({String? key,
-    String? initialValue, String? hint,
-    bool? isHiddenField,
-    String? Function(String?)? onError,
-    Function(String?)? onSaved})
-  {
-    return _inputTextFloatingLabeled().compose(key: key??"",
-      text: initialValue??"",
-      hint: hint??"",
+  floatingLabeled(
+      {String? key,
+      String? initialValue,
+      String? hint,
+      bool? isHiddenField,
+      String? Function(String?)? onError,
+      Function(String?)? onSaved}) {
+    return _inputTextFloatingLabeled().compose(
+      key: key ?? "",
+      text: initialValue ?? "",
+      hint: hint ?? "",
       isHidden: isHiddenField ?? false,
-      onError: onError ?? (val)=>"",
-      onSaved: onSaved ?? (val)=>"",
+      onError: onError ?? (val) => "",
+      onSaved: onSaved ?? (val) => "",
     );
   }
 }
-class _inputTextSimple{
+
+class _inputTextSimple {
   const _inputTextSimple();
-  compose({required String key,
+  compose({
+    required String key,
     required String text,
     required String hint,
     required bool isHidden,
     required String? Function(String?) onError,
     required Function(String?) onSaved,
-  }){
+  }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -522,7 +589,8 @@ class _inputTextSimple{
             // textInputAction: TextInputAction.next,
             initialValue: text,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
               border: OutlineInputBorder(),
               // hintText: 'username'
 
@@ -533,10 +601,8 @@ class _inputTextSimple{
             obscureText: isHidden,
             key: Key(key),
             autofocus: true,
-            validator: (value){
-
+            validator: (value) {
               return onError(value);
-
 
               // if(value==null || value.isEmpty){
               //   // return 'value cannot be empty';
@@ -545,7 +611,7 @@ class _inputTextSimple{
               // // else {return true;}
               // return null;
             },
-            onSaved: (value){
+            onSaved: (value) {
               onSaved(value);
               // if(value != null)
               // {
@@ -558,15 +624,17 @@ class _inputTextSimple{
     );
   }
 }
-class _inputTextFloatingLabeled{
+
+class _inputTextFloatingLabeled {
   const _inputTextFloatingLabeled();
-  compose({required String key,
+  compose({
+    required String key,
     required String text,
     required String hint,
     required bool isHidden,
     required String? Function(String?) onError,
     required Function(String?) onSaved,
-  }){
+  }) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -576,7 +644,8 @@ class _inputTextFloatingLabeled{
             // textInputAction: TextInputAction.next,
             initialValue: text,
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
+              contentPadding:
+                  EdgeInsets.symmetric(vertical: 0.0, horizontal: 10.0),
               // border: OutlineInputBorder(),
               // hintText: 'username'
 
@@ -587,10 +656,8 @@ class _inputTextFloatingLabeled{
             obscureText: isHidden,
             key: Key(key),
             autofocus: true,
-            validator: (value){
-
+            validator: (value) {
               return onError(value);
-
 
               // if(value==null || value.isEmpty){
               //   // return 'value cannot be empty';
@@ -599,7 +666,7 @@ class _inputTextFloatingLabeled{
               // // else {return true;}
               // return null;
             },
-            onSaved: (value){
+            onSaved: (value) {
               onSaved(value);
               // if(value != null)
               // {
@@ -612,8 +679,9 @@ class _inputTextFloatingLabeled{
     );
   }
 }
+
 //CLICKABLES
-class _clickables{
+class _clickables {
   const _clickables();
 
   _buttons get buttons => _buttons();
@@ -631,151 +699,168 @@ class _clickables{
   //   );
   // }
 }
-class _buttons{
+
+class _buttons {
   const _buttons();
 
-  def({String? labelText,
-    Color? buttonColor,
-    Color? textColor,
-    Color? iconColor,
-    Function()? onPressed,
-    IconData? startIcon,
-    IconData? endIcon}){
-
-    return _buttonDef().compose(labelText: labelText??"click me",
-        buttonColor: buttonColor??defaults.colors.PrimaryDark,
-        textColor: textColor??Colors.black,
-        iconColor: iconColor??Colors.black,
+  def(
+      {String? labelText,
+      Color? buttonColor,
+      Color? textColor,
+      Color? iconColor,
+      Function()? onPressed,
+      IconData? startIcon,
+      IconData? endIcon}) {
+    return _buttonDef().compose(
+        labelText: labelText ?? "click me",
+        buttonColor: buttonColor ?? defaults.colors.PrimaryDark,
+        textColor: textColor ?? Colors.black,
+        iconColor: iconColor ?? Colors.black,
         iconStart: startIcon,
         iconEnd: endIcon,
-        onPressed: onPressed??(){});
-
+        onPressed: onPressed ?? () {});
   }
-  dark({String? labelText, Function()? onPressed, IconData? startIcon, IconData? endIcon}){
-    return def(labelText: labelText,
+
+  dark(
+      {String? labelText,
+      Function()? onPressed,
+      IconData? startIcon,
+      IconData? endIcon}) {
+    return def(
+        labelText: labelText,
         buttonColor: Color(defaults.colors.argb.black),
         textColor: Color(defaults.colors.argb.white),
         iconColor: Color(defaults.colors.argb.white),
-        startIcon:startIcon, endIcon:endIcon, onPressed:onPressed);
+        startIcon: startIcon,
+        endIcon: endIcon,
+        onPressed: onPressed);
   }
 }
-class _buttonDef{
+
+class _buttonDef {
   const _buttonDef();
-  compose({required String labelText,
-    required Function() onPressed,
-    required Color buttonColor,
-    required Color textColor,
-    Color? iconColor,
-    IconData? iconStart,
-    IconData? iconEnd}){
+  compose(
+      {required String labelText,
+      required Function() onPressed,
+      required Color buttonColor,
+      required Color textColor,
+      Color? iconColor,
+      IconData? iconStart,
+      IconData? iconEnd}) {
     return
-      // Expanded(
-      //   flex: 1,
-      //     child:
-      //   ElevatedButton(
-      //       onPressed: onPressed,
-      //       child: Text("click me")
-      //   )
-      // )
-      ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              backgroundColor: buttonColor
-          ),
-          onPressed: onPressed,
-          child:
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(child:
-
-              Stack(
-
-                children: [
-
-
-                  Center(
-                    child: Text(labelText.toUpperCase(),
-                      style: TextStyle(
-                          fontSize: defaults.font.size.tiny,
-                          fontWeight: FontWeight.bold,
-                          color: textColor //Color(defaults.colors.argb.white)
-                      ),),
-                  ),
-
-                  Positioned(right: 10.0,child:
-                    Icon(iconEnd, size: 16, color: iconColor/*Color(defaults.colors.argb.white)*/,),
-                  ),
-
-                  Positioned(left: 10.0,child:
-                    Icon(iconStart, size: 16, color: iconColor/*Color(defaults.colors.argb.white)*/,),
-                  )
-
-
-
-
-
-
-                ],
-          )
-
-              )
-
-            ],
-          )
-      )
-    ;
+        // Expanded(
+        //   flex: 1,
+        //     child:
+        //   ElevatedButton(
+        //       onPressed: onPressed,
+        //       child: Text("click me")
+        //   )
+        // )
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(backgroundColor: buttonColor),
+            onPressed: onPressed,
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: Stack(
+                  children: [
+                    Center(
+                      child: Text(
+                        labelText.toUpperCase(),
+                        style: TextStyle(
+                            fontSize: defaults.font.size.tiny,
+                            fontWeight: FontWeight.bold,
+                            color: textColor //Color(defaults.colors.argb.white)
+                            ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 10.0,
+                      child: Icon(
+                        iconEnd,
+                        size: 16,
+                        color: iconColor /*Color(defaults.colors.argb.white)*/,
+                      ),
+                    ),
+                    Positioned(
+                      left: 10.0,
+                      child: Icon(
+                        iconStart,
+                        size: 16,
+                        color: iconColor /*Color(defaults.colors.argb.white)*/,
+                      ),
+                    )
+                  ],
+                ))
+              ],
+            ));
   }
 }
 
 //Navigation Drawers
-class _navDrawers{
+class _navDrawers {
   const _navDrawers();
 
-  light({List? navTreeList, int? currentSelection, Function()? onAboutTap,Function()? onSettingsTap,Function()? onLogoutTap}){
-    return _navDrawerComposer().compose(navigationTreeList: navTreeList??[], currentSelection: currentSelection??0,
-    /*onAboutTap: onAboutTap??(){}, onSettingsTap: onSettingsTap??(){}, onLogoutTap: onLogoutTap??(){}*/);
+  light(
+      {List? navTreeList,
+      int? currentSelection,
+      Function()? onAboutTap,
+      Function()? onSettingsTap,
+      Function()? onLogoutTap}) {
+    return _navDrawerComposer().compose(
+      navigationTreeList: navTreeList ?? [],
+      currentSelection: currentSelection ??
+          0, /*onAboutTap: onAboutTap??(){}, onSettingsTap: onSettingsTap??(){}, onLogoutTap: onLogoutTap??(){}*/
+    );
   }
 }
 
-class _navDrawerComposer{
+class _navDrawerComposer {
   const _navDrawerComposer();
   //header
-  _drawerHeader(){
-    return DrawerHeader(child:
-    Stack(
-      fit: StackFit.expand,
-      children: [
-        defaults.images.navDrawerHeaderBg(),
-        Container(decoration: BoxDecoration(gradient: defaults.colors.gradients.bottomToTop_whiteToOpaque),),
-
-        Positioned(
-          left: 0.0,
-            bottom: 0.0,
-            child:
-            Padding(padding: EdgeInsets.all(defaults.dimens.padding.x3),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  defaults.images.avatars.def,
-                defaults.widget.label.simple(labelText: "Name Name", textColor: Color(defaults.colors.argb.white), isBold: true),
-                defaults.widget.label.small(labelText: "name@gmail.com",textColor: Color(defaults.colors.argb.white), isBold: true, ),
-              ],)
-
-            )
-        )
-
-      ],
-    ),
-    padding: EdgeInsets.zero,
-    /*decoration: BoxDecoration(
+  _drawerHeader() {
+    return DrawerHeader(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          defaults.images.navDrawerHeaderBg(),
+          Container(
+            decoration: BoxDecoration(
+                gradient: defaults.colors.gradients.bottomToTop_whiteToOpaque),
+          ),
+          Positioned(
+              left: 0.0,
+              bottom: 0.0,
+              child: Padding(
+                  padding: EdgeInsets.all(defaults.dimens.padding.x3),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      defaults.images.avatars.def,
+                      defaults.widget.label.simple(
+                          labelText: "Name Name",
+                          textColor: Color(defaults.colors.argb.white),
+                          isBold: true),
+                      defaults.widget.label.small(
+                        labelText: "name@gmail.com",
+                        textColor: Color(defaults.colors.argb.white),
+                        isBold: true,
+                      ),
+                    ],
+                  )))
+        ],
+      ),
+      padding: EdgeInsets.zero,
+      /*decoration: BoxDecoration(
       image: DecorationImage(image: AssetImage('assets/images/navDrawerBg.jpg'), fit: BoxFit.fill),
 
     ),*/
-
     );
   }
+
   //footer
   /*List<Widget> _drawerFooter({required Function() onAboutTap,required Function() onSettingsTap,required Function() onLogoutTap}){
     return [
@@ -801,23 +886,21 @@ class _navDrawerComposer{
     ];
   }*/
   //body
-  compose({required List navigationTreeList, required int currentSelection/*, required Function() onAboutTap,required Function() onSettingsTap,required Function() onLogoutTap*/}){
-
+  compose(
+      {required List navigationTreeList,
+      required int
+          currentSelection /*, required Function() onAboutTap,required Function() onSettingsTap,required Function() onLogoutTap*/}) {
     List<Widget> treeItems = [
       _drawerHeader(),
     ];
     //adding nav items params
-    for(var i = 0; i < navigationTreeList.length; i++){
-
-      if(i == currentSelection){
-
-        treeItems.add( _highlightedNavListTile(navigationTreeList[i] as ListTile) );
-
-      }else{
+    for (var i = 0; i < navigationTreeList.length; i++) {
+      if (i == currentSelection) {
+        treeItems
+            .add(_highlightedNavListTile(navigationTreeList[i] as ListTile));
+      } else {
         treeItems.add(navigationTreeList[i]);
       }
-
-
     }
 
     //adding footer widgets
@@ -828,16 +911,12 @@ class _navDrawerComposer{
 
     return SafeArea(
       child: Drawer(
-        child:
-        ListView.builder(
-          padding: EdgeInsets.zero,
-          itemCount: treeItems.length,
-          itemBuilder: (context, index) => treeItems[index]
-        )
+          child: ListView.builder(
+              padding: EdgeInsets.zero,
+              itemCount: treeItems.length,
+              itemBuilder: (context, index) => treeItems[index])
 
-
-
-        /*ListView(
+          /*ListView(
           padding: EdgeInsets.all(defaults.dimens.padding.none),
           children: <Widget>[
             _drawerHeader(),
@@ -888,21 +967,17 @@ class _navDrawerComposer{
             // _drawerFooter()
           ],
         ),*/
-      ),
+          ),
     );
   }
 
-  _highlightedNavListTile(ListTile listTile){
-
-
+  _highlightedNavListTile(ListTile listTile) {
     var selectionColor = Color(defaults.colors.argb.black);
-    
+
     // var leadIcon = Icon((listTile.leading as Icon).icon, color: selectionColor);
-    var title = Text(
-      (listTile.title as Text).data??"",
-      style: TextStyle(color: selectionColor, fontWeight: FontWeight.bold)
-    );
-    
+    var title = Text((listTile.title as Text).data ?? "",
+        style: TextStyle(color: selectionColor, fontWeight: FontWeight.bold));
+
     return ListTile(
       leading: Icon(Icons.arrow_forward_ios),
       // leading: leadIcon,
@@ -915,65 +990,74 @@ class _navDrawerComposer{
 }
 
 /////////////////clickabletext
-class _clickableText{
+class _clickableText {
   const _clickableText();
 
-  simple({String? labelText, Function()? onPressed}){
-    return _clickableTextSimple().compose(labelText: labelText??"clickable text", onPressed: onPressed??(){});
+  simple({String? labelText, Function()? onPressed}) {
+    return _clickableTextSimple().compose(
+        labelText: labelText ?? "clickable text",
+        onPressed: onPressed ?? () {});
   }
 }
-class _clickableTextSimple{
+
+class _clickableTextSimple {
   const _clickableTextSimple();
-  compose({required String labelText, required Function() onPressed}){
-    return
-      GestureDetector(
-        onTap: onPressed,
-        child: Text(labelText, style: TextStyle(
-          decoration: TextDecoration.underline,
-          fontSize: defaults.font.size.tiny,
-          fontWeight: FontWeight.bold
-        ),),
-      )
-    ;
+  compose({required String labelText, required Function() onPressed}) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Text(
+        labelText,
+        style: TextStyle(
+            decoration: TextDecoration.underline,
+            fontSize: defaults.font.size.tiny,
+            fontWeight: FontWeight.bold),
+      ),
+    );
   }
 }
 //--//
 
 //Images
-class _images{
+class _images {
   const _images();
   _imagePaths get path => _imagePaths();
   _avatarImages get avatars => _avatarImages();
 
-  logoMain(){
+  logoMain() {
     return _logoMain().compose();
   }
-  logoSmall(){
+
+  logoSmall() {
     return _logoSmall().compose();
   }
-  navDrawerHeaderBg(){
+
+  navDrawerHeaderBg() {
     return _navigationDrawerHeaderBackground().compose();
   }
 }
-class _imagePaths{
+
+class _imagePaths {
   const _imagePaths();
   get logo => 'assets/vectors/logo_main.svg';
   // get avtMale => 'assets/vectors/ic_avt_male.svg';
   get navDrawerHeaderBg => 'assets/images/navDrawerBg.jpg';
   get avtMaleDef => 'assets/images/ic_avt_male_def.jpg';
 }
-class _avatarImages{
+
+class _avatarImages {
   const _avatarImages();
   // get def => CircleAvatar(backgroundImage: AssetImage(defaults.images.path.avtMale),);
-  get def => CircleAvatar(backgroundImage: AssetImage(defaults.images.path.avtMaleDef),);
+  get def => CircleAvatar(
+        backgroundImage: AssetImage(defaults.images.path.avtMaleDef),
+      );
 }
-class _logoMain{
+
+class _logoMain {
   const _logoMain();
-  compose(){
+  compose() {
     double w = 120;
-    return defaults.widget.imageSVG(imagePath: defaults.images.path.logo, width : w, height : w);
-
-
+    return defaults.widget
+        .imageSVG(imagePath: defaults.images.path.logo, width: w, height: w);
 
     // const h = 100.0;
     // return SizedBox(
@@ -982,13 +1066,13 @@ class _logoMain{
     // );
   }
 }
-class _logoSmall{
+
+class _logoSmall {
   const _logoSmall();
-  compose(){
+  compose() {
     double w = 60;
-    return defaults.widget.imageSVG(imagePath: defaults.images.path.logo, width : w, height : w);
-
-
+    return defaults.widget
+        .imageSVG(imagePath: defaults.images.path.logo, width: w, height: w);
 
     // const h = 100.0;
     // return SizedBox(
@@ -997,10 +1081,14 @@ class _logoSmall{
     // );
   }
 }
-class _navigationDrawerHeaderBackground{
+
+class _navigationDrawerHeaderBackground {
   const _navigationDrawerHeaderBackground();
-  compose(){
-    return Image.asset(defaults.images.path.navDrawerHeaderBg, fit: BoxFit.fill,);
+  compose() {
+    return Image.asset(
+      defaults.images.path.navDrawerHeaderBg,
+      fit: BoxFit.fill,
+    );
   }
 }
 //--//
