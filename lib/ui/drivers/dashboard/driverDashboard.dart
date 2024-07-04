@@ -16,7 +16,7 @@ class DriverDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     _viewModel.getDashboardDetails();
 
-    var trip = 0;
+    var trip = 1;
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -40,8 +40,8 @@ class DriverDashboard extends StatelessWidget {
         trip == 1
             ? defaults.widget.flashCardActionable(
                 value: "Continue Trip",
-                title: "Trips",
-                buttonText: 'Continue',
+                title: "TRIPS",
+                buttonText: 'CONTINUE TRIP',
                 buttonColor: Colors.black,
                 onButtonPressed: () {
                   Fluttertoast.showToast(msg: "continue trip");
@@ -49,8 +49,8 @@ class DriverDashboard extends StatelessWidget {
               )
             : defaults.widget.flashCardActionable(
                 value: "Start a New Trip",
-                title: "Trips",
-                buttonText: 'Start',
+                title: "TRIPS",
+                buttonText: 'NEW TRIP',
                 buttonColor: Colors.black,
                 onButtonPressed: () {
                   Fluttertoast.showToast(msg: "Start a New Trip");

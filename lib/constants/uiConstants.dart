@@ -395,45 +395,57 @@ class _cardFlash {
           ),
 
           Card(
-              color: Color(defaults.colors.argb.white20),
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(defaults.dimens.cornerRadius.def)),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
+            color: Color(defaults.colors.argb.white20),
+            shape: RoundedRectangleBorder(
+              borderRadius:
+                  BorderRadius.circular(defaults.dimens.cornerRadius.def),
+            ),
+            child: Padding(
+              padding: EdgeInsets.all(defaults.dimens.padding.def),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: defaults.dimens.padding.tiny,
-                        bottom: defaults.dimens.padding.tiny),
-                    child: Row(
-                      children: [
-                        Text(
-                          title.toUpperCase(),
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: defaults.font.size.small),
+                  Material(
+                    borderRadius: BorderRadius.circular(
+                        12), // Adjust the radius as needed
+                    color:
+                        Color(0xFF8F8F8F), // Background color for the Material
+                    child: Container(
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      child: Text(
+                        title.toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: defaults.font.size.small,
                         ),
-                        SizedBox(width: 10),
-                        showAction
-                            ? ElevatedButton(
-                                onPressed: onButtonPressed,
-                                child: Text(
-                                  buttonText ?? 'Button',
-                                  style: TextStyle(
-                                      color: buttonColor ?? Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: defaults.font.size.small),
-                                ))
-                            : Container()
-                      ],
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                  )
+                  ),
+                  SizedBox(height: 10), // Spacing between text and button
+                  if (showAction)
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: onButtonPressed,
+                        child: Text(
+                          buttonText ?? 'Button',
+                          style: TextStyle(
+                            color: buttonColor ?? Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: defaults.font.size.small,
+                          ),
+                        ),
+                      ),
+                    ),
                 ],
-              )),
+              ),
+            ),
+          ),
 
           /*Container(
           color: Color(defaults.colors.argb.grey),
