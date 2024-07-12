@@ -1,3 +1,4 @@
+import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ class DriverDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     _viewModel.getDashboardDetails();
 
-    var trip = 1;
+    var trip = 0;
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -45,6 +46,7 @@ class DriverDashboard extends StatelessWidget {
                 buttonColor: Colors.black,
                 onButtonPressed: () {
                   Fluttertoast.showToast(msg: "continue trip");
+                  navigate().toGoogleMap();
                 },
               )
             : defaults.widget.flashCardActionable(
@@ -54,6 +56,7 @@ class DriverDashboard extends StatelessWidget {
                 buttonColor: Colors.black,
                 onButtonPressed: () {
                   Fluttertoast.showToast(msg: "Start a New Trip");
+                  navigate().toGoogleMap();
                 },
               )
         // ),

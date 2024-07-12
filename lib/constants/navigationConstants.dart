@@ -6,6 +6,7 @@ import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardView.dart';
 import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
+import 'package:SMV2/ui/maps/googleMapView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
@@ -13,7 +14,8 @@ import 'package:retrofit/retrofit.dart';
 import '../ui/about/aboutView.dart';
 import '../ui/login/loginView.dart';
 import '../ui/settings/settingsView.dart';
-class navigate{
+
+class navigate {
   const navigate();
 
   static String initialRoute = _splash().routeName();
@@ -24,42 +26,54 @@ class navigate{
     GetPage(name: _home().routeName(), page: () => _home().routePage()),
     GetPage(name: _about().routeName(), page: () => _about().routePage()),
     GetPage(name: _settings().routeName(), page: () => _settings().routePage()),
+    GetPage(
+        name: _googleMap().routeName(), page: () => _googleMap().routePage()),
   ];
 
+  toLogin(/*{required context}*/) {
+    Get.off(_login().routePage());
+  }
 
-   toLogin(/*{required context}*/){
-     Get.off(_login().routePage());
-   }
-   toHome(/*{required context}*/){
-     Get.off(_home().routePage());
-   }
-   toAbout(/*{required context}*/){
-     // dev.log('navigating to about page');
-     Get.to(_about().routePage());
-   }
-   toSettings(/*{required context}*/){
-     Get.to(_settings().routePage());
-   }
-   toSchoolWizard(/*{required context}*/){
-     Get.to(_schoolWizard().routePage());
-   }
-   toAddressPicker(/*{required context}*/){
-     Get.to(_addressPicker().routePage());
-   }
-   toStudentWizard(/*{required context}*/){
-     Get.to(_studentWizard().routePage());
-   }
-   toVanWizard(/*{required context}*/){
-     Get.to(_vanWizard().routePage());
-   }
-   back(/*{required context}*/){
-     Get.back();//to(_schoolWizard().routePage());
-   }
+  toHome(/*{required context}*/) {
+    Get.off(_home().routePage());
+  }
 
+  toAbout(/*{required context}*/) {
+    // dev.log('navigating to about page');
+    Get.to(_about().routePage());
+  }
+
+  toSettings(/*{required context}*/) {
+    Get.to(_settings().routePage());
+  }
+
+  toSchoolWizard(/*{required context}*/) {
+    Get.to(_schoolWizard().routePage());
+  }
+
+  toAddressPicker(/*{required context}*/) {
+    Get.to(_addressPicker().routePage());
+  }
+
+  toStudentWizard(/*{required context}*/) {
+    Get.to(_studentWizard().routePage());
+  }
+
+  toVanWizard(/*{required context}*/) {
+    Get.to(_vanWizard().routePage());
+  }
+
+  toGoogleMap(/*{required context}*/) {
+    Get.to(_googleMap().routePage());
+  }
+
+  back(/*{required context}*/) {
+    Get.back(); //to(_schoolWizard().routePage());
+  }
 }
 
 //get x navigation
-class _splash implements getXNavGetter{
+class _splash implements getXNavGetter {
   @override
   String routeName() {
     return "/";
@@ -69,9 +83,21 @@ class _splash implements getXNavGetter{
   routePage() {
     return SplashView();
   }
-
 }
-class _login implements getXNavGetter{
+
+class _googleMap implements getXNavGetter {
+  @override
+  String routeName() {
+    return "/map";
+  }
+
+  @override
+  Widget routePage() {
+    return GoogleMapView();
+  }
+}
+
+class _login implements getXNavGetter {
   _login();
 
   @override
@@ -83,9 +109,9 @@ class _login implements getXNavGetter{
   String routeName() {
     return "/login";
   }
-
 }
-class _home implements getXNavGetter{
+
+class _home implements getXNavGetter {
   @override
   String routeName() {
     return "/home";
@@ -95,9 +121,9 @@ class _home implements getXNavGetter{
   routePage() {
     return NavigationDrawerView();
   }
-
 }
-class _about implements getXNavGetter{
+
+class _about implements getXNavGetter {
   @override
   String routeName() {
     return '/about';
@@ -107,9 +133,9 @@ class _about implements getXNavGetter{
   Widget routePage() {
     return AboutView();
   }
-
 }
-class _settings implements getXNavGetter{
+
+class _settings implements getXNavGetter {
   @override
   String routeName() {
     return "/settings";
@@ -119,9 +145,9 @@ class _settings implements getXNavGetter{
   Widget routePage() {
     return SettingsView();
   }
-
 }
-class _schoolWizard implements getXNavGetter{
+
+class _schoolWizard implements getXNavGetter {
   @override
   String routeName() {
     return "/schoolWizard";
@@ -131,9 +157,9 @@ class _schoolWizard implements getXNavGetter{
   Widget routePage() {
     return AddSchoolWizardView();
   }
-
 }
-class _addressPicker implements getXNavGetter{
+
+class _addressPicker implements getXNavGetter {
   @override
   String routeName() {
     return "/addressPicker";
@@ -143,10 +169,9 @@ class _addressPicker implements getXNavGetter{
   Widget routePage() {
     return AddressPickerView();
   }
-
 }
 
-class _studentWizard implements getXNavGetter{
+class _studentWizard implements getXNavGetter {
   @override
   String routeName() {
     return "/studentWizard";
@@ -156,9 +181,9 @@ class _studentWizard implements getXNavGetter{
   Widget routePage() {
     return StudentWizardView();
   }
-
 }
-class _vanWizard implements getXNavGetter{
+
+class _vanWizard implements getXNavGetter {
   @override
   String routeName() {
     return "/vanWizard";
@@ -168,10 +193,9 @@ class _vanWizard implements getXNavGetter{
   Widget routePage() {
     return VanWizardView();
   }
-
 }
 
-abstract class getXNavGetter{
+abstract class getXNavGetter {
   String routeName();
   Widget routePage();
 }

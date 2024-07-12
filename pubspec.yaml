@@ -44,6 +44,8 @@ dependencies:
   shared_preferences: ^2.2.2
   fluttertoast: ^8.2.4
   icons_launcher: ^2.1.7
+  google_maps_flutter: ^2.5.0
+  intl: ^0.17.0
 #  google_maps_flutter: ^2.2.8
 #  google_places_flutter: ^2.0.8
 
@@ -78,6 +80,7 @@ flutter:
     - assets/vectors/ic_avt_male.svg
     - assets/images/navDrawerBg.jpg
     - assets/images/ic_avt_male_def.jpg
+    - assets/images/def_student.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
