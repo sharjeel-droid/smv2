@@ -21,7 +21,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
       'parent': 'parent A',
       'contact': '123456789',
       'status': 'Next',
-      'image': 'https://via.placeholder.com/150',
+      'image': 'assets/images/def_student.png',
     },
     {
       'name': 'Student B',
@@ -29,7 +29,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
       'parent': 'parent B',
       'contact': '123456789',
       'status': 'Waiting',
-      'image': 'https://via.placeholder.com/150',
+      'image': 'assets/images/def_student.png',
     },
     {
       'name': 'Student C',
@@ -37,7 +37,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
       'parent': 'parent C',
       'contact': '123456789',
       'status': 'PickedUp',
-      'image': 'https://via.placeholder.com/150',
+      'image': 'assets/images/def_student.png',
     },
     {
       'name': 'Student D',
@@ -45,7 +45,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
       'parent': 'parent D',
       'contact': '123456789',
       'status': 'Absent',
-      'image': 'https://via.placeholder.com/150',
+      'image': 'assets/images/def_student.png',
     },
   ];
 
@@ -62,9 +62,6 @@ class _GoogleMapViewState extends State<GoogleMapView> {
     int remainingStudents = totalStudents - pickedStudents - absentStudents;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('SVM'),
-      ),
       body: Stack(
         children: [
           const GoogleMap(
@@ -167,7 +164,7 @@ class _GoogleMapViewState extends State<GoogleMapView> {
           child: Row(
             children: [
               ClipOval(
-                child: Image.network(
+                child: Image.asset(
                   student['image']!,
                   width: 50,
                   height: 50,
