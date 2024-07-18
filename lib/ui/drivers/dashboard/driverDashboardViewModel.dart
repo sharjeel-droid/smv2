@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'dart:developer' as dev;
 
 import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/state_manager.dart';
 
 
 class DriverDashboardViewModel extends GetxController{
@@ -24,6 +26,8 @@ class DriverDashboardViewModel extends GetxController{
   Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
   Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
   Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
+  RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
+  RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
 
 
 
@@ -59,13 +63,20 @@ getDashboardDetails() async
           schools(null);
           vehicle(null);
           route(null);
+          tripActive(null);
+          tripToday(null);
         }else{
 
           schools(data.school);
           vehicle(data.vehicle);
           route(data.route);
+          tripActive(data.trips!.active);
+          tripToday(data.trips!.today);
 
         }
+
+        dev.log("tripActive -> ${tripActive.value.length}");
+        dev.log("tripToday -> ${tripToday.value.length}");
 
         isProcessing(false);
       },
@@ -92,7 +103,7 @@ getDashboardDetails() async
 
 bool shouldShowNewTripAction(){
 
-  return (route!=null);
+  return (tripActive!=null);
 
 }
 

@@ -21,8 +21,9 @@ class DcDriverDashDataDomainModel{
   DcDriverDashDataSchoolDomainModel? school;
   DcDriverDashDataVehicleDomainModel? vehicle;
   DcDriverDashDataRouteDomainModel? route;
+  DcDriverDashDataTripDomainModel? trips;
 
-  DcDriverDashDataDomainModel({this.school, this.vehicle, this.route});
+  DcDriverDashDataDomainModel({this.school, this.vehicle, this.route, this.trips});
 
   factory DcDriverDashDataDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataDomainModelFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataDomainModelToJson(this);
@@ -70,4 +71,33 @@ class DcDriverDashDataRouteDomainModel{
 
   factory DcDriverDashDataRouteDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataRouteDomainModelFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataRouteDomainModelToJson(this);
+}
+
+@JsonSerializable()
+class DcDriverDashDataTripDomainModel{
+  List<DcDriverDashDataTripDetsDomainModel>? today;
+  List<DcDriverDashDataTripDetsDomainModel>? active;
+
+  DcDriverDashDataTripDomainModel({required this.today, this.active});
+
+  factory DcDriverDashDataTripDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripDomainModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DcDriverDashDataTripDomainModelToJson(this);
+}
+
+
+
+
+@JsonSerializable()
+class DcDriverDashDataTripDetsDomainModel{
+  // int num_of_records;
+  int trip_id;
+  String? trip_course;
+  String? time_start;
+  String? time_end;
+  String? status;
+
+  DcDriverDashDataTripDetsDomainModel({required this.trip_id, this.trip_course, this.time_start, this.time_end, this.status});
+
+  factory DcDriverDashDataTripDetsDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripDetsDomainModelFromJson(json);
+  Map<String, dynamic> toJson() => _$DcDriverDashDataTripDetsDomainModelToJson(this);
 }
