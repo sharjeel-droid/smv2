@@ -264,31 +264,30 @@ class _DataCentreApi implements DataCentreApi {
   }
 
   @override
-  Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>>
-      activeTripsForDriver(int driver_id) async {
+  Future<HttpResponse<ApiResponseNetworkEntity>> activeTripsForDriver(
+      int driver_id) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'driver_id': driver_id};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<DCDriverDashApiResponseNetworkEntity>>(
-            Options(
+        _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
     )
-                .compose(
-                  _dio.options,
-                  'dc/getactivetripsfordriver',
-                  queryParameters: queryParameters,
-                  data: _data,
-                )
-                .copyWith(
-                    baseUrl: _combineBaseUrls(
-                  _dio.options.baseUrl,
-                  baseUrl,
-                ))));
-    final value = DCDriverDashApiResponseNetworkEntity.fromJson(_result.data!);
+            .compose(
+              _dio.options,
+              'dc/getactivetripsfordriver',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponseNetworkEntity.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }

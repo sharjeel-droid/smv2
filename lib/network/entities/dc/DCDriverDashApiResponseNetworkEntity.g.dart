@@ -40,6 +40,10 @@ DcDriverDashDataNetworkEntity _$DcDriverDashDataNetworkEntityFromJson(
           ? null
           : DcDriverDashDataRouteNetworkEntity.fromJson(
               json['route'] as Map<String, dynamic>),
+      trips: json['trips'] == null
+          ? null
+          : DcDriverDashDataTripNetworkEntity.fromJson(
+              json['trips'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DcDriverDashDataNetworkEntityToJson(
@@ -48,6 +52,7 @@ Map<String, dynamic> _$DcDriverDashDataNetworkEntityToJson(
       'school': instance.school,
       'vehicle': instance.vehicle,
       'route': instance.route,
+      'trips': instance.trips,
     };
 
 DcDriverDashDataSchoolNetworkEntity
@@ -100,4 +105,45 @@ Map<String, dynamic> _$DcDriverDashDataRouteNetworkEntityToJson(
       'route_title': instance.route_title,
       'time_start_approx': instance.time_start_approx,
       'time_end_approx': instance.time_end_approx,
+    };
+
+DcDriverDashDataTripNetworkEntity _$DcDriverDashDataTripNetworkEntityFromJson(
+        Map<String, dynamic> json) =>
+    DcDriverDashDataTripNetworkEntity(
+      today: (json['today'] as List<dynamic>?)
+          ?.map((e) => DcDriverDashDataTripDetsNetworkEntity.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      active: (json['active'] as List<dynamic>?)
+          ?.map((e) => DcDriverDashDataTripDetsNetworkEntity.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$DcDriverDashDataTripNetworkEntityToJson(
+        DcDriverDashDataTripNetworkEntity instance) =>
+    <String, dynamic>{
+      'today': instance.today,
+      'active': instance.active,
+    };
+
+DcDriverDashDataTripDetsNetworkEntity
+    _$DcDriverDashDataTripDetsNetworkEntityFromJson(
+            Map<String, dynamic> json) =>
+        DcDriverDashDataTripDetsNetworkEntity(
+          trip_id: json['trip_id'] as int,
+          trip_course: json['trip_course'] as String?,
+          time_start: json['time_start'] as String?,
+          time_end: json['time_end'] as String?,
+          status: json['status'] as String?,
+        );
+
+Map<String, dynamic> _$DcDriverDashDataTripDetsNetworkEntityToJson(
+        DcDriverDashDataTripDetsNetworkEntity instance) =>
+    <String, dynamic>{
+      'trip_id': instance.trip_id,
+      'trip_course': instance.trip_course,
+      'time_start': instance.time_start,
+      'time_end': instance.time_end,
+      'status': instance.status,
     };

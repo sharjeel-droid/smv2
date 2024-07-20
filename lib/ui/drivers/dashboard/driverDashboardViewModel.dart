@@ -1,4 +1,5 @@
 import 'package:SMV2/constants/apiConstants.dart';
+import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
@@ -28,6 +29,7 @@ class DriverDashboardViewModel extends GetxController{
   Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
   RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
   RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
+  // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
 
 
@@ -100,6 +102,67 @@ getDashboardDetails() async
 
 
 }
+/*
+getActiveTrips() async
+{
+
+  isProcessing(true);
+
+  // schools(["asd", "123", "523"]);
+
+  int driverId = await AppSession.currentUser.user_id() as int;
+  // int userId = 1;
+
+
+  dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER}");
+  dev.log("request getActiveTrips; params -> {driver_id:${driverId}}");
+
+  repo
+      .getDriverActiveTrips(
+      driverId ,
+      onSuccess: (response)
+      // async
+      {
+        // dev.log("on success -> ${response.success}");
+        dev.log("response -> ${response.toJson()}");
+        // dev.log("response.data -> ${response.data!.toJson()}");
+
+        var data = response;
+
+        if(data == null){
+          Fluttertoast.showToast(msg: "no Data Found");
+          activeTripDetails(null);
+        }else{
+
+          activeTripDetails(data.trip);
+
+        }
+
+        dev.log("tripActive -> ${tripActive.value.length}");
+        dev.log("tripToday -> ${tripToday.value.length}");
+
+        isProcessing(false);
+      },
+      onFailure: (errorMsg){
+        dev.log("error message -> ${errorMsg}");
+        isProcessing(false);
+        Fluttertoast.showToast(
+            msg: "Error in fethcing dashboard details",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      });
+
+
+
+
+
+
+}*/
 
 bool shouldShowNewTripAction(){
 

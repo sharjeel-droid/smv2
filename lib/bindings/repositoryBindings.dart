@@ -1,5 +1,6 @@
 import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
+import 'package:SMV2/network/entities/ApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCDriverDashApiResponseNetworkMapper.dart';
@@ -17,6 +18,7 @@ class RepositoryBindings extends Bindings{
   @override
   void dependencies() {
     //mappers
+    Get.put(ApiResponseNetworkMapper());
     Get.put(LoginApiResponseNetworkMapper());
     Get.put(DCApiResponseNetworkMapper());
     Get.put(DCnewSchoolApiResponseNetworkMapper());
@@ -28,6 +30,7 @@ class RepositoryBindings extends Bindings{
     //repo
     Get.put(AuthRepository(Get.find<AuthApi>(), Get.find<LoginApiResponseNetworkMapper>()));
     Get.put(DataCentreRepository(Get.find<DataCentreApi>(),
+        Get.find<ApiResponseNetworkMapper>(),
         Get.find<DCApiResponseNetworkMapper>(),
         Get.find<DCnewSchoolApiResponseNetworkMapper>(),
         Get.find<DCStdDetApiResponseNetworkMapper>(),
