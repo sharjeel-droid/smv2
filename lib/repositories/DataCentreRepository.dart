@@ -1,5 +1,6 @@
 
 
+import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
@@ -11,6 +12,8 @@ import 'package:SMV2/domain/models/dc/DCnewVanApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
+import 'package:SMV2/network/entities/ApiResponseNetworkEntity.dart';
+import 'package:SMV2/network/entities/ApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkMapper.dart';
 import 'package:SMV2/network/entities/dc/DCApiResponseNetworkMapper.dart';
@@ -36,6 +39,7 @@ import '../network/entities/dc/DCnewSchoolApiResponseNetworkMapper.dart';
 
 class DataCentreRepository{
   final DataCentreApi api;
+  final ApiResponseNetworkMapper mapper_base;
   final DCApiResponseNetworkMapper mapper;
   final DCnewSchoolApiResponseNetworkMapper mapper_newSchool;
   final DCStdDetApiResponseNetworkMapper mapper_students;
@@ -43,7 +47,7 @@ class DataCentreRepository{
   final DCVanDetApiResponseNetworkMapper mapper_van;
   final DCnewVanApiResponseNetworkMapper mapper_newVan;
   final DCDriverDashApiResponseNetworkMapper mapper_driverDash;
-  DataCentreRepository(this.api, this.mapper,
+  DataCentreRepository(this.api, this.mapper_base, this.mapper,
       this.mapper_newSchool, this.mapper_students,
       this.mapper_newStudents, this.mapper_van, this.mapper_newVan,
       this.mapper_driverDash);
@@ -468,6 +472,45 @@ class DataCentreRepository{
       if(resp.success == 1){
         if(resp!=null){
           onSuccess!(this.mapper_driverDash.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
+  getDriverActiveTrips(int driver_id, {Function(DcDriverActiveTripsDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> driver_id : ${driver_id}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.activeTripsForDriver(driver_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
         }
 
       }else{

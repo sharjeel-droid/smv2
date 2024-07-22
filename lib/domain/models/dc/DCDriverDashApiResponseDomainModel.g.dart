@@ -40,6 +40,10 @@ DcDriverDashDataDomainModel _$DcDriverDashDataDomainModelFromJson(
           ? null
           : DcDriverDashDataRouteDomainModel.fromJson(
               json['route'] as Map<String, dynamic>),
+      trips: json['trips'] == null
+          ? null
+          : DcDriverDashDataTripDomainModel.fromJson(
+              json['trips'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DcDriverDashDataDomainModelToJson(
@@ -48,6 +52,7 @@ Map<String, dynamic> _$DcDriverDashDataDomainModelToJson(
       'school': instance.school,
       'vehicle': instance.vehicle,
       'route': instance.route,
+      'trips': instance.trips,
     };
 
 DcDriverDashDataSchoolDomainModel _$DcDriverDashDataSchoolDomainModelFromJson(
@@ -100,4 +105,44 @@ Map<String, dynamic> _$DcDriverDashDataRouteDomainModelToJson(
       'route_title': instance.route_title,
       'time_start_approx': instance.time_start_approx,
       'time_end_approx': instance.time_end_approx,
+    };
+
+DcDriverDashDataTripDomainModel _$DcDriverDashDataTripDomainModelFromJson(
+        Map<String, dynamic> json) =>
+    DcDriverDashDataTripDomainModel(
+      today: (json['today'] as List<dynamic>?)
+          ?.map((e) => DcDriverDashDataTripDetsDomainModel.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+      active: (json['active'] as List<dynamic>?)
+          ?.map((e) => DcDriverDashDataTripDetsDomainModel.fromJson(
+              e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$DcDriverDashDataTripDomainModelToJson(
+        DcDriverDashDataTripDomainModel instance) =>
+    <String, dynamic>{
+      'today': instance.today,
+      'active': instance.active,
+    };
+
+DcDriverDashDataTripDetsDomainModel
+    _$DcDriverDashDataTripDetsDomainModelFromJson(Map<String, dynamic> json) =>
+        DcDriverDashDataTripDetsDomainModel(
+          trip_id: json['trip_id'] as int,
+          trip_course: json['trip_course'] as String?,
+          time_start: json['time_start'] as String?,
+          time_end: json['time_end'] as String?,
+          status: json['status'] as String?,
+        );
+
+Map<String, dynamic> _$DcDriverDashDataTripDetsDomainModelToJson(
+        DcDriverDashDataTripDetsDomainModel instance) =>
+    <String, dynamic>{
+      'trip_id': instance.trip_id,
+      'trip_course': instance.trip_course,
+      'time_start': instance.time_start,
+      'time_end': instance.time_end,
+      'status': instance.status,
     };

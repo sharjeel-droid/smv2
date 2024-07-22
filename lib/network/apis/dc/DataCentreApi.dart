@@ -3,6 +3,7 @@ import 'package:SMV2/constants/dataConstants.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewStdApiRequestDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewVanApiRequestDomainModel.dart';
+import 'package:SMV2/network/entities/ApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/LoginApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCDriverDashApiResponseNetworkEntity.dart';
 import 'package:SMV2/network/entities/dc/DCStdDetApiResponseNetworkEntity.dart';
@@ -65,7 +66,8 @@ abstract class DataCentreApi{
       );
 
   @GET(ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER)
-  Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>> activeTripsForDriver(
+  // Future<HttpResponse<DCDriverDashApiResponseNetworkEntity>> activeTripsForDriver(
+  Future<HttpResponse<ApiResponseNetworkEntity>> activeTripsForDriver(
       @Query(dataKeys.DRIVER_ID) int driver_id
       );
 
