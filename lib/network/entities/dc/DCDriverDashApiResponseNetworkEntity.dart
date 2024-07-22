@@ -21,8 +21,9 @@ class DcDriverDashDataNetworkEntity{
   DcDriverDashDataSchoolNetworkEntity? school;
   DcDriverDashDataVehicleNetworkEntity? vehicle;
   DcDriverDashDataRouteNetworkEntity? route;
+  DcDriverDashDataTripNetworkEntity? trips;
 
-  DcDriverDashDataNetworkEntity({this.school, this.vehicle, this.route});
+  DcDriverDashDataNetworkEntity({this.school, this.vehicle, this.route, this.trips});
 
   factory DcDriverDashDataNetworkEntity.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataNetworkEntityFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataNetworkEntityToJson(this);
@@ -70,4 +71,33 @@ class DcDriverDashDataRouteNetworkEntity{
 
   factory DcDriverDashDataRouteNetworkEntity.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataRouteNetworkEntityFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataRouteNetworkEntityToJson(this);
+}
+
+@JsonSerializable()
+class DcDriverDashDataTripNetworkEntity{
+  List<DcDriverDashDataTripDetsNetworkEntity>? today;
+  List<DcDriverDashDataTripDetsNetworkEntity>? active;
+
+  DcDriverDashDataTripNetworkEntity({required this.today, this.active});
+
+  factory DcDriverDashDataTripNetworkEntity.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripNetworkEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$DcDriverDashDataTripNetworkEntityToJson(this);
+}
+
+
+
+
+@JsonSerializable()
+class DcDriverDashDataTripDetsNetworkEntity{
+  // int num_of_records;
+  int trip_id;
+  String? trip_course;
+  String? time_start;
+  String? time_end;
+  String? status;
+
+  DcDriverDashDataTripDetsNetworkEntity({required this.trip_id, this.trip_course, this.time_start, this.time_end, this.status});
+
+  factory DcDriverDashDataTripDetsNetworkEntity.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripDetsNetworkEntityFromJson(json);
+  Map<String, dynamic> toJson() => _$DcDriverDashDataTripDetsNetworkEntityToJson(this);
 }
