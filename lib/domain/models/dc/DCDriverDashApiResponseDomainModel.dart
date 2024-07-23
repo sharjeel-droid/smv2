@@ -78,7 +78,7 @@ class DcDriverDashDataTripDomainModel{
   List<DcDriverDashDataTripDetsDomainModel>? today;
   List<DcDriverDashDataTripDetsDomainModel>? active;
 
-  DcDriverDashDataTripDomainModel({required this.today, this.active});
+  DcDriverDashDataTripDomainModel({this.today, this.active});
 
   factory DcDriverDashDataTripDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripDomainModelFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataTripDomainModelToJson(this);

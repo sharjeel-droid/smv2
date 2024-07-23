@@ -6,4 +6,8 @@ class dataKeys{
   static const SCHOOL_DETAILS = "school_details";
   static const ROUTE_ID = "route_id";
   static const TIME_START = "time_start";
+  static const TRIP_ID = "trip_id";
+  static const STUDENT_ID = "student_id";
+  static const STATUS = "status";
+  static const REASON = "reason";
 }

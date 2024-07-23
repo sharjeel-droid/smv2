@@ -27,6 +27,7 @@ class ApiConst{
   static const String URL_DASH_DET_FOR_DRIVER = '${_MODULE_DC}m_getdashboardfordriver';
   static const String URL_NEW_TRIP_BY_DRIVER = '${_MODULE_DC}newtripfromdriver';
   static const String URL_TRIP_ACTIVE_FOR_DRIVER = '${_MODULE_DC}getactivetripsfordriver';
+  static const String URL_UPD_STUDENT_TRIP_STATUS = '${_MODULE_DC}changestudentstat';
 
 
   //Google Maps Related

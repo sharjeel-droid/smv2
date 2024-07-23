@@ -3,6 +3,11 @@ const String appName = 'SmartVanV2';
 class viewTitles{
   static const splash = 'Splash';
 }
+class errorMessages{
+  static const unable_to_update_stat = 'Unable to Update Student Status';
+}
+
+
 enum UserRole{
   SADMIN,
   ADMIN,
@@ -20,4 +25,12 @@ enum VehicleTypes{
   CAR,
   RIKSHAW,
   BIKE,
+}
+
+enum StudentTripStatus{
+  WAITING,
+  NEXT,
+  PICKED_UP,
+  ABSENT,
+  DROPPED_OFF,
 }

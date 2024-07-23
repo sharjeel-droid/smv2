@@ -72,4 +72,13 @@ abstract class DataCentreApi{
       );
 
 
+  @POST(ApiConst.URL_UPD_STUDENT_TRIP_STATUS)
+  Future<HttpResponse<ApiResponseNetworkEntity>> updateStudentTripStatus(
+      @Path(dataKeys.TRIP_ID) int trip_id,
+      @Path(dataKeys.STUDENT_ID) int student_id,
+      @Path(dataKeys.STATUS) String status,
+      @Path(dataKeys.REASON) String? reason,
+      );
+
+
 }
