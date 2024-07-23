@@ -1,3 +1,4 @@
+import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,8 @@ class DriverDashboard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _viewModel.getDashboardDetails();
+
+    var trip = 0;
 
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -34,14 +37,29 @@ class DriverDashboard extends StatelessWidget {
         ),
         Obx(() => defaults.widget.flashCard(
             value: _viewModel.route.value?.route_title ?? "~", title: "Route")),
-        Obx(() => defaults.widget.flashCardActionable(
-              value: /*_viewModel.tripToday.value[0].time_start ??*/
-                  "No Trip Today",
-              title: "Trips",
-              onButtonPressed: () {
-                Fluttertoast.showToast(msg: "new trip");
-              },
-            )),
+        // Obx(() =>
+        trip == 1
+            ? defaults.widget.flashCardActionable(
+                value: "Continue Trip",
+                title: "TRIPS",
+                buttonText: 'CONTINUE TRIP',
+                buttonColor: Colors.black,
+                onButtonPressed: () {
+                  Fluttertoast.showToast(msg: "continue trip");
+                  navigate().toGoogleMap();
+                },
+              )
+            : defaults.widget.flashCardActionable(
+                value: "Start a New Trip",
+                title: "TRIPS",
+                buttonText: 'NEW TRIP',
+                buttonColor: Colors.black,
+                onButtonPressed: () {
+                  Fluttertoast.showToast(msg: "Start a New Trip");
+                  navigate().toGoogleMap();
+                },
+              )
+        // ),
       ],
     );
   }
@@ -90,3 +108,4 @@ class DriverDashboard extends StatelessWidget {
 //     //
 //     // );
 //   }
+// }
