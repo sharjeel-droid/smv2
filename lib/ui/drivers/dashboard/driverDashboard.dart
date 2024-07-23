@@ -32,13 +32,13 @@ class DriverDashboard extends StatelessWidget {
         Obx(() =>
           defaults.widget.flashCard(value: _viewModel.route.value?.route_title ?? "~", title: "Route")
         ),
-        Obx(() =>
+        // Obx(() =>
           defaults.widget.flashCardActionable(value: /*_viewModel.tripToday.value[0].time_start ??*/ "No Trip Today", title: "Trips", onButtonPressed: () {
 
             Fluttertoast.showToast(msg: "new trip");
 
           },)
-        ),
+        // ),
 
 
       ],);

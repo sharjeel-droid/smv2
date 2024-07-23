@@ -102,6 +102,10 @@ getDashboardDetails() async
 
 
 }
+
+
+
+
 /*
 getActiveTrips() async
 {

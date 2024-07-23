@@ -78,7 +78,7 @@ class DcDriverDashDataTripNetworkEntity{
   List<DcDriverDashDataTripDetsNetworkEntity>? today;
   List<DcDriverDashDataTripDetsNetworkEntity>? active;
 
-  DcDriverDashDataTripNetworkEntity({required this.today, this.active});
+  DcDriverDashDataTripNetworkEntity({this.today, this.active});
 
   factory DcDriverDashDataTripNetworkEntity.fromJson(Map<String, dynamic> json) => _$DcDriverDashDataTripNetworkEntityFromJson(json);
   Map<String, dynamic> toJson() => _$DcDriverDashDataTripNetworkEntityToJson(this);

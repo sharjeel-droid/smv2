@@ -33,12 +33,12 @@ class DCDriverDashApiResponseNetworkMapper implements EntityMapper<DCDriverDashA
               time_end_approx: entity.data?.route?.time_end_approx
             ),
           trips: DcDriverDashDataTripDomainModel(
-              today: entity.data!.trips!.today!.map((e) =>
+              today: entity.data?.trips?.today?.map((e) =>
 
                   DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
 
               ).toList(),
-            active: entity.data!.trips!.active!.map((e) =>
+            active: entity.data?.trips?.active?.map((e) =>
 
                 DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
 
@@ -72,12 +72,12 @@ class DCDriverDashApiResponseNetworkMapper implements EntityMapper<DCDriverDashA
               time_end_approx: domain.data?.route?.time_end_approx
           ),
           trips: DcDriverDashDataTripNetworkEntity(
-              today: domain.data!.trips!.today!.map((e) =>
+              today: domain.data?.trips?.today?.map((e) =>
 
                   DcDriverDashDataTripDetsNetworkEntity(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
 
               ).toList(),
-              active: domain.data!.trips!.active!.map((e) =>
+              active: domain.data?.trips?.active?.map((e) =>
 
                   DcDriverDashDataTripDetsNetworkEntity(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
 

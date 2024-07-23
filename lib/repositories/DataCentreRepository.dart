@@ -1,5 +1,6 @@
 
 
+import 'package:SMV2/domain/models/ApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCNewSchoolApiRequestDomainModel.dart';
@@ -468,7 +469,7 @@ class DataCentreRepository{
       dev.log("response code -> ${httpResponse.response.statusCode}");
 
       var resp = httpResponse.data;
-
+      dev.log("data.success -> ${resp.success}");
       if(resp.success == 1){
         if(resp!=null){
           onSuccess!(this.mapper_driverDash.mapFromEntity(resp));
@@ -511,6 +512,48 @@ class DataCentreRepository{
       if(resp.success == 1){
         if(resp!=null){
           onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
+  updateStudentTripStatus(int trip_id, int student_id, String status, String? reason, {Function(ApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> trip_id : ${trip_id}");
+      dev.log("request parameter -> student_id : ${student_id}");
+      dev.log("request parameter -> status : ${status}");
+      dev.log("request parameter -> reason : ${reason}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.updateStudentTripStatus(trip_id, student_id, status, reason);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_base.mapFromEntity(resp));
         }
 
       }else{
