@@ -6,7 +6,7 @@ import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardView.dart';
 import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
-import 'package:SMV2/ui/maps/googleMapView.dart';
+import 'package:SMV2/ui/drivers/trips/driverTripView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
@@ -27,7 +27,8 @@ class navigate {
     GetPage(name: _about().routeName(), page: () => _about().routePage()),
     GetPage(name: _settings().routeName(), page: () => _settings().routePage()),
     GetPage(
-        name: _googleMap().routeName(), page: () => _googleMap().routePage()),
+        name: _driverTripView().routeName(),
+        page: () => _driverTripView().routePage()),
   ];
 
   toLogin(/*{required context}*/) {
@@ -63,8 +64,8 @@ class navigate {
     Get.to(_vanWizard().routePage());
   }
 
-  toGoogleMap(/*{required context}*/) {
-    Get.to(_googleMap().routePage());
+  todriverTripView(/*{required context}*/) {
+    Get.to(_driverTripView().routePage());
   }
 
   back(/*{required context}*/) {
@@ -85,15 +86,15 @@ class _splash implements getXNavGetter {
   }
 }
 
-class _googleMap implements getXNavGetter {
+class _driverTripView implements getXNavGetter {
   @override
   String routeName() {
-    return "/map";
+    return "/driverTipView";
   }
 
   @override
   Widget routePage() {
-    return GoogleMapView();
+    return DriverTripView();
   }
 }
 
