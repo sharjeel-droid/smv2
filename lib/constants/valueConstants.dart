@@ -1,4 +1,6 @@
 const String appName = 'SmartVanV2';
+const String continue_trip = 'Continue Trip';
+const String new_trip = 'New Trip';
 
 class viewTitles{
   static const splash = 'Splash';

@@ -1,6 +1,8 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -18,11 +20,11 @@ class DriverDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     _viewModel.getDashboardDetails();
 
-    final List<Map<String, String>> tripDetails = [
-      {"date": "20 MAY, 2024 at 07:00 am", "status": "completed"},
-      {"date": "20 MAY, 2024 at 07:00 am", "status": "completed"},
-    ];
-    var trips = _viewModel.tripToday.isNotEmpty ? 1 : 0;
+    // final List<Map<String, String>> tripDetails = [
+    //   {"date": "20 MAY, 2024 at 07:00 am", "status": "completed"},
+    //   {"date": "20 MAY, 2024 at 07:00 am", "status": "completed"},
+    // ];
+    // var trips = _viewModel.stripToday.isNotEmpty ? 1 : 0;
 
     return SingleChildScrollView(
       child: Column(
@@ -45,7 +47,7 @@ class DriverDashboard extends StatelessWidget {
               value: _viewModel.route.value?.route_title ?? "~",
               title: "Route")),
           // Obx(() =>
-          Container(
+          /*Container(
             margin: EdgeInsets.all(8.0),
             padding: EdgeInsets.all(2.0),
             decoration: const BoxDecoration(
@@ -154,29 +156,55 @@ class DriverDashboard extends StatelessWidget {
                 ),
               ],
             ),
-          ),
+          ),*/
 
-          trips == 1
-              ? defaults.widget.flashCardActionable(
-                  value: "Continue Trip",
-                  title: "TRIPS",
-                  buttonText: 'CONTINUE TRIP',
-                  buttonColor: Colors.black,
-                  onButtonPressed: () {
-                    Fluttertoast.showToast(msg: "continue trip");
-                    navigate().toGoogleMap();
-                  },
-                )
-              : defaults.widget.flashCardActionable(
-                  value: "Start a New Trip",
-                  title: "TRIPS",
-                  buttonText: 'NEW TRIP',
-                  buttonColor: Colors.black,
-                  onButtonPressed: () {
-                    Fluttertoast.showToast(msg: "Start a New Trip");
-                    navigate().toGoogleMap();
-                  },
-                )
+
+          Obx(() =>
+
+
+            defaults.widget.flashCardActionable(
+            value: "hi",//_viewModel.shouldShowNewTripAction() ? new_trip : continue_trip,
+            title: "TRIPS",
+            content: Text("No Trip Today -> ${_viewModel.tripToday.value.length}"),
+            buttonText: _viewModel.shouldShowNewTripAction() ? new_trip : continue_trip,
+            buttonColor: Colors.black,
+            onButtonPressed: () {
+
+              _viewModel.shouldShowNewTripAction() ?
+                Fluttertoast.showToast(msg: new_trip)
+                  :
+                Fluttertoast.showToast(msg: continue_trip);
+
+              // Fluttertoast.showToast(msg: "continue trip");
+              // navigate().toGoogleMap();
+            },
+            )
+              // _viewModel.shouldShowNewTripAction() ? :
+
+          )
+
+
+          // trips == 1
+          //     ? defaults.widget.flashCardActionable(
+          //         value: "Continue Trip",
+          //         title: "TRIPS",
+          //         buttonText: 'CONTINUE TRIP',
+          //         buttonColor: Colors.black,
+          //         onButtonPressed: () {
+          //           Fluttertoast.showToast(msg: "continue trip");
+          //           navigate().toGoogleMap();
+          //         },
+          //       )
+          //     : defaults.widget.flashCardActionable(
+          //         value: "Start a New Trip",
+          //         title: "TRIPS",
+          //         buttonText: 'NEW TRIP',
+          //         buttonColor: Colors.black,
+          //         onButtonPressed: () {
+          //           Fluttertoast.showToast(msg: "Start a New Trip");
+          //           navigate().toGoogleMap();
+          //         },
+          //       )
         ],
       ),
     );

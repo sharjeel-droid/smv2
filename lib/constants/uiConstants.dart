@@ -344,7 +344,9 @@ class _widgets {
       required String value,
       Function()? onButtonPressed,
       String? buttonText,
-      Color? buttonColor}) {
+      Color? buttonColor,
+      Widget? content = null}
+      ) {
     return _cardFlash().compose(
         color: color ?? Color(defaults.colors.argb.black),
         textColor: textColor ?? Colors.white,
@@ -352,8 +354,28 @@ class _widgets {
         value: value,
         onButtonPressed: onButtonPressed,
         buttonText: buttonText,
-        buttonColor: buttonColor);
+        buttonColor: buttonColor,
+    content: content);
   }
+
+  // flashCardActionable(
+  //     {Color? color,
+  //     Color? textColor,
+  //     String? title,
+  //     required String value,
+  //     Function()? onButtonPressed,
+  //     String? buttonText,
+  //     Color? buttonColor,
+  //     Widget? content}) {
+  //   return _cardFlash().compose(
+  //       color: color ?? Color(defaults.colors.argb.black),
+  //       textColor: textColor ?? Colors.white,
+  //       title: title ?? "",
+  //       value: value,
+  //       onButtonPressed: onButtonPressed,
+  //       buttonText: buttonText,
+  //       buttonColor: buttonColor);
+  // }
 }
 
 class _cardFlash {
@@ -365,8 +387,12 @@ class _cardFlash {
       required String value,
       Function()? onButtonPressed = null,
       String? buttonText,
-      Color? buttonColor}) {
+      Color? buttonColor,
+      Widget? content}) {
     bool showAction = onButtonPressed != null;
+
+
+
 
     return Card(
       color: color,
@@ -379,6 +405,10 @@ class _cardFlash {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+
+          if(content != null) Center(child: content,) ,
+
+
           Center(
             child: Padding(
               padding: EdgeInsets.only(
