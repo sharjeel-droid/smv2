@@ -27,6 +27,7 @@ DcDriverActiveTripsDataTripDomainModel
         DcDriverActiveTripsDataTripDomainModel(
           trip_id: json['trip_id'] as int?,
           route_id: json['route_id'] as int?,
+          route_title: json['route_title'] as String?,
           time_start: json['time_start'] as String?,
           time_end: json['time_end'] as String?,
           status: json['status'] as String?,
@@ -44,6 +45,7 @@ Map<String, dynamic> _$DcDriverActiveTripsDataTripDomainModelToJson(
     <String, dynamic>{
       'trip_id': instance.trip_id,
       'route_id': instance.route_id,
+      'route_title': instance.route_title,
       'time_start': instance.time_start,
       'time_end': instance.time_end,
       'status': instance.status,

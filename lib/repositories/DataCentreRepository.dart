@@ -511,7 +511,11 @@ class DataCentreRepository{
 
       if(resp.success == 1){
         if(resp!=null){
-          onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
+
+          var dt = this.mapper_base.mapFromEntity(resp).data as DcDriverActiveTripsDataDomainModel;
+          onSuccess!(dt);
+
+          // onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
         }
 
       }else{
