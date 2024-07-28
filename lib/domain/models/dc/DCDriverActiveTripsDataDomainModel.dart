@@ -18,15 +18,20 @@ class DcDriverActiveTripsDataDomainModel{
 class DcDriverActiveTripsDataTripDomainModel{
   int? trip_id;
   int? route_id;
+  String? route_title;
   String? time_start;
   String? time_end;
   String? status;
   String? route_direction_string;
   String? date_create;
   String? date_update;
+  int count_total = 0;
+  int count_picked = 0;
+  int count_absent = 0;
+  int count_remaining = 0;
   List<DcDriverActiveTripsDataTripStudentsDomainModel>? students;
 
-  DcDriverActiveTripsDataTripDomainModel({this.trip_id, this.route_id, this.time_start, this.time_end, this.status,
+  DcDriverActiveTripsDataTripDomainModel({this.trip_id, this.route_id, this.route_title, this.time_start, this.time_end, this.status,
     this.route_direction_string, this.date_create, this.date_update});
 
   factory DcDriverActiveTripsDataTripDomainModel.fromJson(Map<String, dynamic> json) => _$DcDriverActiveTripsDataTripDomainModelFromJson(json);
