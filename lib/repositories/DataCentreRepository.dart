@@ -1,5 +1,7 @@
 
 
+import 'package:SMV2/constants/dataConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/domain/models/ApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
@@ -513,6 +515,8 @@ class DataCentreRepository{
         if(resp!=null){
 
           var dt = this.mapper_base.mapFromEntity(resp).data as DcDriverActiveTripsDataDomainModel;
+          dt = _updateStudentCounts(dt);
+
           onSuccess!(dt);
 
           // onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
@@ -581,6 +585,44 @@ class DataCentreRepository{
 
   }
 
+  DcDriverActiveTripsDataDomainModel _updateStudentCounts(DcDriverActiveTripsDataDomainModel dt){
+
+    var updatedData = dt;
+
+    if(dt.trip!.students != null){
+
+      updatedData.trip!.count_total = dt.trip!.students!.length;
+
+      for(final std in dt.trip!.students!!){
+
+        if(std.status == StudentTripStatus.PICKED_UP){
+          updatedData.trip!.count_picked += 1;
+        }
+
+        if(std.status == StudentTripStatus.ABSENT){
+          updatedData.trip!.count_absent += 1;
+        }
+
+        if(std.status == StudentTripStatus.WAITING || std.status == StudentTripStatus.NEXT){
+          updatedData.trip!.count_remaining += 1;
+        }
+
+      }
+
+      // updatedData.trip!.count_remaining =
+    }
+
+    dev.log("updated student counts -> ///////////////////////////");
+    dev.log("total -> ${updatedData.trip!.count_total}");
+    dev.log("picked -> ${updatedData.trip!.count_picked}");
+    dev.log("absent -> ${updatedData.trip!.count_absent}");
+    dev.log("remaining -> ${updatedData.trip!.count_remaining}");
+    dev.log("updated student counts -> ---------------------------");
+
+    return updatedData;
+
+
+  }
 
   void authCallback(){}
 

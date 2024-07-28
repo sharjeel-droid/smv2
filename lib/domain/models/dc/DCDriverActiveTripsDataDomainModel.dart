@@ -25,6 +25,10 @@ class DcDriverActiveTripsDataTripDomainModel{
   String? route_direction_string;
   String? date_create;
   String? date_update;
+  int count_total = 0;
+  int count_picked = 0;
+  int count_absent = 0;
+  int count_remaining = 0;
   List<DcDriverActiveTripsDataTripStudentsDomainModel>? students;
 
   DcDriverActiveTripsDataTripDomainModel({this.trip_id, this.route_id, this.route_title, this.time_start, this.time_end, this.status,
