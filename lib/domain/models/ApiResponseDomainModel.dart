@@ -6,7 +6,7 @@ part 'ApiResponseDomainModel.g.dart';
 class ApiResponseDomainModel{
   int success;
   String message;
-  List<dynamic>? data;
+  dynamic data;
 
   ApiResponseDomainModel({required this.success, required this.message, this.data});
 

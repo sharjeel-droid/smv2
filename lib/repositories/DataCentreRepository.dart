@@ -514,7 +514,8 @@ class DataCentreRepository{
       if(resp.success == 1){
         if(resp!=null){
 
-          var dt = this.mapper_base.mapFromEntity(resp).data as DcDriverActiveTripsDataDomainModel;
+          // var dt = this.mapper_base.mapFromEntity(resp).data as DcDriverActiveTripsDataDomainModel;
+          var dt = DcDriverActiveTripsDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
           dt = _updateStudentCounts(dt);
 
           onSuccess!(dt);
