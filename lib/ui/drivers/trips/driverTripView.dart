@@ -1,4 +1,7 @@
+import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
+import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:SMV2/constants/uiConstants.dart';
@@ -12,6 +15,9 @@ class DriverTripView extends StatefulWidget {
 
 class _DriverTripViewState extends State<DriverTripView> {
   static const LatLng _karachi = LatLng(24.8607, 67.0011);
+
+  final DriverTripViewModel _viewModel =
+  Get.find<DriverTripViewModel>();
 
   // Dummy student data
   final List<Map<String, String>> students = [
@@ -51,7 +57,9 @@ class _DriverTripViewState extends State<DriverTripView> {
 
   @override
   Widget build(BuildContext context) {
-    String routeName = "Route A";
+    _viewModel.getActiveTrips();
+    // String routeName = "Route A";
+    // String routeName = _viewModel.activeTripDetails.value!.route_title ?? "~";
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     String formattedTime = DateFormat('hh:mm a').format(now);
@@ -64,12 +72,12 @@ class _DriverTripViewState extends State<DriverTripView> {
     return Scaffold(
       body: Stack(
         children: [
-          const GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: _karachi,
-              zoom: 13,
-            ),
-          ),
+          // const GoogleMap(
+          //   initialCameraPosition: CameraPosition(
+          //     target: _karachi,
+          //     zoom: 13,
+          //   ),
+          // ),
           Positioned(
             top: 10,
             left: 5,
@@ -86,10 +94,13 @@ class _DriverTripViewState extends State<DriverTripView> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              routeName,
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            Obx(() =>
+                              Text(
+                                // routeName,
+                                _viewModel.activeTripDetails.value?.route_title ?? "~",
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.end,

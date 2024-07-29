@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:intl/intl.dart';
+// import 'package:intl/intl.dart';
 
 class DriverDashboard extends StatelessWidget {
   // const DriverDashboard({super.key});
@@ -176,7 +176,7 @@ class DriverDashboard extends StatelessWidget {
                 Fluttertoast.showToast(msg: continue_trip);
 
               // Fluttertoast.showToast(msg: "continue trip");
-              // navigate().toGoogleMap();
+              navigate().todriverTripView();
             },
             )
               // _viewModel.shouldShowNewTripAction() ? :
