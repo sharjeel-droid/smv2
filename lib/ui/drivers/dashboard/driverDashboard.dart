@@ -44,35 +44,32 @@ class DriverDashboard extends StatelessWidget {
                 title: "Route",
               )),
           Obx(() {
-            String text = '';
-            List<DcDriverDashDataTripDetsDomainModel> tripList =
-                _viewModel.shouldShowNewTripAction()
-                    ? _viewModel.tripActive
-                    : _viewModel.tripToday;
-
-            int counter = 0;
-            int len = tripList.length;
-
-            tripList.forEach((trip) {
-              counter++;
-              text += '${trip.time_start ?? "N/A"} -> ${trip.status ?? "N/A"}';
-              if (counter < len) {
-                text += '\n';
-              }
-            });
-
             return defaults.widget.flashCardActionable(
               value:
                   _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
               title: "TRIPS",
-              content: Text(
-                text.isNotEmpty ? text : "No Trip Today",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: defaults.font.size.body,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              content: _viewModel.tripToday.isNotEmpty
+                  ? Center(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: _viewModel.tripToday.length,
+                        itemBuilder: (context, index) {
+                          final trip = _viewModel.tripToday[index];
+                          return ListTile(
+                            title: Text(
+                              '${trip.time_start ?? "N/A"} -> ${trip.status ?? "N/A"}',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: defaults.font.size.body,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    )
+                  : null,
               buttonText:
                   _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
               buttonColor: Colors.black,
