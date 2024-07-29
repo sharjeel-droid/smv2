@@ -7,7 +7,7 @@ class ApiResponseNetworkEntity{
   int success;
   String message;
   String? fcmResponse;
-  List<dynamic>? data;
+  dynamic data;
 
   ApiResponseNetworkEntity({required this.success, required this.message, this.fcmResponse, this.data});
 
