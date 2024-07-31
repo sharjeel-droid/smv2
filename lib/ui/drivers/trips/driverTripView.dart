@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:SMV2/constants/uiConstants.dart';
+import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
 
 class DriverTripView extends StatefulWidget {
   const DriverTripView({Key? key}) : super(key: key);
@@ -13,6 +16,7 @@ class DriverTripView extends StatefulWidget {
 class _DriverTripViewState extends State<DriverTripView> {
   static const LatLng _karachi = LatLng(24.8607, 67.0011);
 
+  final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
   // Dummy student data
   final List<Map<String, String>> students = [
     {
@@ -51,6 +55,9 @@ class _DriverTripViewState extends State<DriverTripView> {
 
   @override
   Widget build(BuildContext context) {
+    _viewModel.getActiveTrips();
+    print('Hi hammad');
+    print(_viewModel.activeTripDetails.value);
     String routeName = "Route A";
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
@@ -74,64 +81,75 @@ class _DriverTripViewState extends State<DriverTripView> {
             top: 10,
             left: 5,
             right: 5,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(9.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(() {
+              if (_viewModel.activeTripDetails.value == null) {
+                return Center(child: Text('No active trip details available'));
+              } else {
+                var tripDetails = _viewModel.activeTripDetails.value!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              routeName,
-                              style: const TextStyle(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  tripDetails.route_title ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(formattedDate),
+                                    Text(formattedTime),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Students',
+                              style: TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(formattedDate),
-                                Text(formattedTime),
+                                _buildStudentInfoCard(
+                                    'Total', tripDetails.count_total),
+                                _buildStudentInfoCard(
+                                    'Picked', tripDetails.count_picked),
+                                _buildStudentInfoCard(
+                                    'Absent', tripDetails.count_absent),
+                                _buildStudentInfoCard(
+                                    'Remaining', tripDetails.count_remaining),
                               ],
                             ),
                           ],
                         ),
-                        const SizedBox(height: 10),
-                        const Text(
-                          'Students',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            _buildStudentInfoCard('Total', totalStudents),
-                            _buildStudentInfoCard('Picked', pickedStudents),
-                            _buildStudentInfoCard('Absent', absentStudents),
-                            _buildStudentInfoCard(
-                                'Remaining', remainingStudents),
-                          ],
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: students
-                        .map((student) => _buildStudentCard(student))
-                        .toList(),
-                  ),
-                ),
-              ],
-            ),
+                    const SizedBox(height: 10),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: students!
+                            .map((student) => _buildStudentCard(student))
+                            .toList(),
+                      ),
+                    ),
+                  ],
+                );
+              }
+            }),
           ),
         ],
       ),
