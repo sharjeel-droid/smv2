@@ -11,7 +11,7 @@ ApiResponseDomainModel _$ApiResponseDomainModelFromJson(
     ApiResponseDomainModel(
       success: json['success'] as int,
       message: json['message'] as String,
-      data: json['data'] as List<dynamic>?,
+      data: json['data'],
     );
 
 Map<String, dynamic> _$ApiResponseDomainModelToJson(

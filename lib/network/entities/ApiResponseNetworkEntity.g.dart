@@ -12,7 +12,7 @@ ApiResponseNetworkEntity _$ApiResponseNetworkEntityFromJson(
       success: json['success'] as int,
       message: json['message'] as String,
       fcmResponse: json['fcmResponse'] as String?,
-      data: json['data'] as List<dynamic>?,
+      data: json['data'],
     );
 
 Map<String, dynamic> _$ApiResponseNetworkEntityToJson(

@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
+import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
@@ -17,56 +18,13 @@ class _DriverTripViewState extends State<DriverTripView> {
   static const LatLng _karachi = LatLng(24.8607, 67.0011);
 
   final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
-  // Dummy student data
-  final List<Map<String, String>> students = [
-    {
-      'name': 'Student A',
-      'address': 'Address A',
-      'parent': 'parent A',
-      'contact': '123456789',
-      'status': 'Next',
-      'image': 'assets/images/def_student.png',
-    },
-    {
-      'name': 'Student B',
-      'address': 'Address B',
-      'parent': 'parent B',
-      'contact': '123456789',
-      'status': 'Waiting',
-      'image': 'assets/images/def_student.png',
-    },
-    {
-      'name': 'Student C',
-      'address': 'Address C',
-      'parent': 'parent C',
-      'contact': '123456789',
-      'status': 'PickedUp',
-      'image': 'assets/images/def_student.png',
-    },
-    {
-      'name': 'Student D',
-      'address': 'Address D',
-      'parent': 'parent D',
-      'contact': '123456789',
-      'status': 'Absent',
-      'image': 'assets/images/def_student.png',
-    },
-  ];
 
   @override
   Widget build(BuildContext context) {
     _viewModel.getActiveTrips();
-    print('Hi hammad');
-    print(_viewModel.activeTripDetails.value);
-    String routeName = "Route A";
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('yyyy-MM-dd').format(now);
     String formattedTime = DateFormat('hh:mm a').format(now);
-
-    int totalStudents = 30;
-    int pickedStudents = 20;
-    int absentStudents = 5;
-    int remainingStudents = totalStudents - pickedStudents - absentStudents;
 
     return Scaffold(
       body: Stack(
@@ -83,7 +41,8 @@ class _DriverTripViewState extends State<DriverTripView> {
             right: 5,
             child: Obx(() {
               if (_viewModel.activeTripDetails.value == null) {
-                return Center(child: Text('No active trip details available'));
+                return const Center(
+                    child: Text('No active trip details available'));
               } else {
                 var tripDetails = _viewModel.activeTripDetails.value!;
                 return Column(
@@ -138,14 +97,16 @@ class _DriverTripViewState extends State<DriverTripView> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: students!
-                            .map((student) => _buildStudentCard(student))
-                            .toList(),
-                      ),
-                    ),
+                    tripDetails.students != null
+                        ? SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: tripDetails.students!
+                                  .map((student) => _buildStudentCard(student))
+                                  .toList(),
+                            ),
+                          )
+                        : Container(),
                   ],
                 );
               }
@@ -172,7 +133,9 @@ class _DriverTripViewState extends State<DriverTripView> {
     );
   }
 
-  Widget _buildStudentCard(Map<String, String> student) {
+  Widget _buildStudentCard(
+      DcDriverActiveTripsDataTripStudentsDomainModel student) {
+    var img = 'assets/images/def_student.png';
     return GestureDetector(
       onTap: () => _showStudentPopup(student),
       child: Card(
@@ -183,7 +146,7 @@ class _DriverTripViewState extends State<DriverTripView> {
             children: [
               ClipOval(
                 child: Image.asset(
-                  student['image']!,
+                  img,
                   width: 50,
                   height: 50,
                 ),
@@ -197,11 +160,11 @@ class _DriverTripViewState extends State<DriverTripView> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 2.0),
                       decoration: BoxDecoration(
-                        color: _getStatusColor(student['status']!),
+                        color: _getStatusColor(student.status ?? ''),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
-                        student['status']!,
+                        student.status ?? '',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12,
@@ -210,11 +173,11 @@ class _DriverTripViewState extends State<DriverTripView> {
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      student['name']!,
+                      '${student.first_name ?? ''} ${student.last_name ?? ''}',
                       style: const TextStyle(
                           fontSize: 14, fontWeight: FontWeight.bold),
                     ),
-                    Text(student['address']!),
+                    Text('Address'),
                   ],
                 ),
               ),
@@ -225,7 +188,8 @@ class _DriverTripViewState extends State<DriverTripView> {
     );
   }
 
-  void _showStudentPopup(Map<String, String> student) {
+  void _showStudentPopup(
+      DcDriverActiveTripsDataTripStudentsDomainModel student) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -233,9 +197,9 @@ class _DriverTripViewState extends State<DriverTripView> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(student['name']!),
+              Text('${student.first_name ?? ''} ${student.last_name ?? ''}'),
               IconButton(
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                   onPressed: () {
                     Navigator.of(context).pop();
                   }),
@@ -244,15 +208,15 @@ class _DriverTripViewState extends State<DriverTripView> {
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Parent: ${student['parent']}'),
+              Text('Parent: Parent'),
               const SizedBox(height: 10),
-              Text('Contact #: ${student['contact']}'),
+              Text('Contact #: Contact'),
               const SizedBox(height: 10),
-              Text('Address: ${student['address']}'),
+              Text('Address: ${student.latitude}'),
             ],
           ),
           actions: <Widget>[
-            student['status'] == 'Next'
+            student.status == 'Next'
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -268,7 +232,7 @@ class _DriverTripViewState extends State<DriverTripView> {
                             onPressed: () {},
                           ),
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: TextButton(
                             style: TextButton.styleFrom(
@@ -294,14 +258,16 @@ class _DriverTripViewState extends State<DriverTripView> {
 
   Color _getStatusColor(String status) {
     Color statusColor = Colors.white;
-    if (status == 'Next') {
-      statusColor = Color.fromRGBO(255, 198, 7, 1);
-    } else if (status == 'Waiting') {
+    if (status == 'next') {
+      statusColor = const Color.fromRGBO(255, 198, 7, 1);
+    } else if (status == 'waiting') {
       statusColor = Colors.grey;
-    } else if (status == 'PickedUp') {
+    } else if (status == 'pickedUp') {
       statusColor = Colors.green;
-    } else if (status == 'Absent') {
+    } else if (status == 'absent') {
       statusColor = Colors.red;
+    } else {
+      statusColor = Colors.black;
     }
 
     return statusColor;
