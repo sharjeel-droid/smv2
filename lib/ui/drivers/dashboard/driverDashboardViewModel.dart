@@ -1,4 +1,5 @@
 import 'package:SMV2/constants/apiConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
@@ -87,6 +88,68 @@ getDashboardDetails() async
         isProcessing(false);
         Fluttertoast.showToast(
             msg: "Error in fethcing dashboard details",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 2,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      });
+
+
+
+
+
+
+}
+
+startNewTrip({required int route_id, required String trip_course, required Function() onComplete}) async
+{
+
+  isProcessing(true);
+
+  // schools(["asd", "123", "523"]);
+
+  // int driverId = await AppSession.currentUser.user_id() as int;
+  // int userId = 1;
+
+  String start_time = "";
+
+  dev.log("request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_DET_FOR_DRIVER}");
+  dev.log("request DriverDashDet; params -> {route_id:${route_id}, trip_course:${trip_course}, start_time, ${start_time}");
+
+  repo
+      .startNewTrip(route_id, start_time, trip_course,
+      onSuccess: (response)
+      // async
+      {
+        dev.log("on success -> ${response.success}");
+        dev.log("response -> ${response.toJson()}");
+        dev.log("response.data -> ${response.data!.toJson()}");
+
+        // var data = response.data;
+        Fluttertoast.showToast(msg: inforMessages.new_trip_started);
+        onComplete();
+        // if(data != null){
+        //   Fluttertoast.showToast(msg: inforMessages.new_trip_started);
+        //   onComplete();
+        // }else{
+        //
+        //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
+        //
+        // }
+
+        // dev.log("tripActive -> ${tripActive.value.length}");
+        // dev.log("tripToday -> ${tripToday.value.length}");
+
+        isProcessing(false);
+      },
+      onFailure: (errorMsg){
+        dev.log("error message -> ${errorMsg}");
+        isProcessing(false);
+        Fluttertoast.showToast(
+            msg: errorMessages.unable_to_process,
             toastLength: Toast.LENGTH_LONG,
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 2,

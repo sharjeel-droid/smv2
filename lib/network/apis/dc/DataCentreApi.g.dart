@@ -230,19 +230,21 @@ class _DataCentreApi implements DataCentreApi {
   }
 
   @override
-  Future<HttpResponse<DCnewVanApiResponseNetworkEntity>> newTripByDriver(
+  Future<HttpResponse<ApiResponseNetworkEntity>> newTripByDriver(
     int route_id,
     String time_start,
+    String trip_course,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'route_id': route_id,
       r'time_start': time_start,
+      r'trip_course': trip_course,
     };
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<HttpResponse<DCnewVanApiResponseNetworkEntity>>(Options(
+        _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -258,7 +260,7 @@ class _DataCentreApi implements DataCentreApi {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = DCnewVanApiResponseNetworkEntity.fromJson(_result.data!);
+    final value = ApiResponseNetworkEntity.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
@@ -313,6 +315,37 @@ class _DataCentreApi implements DataCentreApi {
             .compose(
               _dio.options,
               'dc/changestudentstat',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(
+                baseUrl: _combineBaseUrls(
+              _dio.options.baseUrl,
+              baseUrl,
+            ))));
+    final value = ApiResponseNetworkEntity.fromJson(_result.data!);
+    final httpResponse = HttpResponse(value, _result);
+    return httpResponse;
+  }
+
+  @override
+  Future<HttpResponse<ApiResponseNetworkEntity>> finishTrip(
+    String time_end,
+    int trip_id,
+  ) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    const Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
+      method: 'POST',
+      headers: _headers,
+      extra: _extra,
+    )
+            .compose(
+              _dio.options,
+              'dc/finishtrip',
               queryParameters: queryParameters,
               data: _data,
             )

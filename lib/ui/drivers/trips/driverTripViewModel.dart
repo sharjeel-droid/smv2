@@ -211,14 +211,15 @@ class DriverTripViewModel extends GetxController{
           // dev.log("response.data -> ${response.data!.toJson()}");
 
           // var data = response;
-
-          if(response.success == 1){
-            Fluttertoast.showToast(msg: inforMessages.trip_finished);
-            onComplete();
-          }else{
-            Fluttertoast.showToast(msg: errorMessages.unable_to_process);
-
-          }
+          Fluttertoast.showToast(msg: inforMessages.trip_finished);
+          onComplete();
+          // if(response.success == 1){
+          //   Fluttertoast.showToast(msg: inforMessages.trip_finished);
+          //   onComplete();
+          // }else{
+          //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
+          //
+          // }
           isProcessing(false);
         },
         onFailure: (errorMsg){

@@ -9,6 +9,7 @@ class errorMessages{
 }
 class inforMessages{
   static const trip_finished = 'Trip Finished';
+  static const new_trip_started = 'New Trip Started';
 }
 
 class StudentTripStatus{
