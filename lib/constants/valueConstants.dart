@@ -5,6 +5,10 @@ class viewTitles{
 }
 class errorMessages{
   static const unable_to_update_stat = 'Unable to Update Student Status';
+  static const unable_to_process = 'Unable to Process';
+}
+class inforMessages{
+  static const trip_finished = 'Trip Finished';
 }
 
 class StudentTripStatus{

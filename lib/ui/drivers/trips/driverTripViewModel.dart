@@ -178,5 +178,69 @@ class DriverTripViewModel extends GetxController{
     }
   }
 
+  finishTrip(
+      {required int trip_id,
+        required Function() onComplete
+      }
+      ) async
+  {
+
+    if(activeTripDetails==null){
+      return null;
+    }
+
+
+
+    isProcessing(true);
+
+    int trip_id = activeTripDetails.value?.trip_id ?? 0;
+    String time_end = "";
+
+    dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
+    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
+
+    repo
+        .finishTrip(
+        trip_id,
+        time_end,
+        onSuccess: (response)
+        // async
+        {
+          // dev.log("on success -> ${response.success}");
+          dev.log("response -> ${response.toJson()}");
+          // dev.log("response.data -> ${response.data!.toJson()}");
+
+          // var data = response;
+
+          if(response.success == 1){
+            Fluttertoast.showToast(msg: inforMessages.trip_finished);
+            onComplete();
+          }else{
+            Fluttertoast.showToast(msg: errorMessages.unable_to_process);
+
+          }
+          isProcessing(false);
+        },
+        onFailure: (errorMsg){
+          dev.log("error message -> ${errorMsg}");
+          isProcessing(false);
+          Fluttertoast.showToast(
+              msg: errorMessages.unable_to_process,
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        });
+
+
+
+
+
+
+  }
+
 
 }

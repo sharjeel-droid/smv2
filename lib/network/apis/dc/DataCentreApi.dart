@@ -60,9 +60,10 @@ abstract class DataCentreApi{
       );
 
   @POST(ApiConst.URL_NEW_TRIP_BY_DRIVER)
-  Future<HttpResponse<DCnewVanApiResponseNetworkEntity>> newTripByDriver(
+  Future<HttpResponse<ApiResponseNetworkEntity>> newTripByDriver(
       @Query(dataKeys.ROUTE_ID) int route_id,
-      @Query(dataKeys.TIME_START) String time_start
+      @Query(dataKeys.TIME_START) String time_start,
+      @Query(dataKeys.TRIP_COURSE) String trip_course
       );
 
   @GET(ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER)
@@ -78,6 +79,12 @@ abstract class DataCentreApi{
       @Path(dataKeys.STUDENT_ID) int student_id,
       @Path(dataKeys.STATUS) String status,
       @Path(dataKeys.REASON) String? reason,
+      );
+
+  @POST(ApiConst.URL_FINISH_TRIP)
+  Future<HttpResponse<ApiResponseNetworkEntity>> finishTrip(
+      @Path(dataKeys.TIME_END) String time_end,
+      @Path(dataKeys.TRIP_ID) int trip_id
       );
 
 

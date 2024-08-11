@@ -625,6 +625,89 @@ class DataCentreRepository{
 
   }
 
+  startNewTrip(int route_id, String time_start, String trip_course, {Function(ApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> route_id : ${route_id}");
+      dev.log("request parameter -> time_start : ${time_start}");
+      dev.log("request parameter -> trip_course : ${trip_course}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.newTripByDriver(route_id, time_start, trip_course);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_base.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
+  finishTrip(int trip_id, String time_end, {Function(ApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> trip_id : ${trip_id}");
+      dev.log("request parameter -> time_end : ${time_end}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.finishTrip(time_end, trip_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_base.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
+
+
   void authCallback(){}
 
 }
