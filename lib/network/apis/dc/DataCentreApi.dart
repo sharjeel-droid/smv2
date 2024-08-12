@@ -60,10 +60,11 @@ abstract class DataCentreApi{
       );
 
   @POST(ApiConst.URL_NEW_TRIP_BY_DRIVER)
+  @FormUrlEncoded()
   Future<HttpResponse<ApiResponseNetworkEntity>> newTripByDriver(
-      @Query(dataKeys.ROUTE_ID) int route_id,
-      @Query(dataKeys.TIME_START) String time_start,
-      @Query(dataKeys.TRIP_COURSE) String trip_course
+      @Field(dataKeys.ROUTE_ID) int route_id,
+      @Field(dataKeys.TIME_START) String time_start,
+      @Field(dataKeys.TRIP_COURSE) String trip_course
       );
 
   @GET(ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER)
@@ -83,9 +84,10 @@ abstract class DataCentreApi{
       );
 
   @POST(ApiConst.URL_FINISH_TRIP)
+  @FormUrlEncoded()
   Future<HttpResponse<ApiResponseNetworkEntity>> finishTrip(
-      @Path(dataKeys.TIME_END) String time_end,
-      @Path(dataKeys.TRIP_ID) int trip_id
+      @Field(dataKeys.TIME_END) String time_end,
+      @Field(dataKeys.TRIP_ID) int trip_id
       );
 
   @GET(ApiConst.URL_TRIP_ACTIVE_FOR_PARENT)

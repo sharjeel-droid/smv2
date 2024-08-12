@@ -91,7 +91,8 @@ class DriverTripViewModel extends GetxController{
   updateStudentTripStatus(
       {required int studentId,
         required String status,
-        String? reason = null}
+        String? reason = null,
+      required Function() onComplete}
       ) async
   {
 
@@ -131,11 +132,12 @@ class DriverTripViewModel extends GetxController{
           var data = response;
 
           if(data == null){
-            // Fluttertoast.showToast(msg: "no Data Found");
+            Fluttertoast.showToast(msg: "no Data Found");
             // activeTripDetails(null);
           }else{
             _updateStudentStatusInObservable(data.trip ?? activeTripDetails.value!);
 
+            onComplete();
             // activeTripDetails(data.trip);
 
           }
@@ -179,6 +181,7 @@ class DriverTripViewModel extends GetxController{
   // _updateStudentStatusInObservable(int studentId, String status, String? reason){
   _updateStudentStatusInObservable(DcDriverActiveTripsDataTripDomainModel updatedTrip){
 
+    // dev.log("current time");
     dev.log("current time of pickup -> ${DateTime.timestamp().toString()}");
 
     activeTripDetails.value?.count_remaining = updatedTrip.count_remaining;
@@ -188,6 +191,7 @@ class DriverTripViewModel extends GetxController{
 
     activeTripDetails.value?.students = updatedTrip.students;
 
+    activeTripDetails.refresh();
     // for(final std in activeTripDetails.value?.students ?? List<DcDriverActiveTripsDataTripStudentsDomainModel>.empty()){
     //
     //   if(std.student_id == studentId){

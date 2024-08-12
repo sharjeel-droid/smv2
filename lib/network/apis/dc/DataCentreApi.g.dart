@@ -236,18 +236,19 @@ class _DataCentreApi implements DataCentreApi {
     String trip_course,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'route_id': route_id,
-      r'time_start': time_start,
-      r'trip_course': trip_course,
-    };
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = {
+      'route_id': route_id,
+      'time_start': time_start,
+      'trip_course': trip_course,
+    };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
     )
             .compose(
               _dio.options,
@@ -339,12 +340,16 @@ class _DataCentreApi implements DataCentreApi {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = {
+      'time_end': time_end,
+      'trip_id': trip_id,
+    };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
     )
             .compose(
               _dio.options,

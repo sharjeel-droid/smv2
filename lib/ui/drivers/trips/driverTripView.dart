@@ -135,7 +135,11 @@ class _DriverTripViewState extends State<DriverTripView> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
-                      const navigate().todriverDashboardView();
+                      // const navigate().todriverDashboardView();
+
+                      _showFinishTripAlert();
+
+
                     },
                   ),
                 ),
@@ -263,7 +267,9 @@ class _DriverTripViewState extends State<DriverTripView> {
                             ),
                             onPressed: () {
                               if(student.student_id!=null){
-                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
+                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP, onComplete: (){
+                                  Navigator.of(context).pop();
+                                });
                               }
 
 
@@ -281,7 +287,9 @@ class _DriverTripViewState extends State<DriverTripView> {
                             onPressed: () {
 
                               if(student.student_id!=null){
-                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
+                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT, onComplete: (){
+                                  Navigator.of(context).pop();
+                                });
                               }
 
                             },
@@ -294,6 +302,73 @@ class _DriverTripViewState extends State<DriverTripView> {
                       Navigator.of(context).pop();
                     },
                   ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showFinishTripAlert() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Finish Trip ?',
+              style: TextStyle(fontSize: 17)),
+
+          content: Text('Do you really want to Finish the Trip ?',
+              style: TextStyle(fontSize: 14)),
+
+          actions: <Widget>[
+
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text(
+                        'Finish',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+
+                        _viewModel.finishTrip(trip_id: _viewModel.activeTripDetails.value?.trip_id??0, onComplete: (){
+
+                          Navigator.of(context).pop();
+
+                        });
+
+
+                        // if(student.student_id!=null){
+                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
+                        // }
+
+
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text('Cancel',
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        // if(student.student_id!=null){
+                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
+                        // }
+
+                      },
+                    ),
+                  ),
+                ])
+
           ],
         );
       },
