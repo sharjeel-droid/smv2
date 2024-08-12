@@ -43,6 +43,7 @@ class ParentDashboardViewModel extends GetxController{
             }
             );
 
+    getActiveTrips();
   }
 
   getActiveTrips() async

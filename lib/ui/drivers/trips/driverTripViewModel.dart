@@ -117,7 +117,8 @@ class DriverTripViewModel extends GetxController{
         trip_id,
         studentId,
         status,
-        reason,
+        // reason,
+        // "",
         onSuccess: (response)
         // async
         {
@@ -127,15 +128,27 @@ class DriverTripViewModel extends GetxController{
 
           // var data = response;
 
-          if(response.success == 1){
+          var data = response;
+
+          if(data == null){
             // Fluttertoast.showToast(msg: "no Data Found");
             // activeTripDetails(null);
-            _updateStudentStatusInObservable(studentId, status, reason);
           }else{
-            Fluttertoast.showToast(msg: errorMessages.unable_to_update_stat);
+            _updateStudentStatusInObservable(data.trip ?? activeTripDetails.value!);
+
             // activeTripDetails(data.trip);
 
           }
+
+          // if(response.success == 1){
+          //   // Fluttertoast.showToast(msg: "no Data Found");
+          //   // activeTripDetails(null);
+          //   _updateStudentStatusInObservable(studentId, status, reason);
+          // }else{
+          //   Fluttertoast.showToast(msg: errorMessages.unable_to_update_stat);
+          //   // activeTripDetails(data.trip);
+          //
+          // }
 
           // dev.log("tripActive -> ${tripActive.value.length}");
           // dev.log("tripToday -> ${tripToday.value.length}");
@@ -163,19 +176,28 @@ class DriverTripViewModel extends GetxController{
 
   }
 
-  _updateStudentStatusInObservable(int studentId, String status, String? reason){
+  // _updateStudentStatusInObservable(int studentId, String status, String? reason){
+  _updateStudentStatusInObservable(DcDriverActiveTripsDataTripDomainModel updatedTrip){
 
     dev.log("current time of pickup -> ${DateTime.timestamp().toString()}");
-    for(final std in activeTripDetails.value?.students ?? List<DcDriverActiveTripsDataTripStudentsDomainModel>.empty()){
 
-      if(std.student_id == studentId){
+    activeTripDetails.value?.count_remaining = updatedTrip.count_remaining;
+    activeTripDetails.value?.count_absent = updatedTrip.count_absent;
+    activeTripDetails.value?.count_picked = updatedTrip.count_picked;
+    activeTripDetails.value?.count_total = updatedTrip.count_total;
 
-        std.status = status;
-        std.reason = reason;
-        std.time_pickup = DateTime.timestamp().toString();
+    activeTripDetails.value?.students = updatedTrip.students;
 
-      }
-    }
+    // for(final std in activeTripDetails.value?.students ?? List<DcDriverActiveTripsDataTripStudentsDomainModel>.empty()){
+    //
+    //   if(std.student_id == studentId){
+    //
+    //     std.status = status;
+    //     std.reason = reason;
+    //     std.time_pickup = DateTime.timestamp().toString();
+    //
+    //   }
+    // }
   }
 
   finishTrip(

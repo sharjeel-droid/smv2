@@ -10,6 +10,7 @@ class errorMessages{
 class inforMessages{
   static const trip_finished = 'Trip Finished';
   static const new_trip_started = 'New Trip Started';
+  static const no_trips_today = 'No Trips Today';
 }
 class labelText{
   static const view_trip = 'View Trip';

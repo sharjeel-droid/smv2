@@ -1,5 +1,6 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class DriverDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.getDashboardDetails();
+    _viewModel.init();//getDashboardDetails();
 
     String newTrip = 'New Trip';
     String continueTrip = 'Continue Trip';
@@ -48,7 +49,7 @@ class DriverDashboard extends StatelessWidget {
             print(_viewModel.tripActive);
             return defaults.widget.flashCardActionable(
               value:
-                  _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
+                  _viewModel.tripToday.value.isEmpty  ? inforMessages.no_trips_today : "",
               title: "TRIPS",
               content: _viewModel.tripToday.isNotEmpty
                   ? Center(
@@ -73,11 +74,11 @@ class DriverDashboard extends StatelessWidget {
                     )
                   : null,
               buttonText:
-                  _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
+                  _viewModel.tripActive.value.isEmpty ? newTrip : continueTrip,
               buttonColor: Colors.black,
               onButtonPressed: () {
                 if (_viewModel.tripActive.isNotEmpty) {
-                  String message = _viewModel.shouldShowNewTripAction()
+                  String message = _viewModel.tripActive.value.isEmpty
                       ? newTrip
                       : continueTrip;
                   Fluttertoast.showToast(msg: message);

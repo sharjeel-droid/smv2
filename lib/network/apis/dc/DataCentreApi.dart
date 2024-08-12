@@ -74,11 +74,12 @@ abstract class DataCentreApi{
 
 
   @POST(ApiConst.URL_UPD_STUDENT_TRIP_STATUS)
+  @FormUrlEncoded()
   Future<HttpResponse<ApiResponseNetworkEntity>> updateStudentTripStatus(
-      @Path(dataKeys.TRIP_ID) int trip_id,
-      @Path(dataKeys.STUDENT_ID) int student_id,
-      @Path(dataKeys.STATUS) String status,
-      @Path(dataKeys.REASON) String? reason,
+      @Field(dataKeys.TRIP_ID) int trip_id,
+      @Field(dataKeys.STUDENT_ID) int student_id,
+      @Field(dataKeys.STATUS) String status,
+      // @Path(dataKeys.REASON) String? reason,
       );
 
   @POST(ApiConst.URL_FINISH_TRIP)

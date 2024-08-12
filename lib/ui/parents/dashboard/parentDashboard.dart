@@ -19,7 +19,7 @@ class ParentDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.getActiveTrips();
+    _viewModel.init();
 
     return Column(mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.center,

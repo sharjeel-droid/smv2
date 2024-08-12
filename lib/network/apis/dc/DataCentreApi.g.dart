@@ -299,18 +299,21 @@ class _DataCentreApi implements DataCentreApi {
     int trip_id,
     int student_id,
     String status,
-    String? reason,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
-    const Map<String, dynamic>? _data = null;
+    final _data = {
+      'trip_id': trip_id,
+      'student_id': student_id,
+      'status': status,
+    };
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<ApiResponseNetworkEntity>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
+      contentType: 'application/x-www-form-urlencoded',
     )
             .compose(
               _dio.options,

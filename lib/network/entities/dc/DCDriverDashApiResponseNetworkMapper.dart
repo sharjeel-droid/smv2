@@ -35,12 +35,12 @@ class DCDriverDashApiResponseNetworkMapper implements EntityMapper<DCDriverDashA
           trips: DcDriverDashDataTripDomainModel(
               today: entity.data?.trips?.today?.map((e) =>
 
-                  DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
+                  DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end, status: e.status)
 
               ).toList(),
             active: entity.data?.trips?.active?.map((e) =>
 
-                DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end)
+                DcDriverDashDataTripDetsDomainModel(trip_id: e.trip_id, trip_course: e.trip_course, time_start: e.time_start, time_end: e.time_end, status: e.status)
 
             ).toList()
             ),

@@ -1,4 +1,5 @@
 import 'package:SMV2/constants/navigationConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +21,7 @@ class _DriverTripViewState extends State<DriverTripView> {
 
   final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
 
-  bool _isTripStarted = false;
+  // bool _isTripStarted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,220 +39,108 @@ class _DriverTripViewState extends State<DriverTripView> {
               zoom: 13,
             ),
           ),
-          if (!_isTripStarted)
-            Positioned(
-              top: 10,
-              left: 5,
-              right: 5,
-              child: Obx(() {
-                if (_viewModel.activeTripDetails.value == null) {
-                  return const Center(
-                      child: Text('No active trip details available'));
-                } else {
-                  var tripDetails = _viewModel.activeTripDetails.value!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(9.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                tripDetails.route_title ?? '',
-                                style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              const Text('07:00 - 08:00'),
-                              const SizedBox(height: 10),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                      ),
-                                      child: const Text(
-                                        'Starting Address Here',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.arrow_right_alt,
-                                    color: Colors.black,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                      ),
-                                      child: const Text(
-                                        'Starting Address Here',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+          Positioned(
+            top: 10,
+            left: 5,
+            right: 5,
+            child: Obx(() {
+              if (_viewModel.activeTripDetails.value == null) {
+                return const Center(
+                    child: Text('No active trip details available'));
+              } else {
+                var tripDetails = _viewModel.activeTripDetails.value!;
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(9.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  tripDetails.route_title ?? '',
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(formattedDate),
+                                    Text(formattedTime),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Students',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold),
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceBetween,
+                              children: [
+                                _buildStudentInfoCard(
+                                    'Total', tripDetails.count_total),
+                                _buildStudentInfoCard(
+                                    'Picked', tripDetails.count_picked),
+                                _buildStudentInfoCard(
+                                    'Absent', tripDetails.count_absent),
+                                _buildStudentInfoCard(
+                                    'Remaining', tripDetails.count_remaining),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                }
-              }),
-            ),
-          if (_isTripStarted)
-            Positioned(
-              top: 10,
-              left: 5,
-              right: 5,
-              child: Obx(() {
-                if (_viewModel.activeTripDetails.value == null) {
-                  return const Center(
-                      child: Text('No active trip details available'));
-                } else {
-                  var tripDetails = _viewModel.activeTripDetails.value!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(9.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    tripDetails.route_title ?? '',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(formattedDate),
-                                      Text(formattedTime),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Students',
-                                style: TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  _buildStudentInfoCard(
-                                      'Total', tripDetails.count_total),
-                                  _buildStudentInfoCard(
-                                      'Picked', tripDetails.count_picked),
-                                  _buildStudentInfoCard(
-                                      'Absent', tripDetails.count_absent),
-                                  _buildStudentInfoCard(
-                                      'Remaining', tripDetails.count_remaining),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                    ),
+                    const SizedBox(height: 10),
+                    tripDetails.students != null
+                        ? SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: tripDetails.students!
+                            .map(
+                                (student) => _buildStudentCard(student))
+                            .toList(),
                       ),
-                      const SizedBox(height: 10),
-                      tripDetails.students != null
-                          ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: tripDetails.students!
-                                    .map(
-                                        (student) => _buildStudentCard(student))
-                                    .toList(),
-                              ),
-                            )
-                          : Container(),
-                    ],
-                  );
-                }
-              }),
-            ),
+                    )
+                        : Container(),
+                  ],
+                );
+              }
+            }),
+          ),
           Positioned(
             bottom: 20,
             left: 10,
             right: 10,
-            child: _isTripStarted
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text(
-                            'Finish Trip',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            const navigate().todriverDashboardView();
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            const navigate().todriverDashboardView();
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text(
-                            'Start Trip',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isTripStarted = true;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextButton(
+                    style: TextButton.styleFrom(
+                      backgroundColor: Colors.green,
+                    ),
+                    child: const Text(
+                      'Finish Trip',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {
+                      const navigate().todriverDashboardView();
+                    },
                   ),
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -358,6 +247,7 @@ class _DriverTripViewState extends State<DriverTripView> {
             ],
           ),
           actions: <Widget>[
+
             student.status == 'next'
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -371,7 +261,13 @@ class _DriverTripViewState extends State<DriverTripView> {
                               'Pick Up',
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if(student.student_id!=null){
+                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
+                              }
+
+
+                            },
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -382,7 +278,13 @@ class _DriverTripViewState extends State<DriverTripView> {
                             ),
                             child: const Text('Absent',
                                 style: TextStyle(color: Colors.white)),
-                            onPressed: () {},
+                            onPressed: () {
+
+                              if(student.student_id!=null){
+                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
+                              }
+
+                            },
                           ),
                         ),
                       ])

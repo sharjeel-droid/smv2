@@ -25,6 +25,8 @@ class DriverDashboardViewModel extends GetxController{
 
   //observables
   RxBool isProcessing = false.obs;
+  // RxBool showNewTripAction = false.obs;
+
   Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
   Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
   Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
@@ -32,6 +34,17 @@ class DriverDashboardViewModel extends GetxController{
   RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
   // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
+  init(){
+    dev.log("driverDashVM init");
+    // ever(tripActive,
+    //         (callback) {
+    //           showNewTripAction(callback!=null);
+    //     }
+    // );
+
+    getDashboardDetails();
+
+  }
 
 
 
@@ -231,11 +244,11 @@ getActiveTrips() async
 
 }*/
 
-bool shouldShowNewTripAction(){
-
-  return (tripActive!=null);
-
-}
+// bool shouldShowNewTripAction(){
+//
+//   return (tripActive!=null);
+//
+// }
 
 
 }

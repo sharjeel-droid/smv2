@@ -544,7 +544,7 @@ class DataCentreRepository{
 
   }
 
-  updateStudentTripStatus(int trip_id, int student_id, String status, String? reason, {Function(ApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  updateStudentTripStatus(int trip_id, int student_id, String status,/* String? reason,*/ {Function(DcDriverActiveTripsDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
   async
   {
 
@@ -553,16 +553,25 @@ class DataCentreRepository{
       dev.log("request parameter -> trip_id : ${trip_id}");
       dev.log("request parameter -> student_id : ${student_id}");
       dev.log("request parameter -> status : ${status}");
-      dev.log("request parameter -> reason : ${reason}");
+      // dev.log("request parameter -> reason : ${reason}");
 
-      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.updateStudentTripStatus(trip_id, student_id, status, reason);
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.updateStudentTripStatus(trip_id, student_id, status/*, reason*/);
+      dev.log("response done !!!!!!!!!!!!!!!!!");
       dev.log("response code -> ${httpResponse.response.statusCode}");
+      dev.log("response statusMessage -> ${httpResponse.response.statusMessage}");
+      dev.log("response message -> ${httpResponse.data.message}");
 
       var resp = httpResponse.data;
 
       if(resp.success == 1){
         if(resp!=null){
-          onSuccess!(this.mapper_base.mapFromEntity(resp));
+
+          var dt = DcDriverActiveTripsDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
+          dt = _updateStudentCounts(dt);
+
+          onSuccess!(dt);
+
+          // onSuccess!(this.mapper_base.mapFromEntity(resp));
         }
 
       }else{
@@ -573,6 +582,7 @@ class DataCentreRepository{
     on DioException catch(e){
       dev.log("onFailure -> ${e.message}");
       dev.log("onFailure -> ${e.stackTrace}");
+      dev.log("onFailure -> ${e.response?.extra}");
       onFailure!("${e.response?.statusMessage??"unknown error"}");
 
     }
