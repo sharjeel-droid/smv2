@@ -7,6 +7,7 @@ import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
 import 'package:SMV2/ui/drivers/trips/driverTripView.dart';
+import 'package:SMV2/ui/drivers/dashboard/driverDashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
@@ -29,6 +30,9 @@ class navigate {
     GetPage(
         name: _driverTripView().routeName(),
         page: () => _driverTripView().routePage()),
+    GetPage(
+        name: _driverDashboardView().routeName(),
+        page: () => _driverDashboardView().routePage()),
   ];
 
   toLogin(/*{required context}*/) {
@@ -68,6 +72,10 @@ class navigate {
     Get.to(_driverTripView().routePage());
   }
 
+  todriverDashboardView(/*{required context}*/) {
+    Get.to(_driverDashboardView().routePage());
+  }
+
   back(/*{required context}*/) {
     Get.back(); //to(_schoolWizard().routePage());
   }
@@ -83,6 +91,18 @@ class _splash implements getXNavGetter {
   @override
   routePage() {
     return SplashView();
+  }
+}
+
+class _driverDashboardView implements getXNavGetter {
+  @override
+  String routeName() {
+    return "/driverDashboard";
+  }
+
+  @override
+  Widget routePage() {
+    return DriverDashboard();
   }
 }
 

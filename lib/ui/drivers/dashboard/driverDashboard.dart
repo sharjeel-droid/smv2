@@ -44,6 +44,8 @@ class DriverDashboard extends StatelessWidget {
                 title: "Route",
               )),
           Obx(() {
+            print('tripActive:');
+            print(_viewModel.tripActive);
             return defaults.widget.flashCardActionable(
               value:
                   _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
@@ -74,11 +76,15 @@ class DriverDashboard extends StatelessWidget {
                   _viewModel.shouldShowNewTripAction() ? newTrip : continueTrip,
               buttonColor: Colors.black,
               onButtonPressed: () {
-                String message = _viewModel.shouldShowNewTripAction()
-                    ? newTrip
-                    : continueTrip;
-                Fluttertoast.showToast(msg: message);
-                const navigate().todriverTripView();
+                if (_viewModel.tripActive.isNotEmpty) {
+                  String message = _viewModel.shouldShowNewTripAction()
+                      ? newTrip
+                      : continueTrip;
+                  Fluttertoast.showToast(msg: message);
+                  const navigate().todriverTripView();
+                } else {
+                  Fluttertoast.showToast(msg: 'No Trip Found Today.');
+                }
               },
             );
           }),
