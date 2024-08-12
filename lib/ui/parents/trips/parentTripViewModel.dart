@@ -25,7 +25,18 @@ class ParentTripViewModel extends GetxController{
 
   //observables
   RxBool isProcessing = false.obs;
+  RxBool showTripViewAction = false.obs;
   Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
+
+  init(){
+
+    ever(activeTripDetails,
+            (callback) {
+          showTripViewAction(callback!=null);
+        }
+    );
+
+  }
 
   getActiveTrips() async
   {
@@ -34,16 +45,16 @@ class ParentTripViewModel extends GetxController{
 
     // schools(["asd", "123", "523"]);
 
-    int driverId = await AppSession.currentUser.user_id() as int;
+    int parentId = await AppSession.currentUser.user_id() as int;
     // int userId = 1;
 
 
-    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER}");
-    dev.log("request getActiveTrips; params -> {driver_id:${driverId}}");
+    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_PARENT}");
+    dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
 
     repo
-        .getDriverActiveTrips(
-        driverId ,
+        .getParentActiveTrips(
+        parentId ,
         onSuccess: (response)
         // async
         {
@@ -72,161 +83,6 @@ class ParentTripViewModel extends GetxController{
           isProcessing(false);
           Fluttertoast.showToast(
               msg: "Error in fethcing dashboard details",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
-  }
-
-  updateStudentTripStatus(
-      {required int studentId,
-        required String status,
-        String? reason = null}
-      ) async
-  {
-
-    if(activeTripDetails==null){
-      return null;
-    }
-
-
-
-    isProcessing(true);
-
-    int trip_id = activeTripDetails.value?.trip_id ?? 0;
-
-
-    dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
-    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
-    dev.log("request updateStudentTripStatus; params -> {studentId:${studentId}}");
-    dev.log("request updateStudentTripStatus; params -> {status:${status}}");
-    dev.log("request updateStudentTripStatus; params -> {reason:${reason}}");
-
-    repo
-        .updateStudentTripStatus(
-        trip_id,
-        studentId,
-        status,
-        reason,
-        onSuccess: (response)
-        // async
-        {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
-
-          // var data = response;
-
-          if(response.success == 1){
-            // Fluttertoast.showToast(msg: "no Data Found");
-            // activeTripDetails(null);
-            _updateStudentStatusInObservable(studentId, status, reason);
-          }else{
-            Fluttertoast.showToast(msg: errorMessages.unable_to_update_stat);
-            // activeTripDetails(data.trip);
-
-          }
-
-          // dev.log("tripActive -> ${tripActive.value.length}");
-          // dev.log("tripToday -> ${tripToday.value.length}");
-
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: "Error in fethcing dashboard details",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
-  }
-
-  _updateStudentStatusInObservable(int studentId, String status, String? reason){
-
-    dev.log("current time of pickup -> ${DateTime.timestamp().toString()}");
-    for(final std in activeTripDetails.value?.students ?? List<DcDriverActiveTripsDataTripStudentsDomainModel>.empty()){
-
-      if(std.student_id == studentId){
-
-        std.status = status;
-        std.reason = reason;
-        std.time_pickup = DateTime.timestamp().toString();
-
-      }
-    }
-  }
-
-  finishTrip(
-      {required int trip_id,
-        required Function() onComplete
-      }
-      ) async
-  {
-
-    if(activeTripDetails==null){
-      return null;
-    }
-
-
-
-    isProcessing(true);
-
-    int trip_id = activeTripDetails.value?.trip_id ?? 0;
-    String time_end = "";
-
-    dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
-    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
-
-    repo
-        .finishTrip(
-        trip_id,
-        time_end,
-        onSuccess: (response)
-        // async
-        {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
-
-          // var data = response;
-          Fluttertoast.showToast(msg: inforMessages.trip_finished);
-          onComplete();
-          // if(response.success == 1){
-          //   Fluttertoast.showToast(msg: inforMessages.trip_finished);
-          //   onComplete();
-          // }else{
-          //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
-          //
-          // }
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: errorMessages.unable_to_process,
               toastLength: Toast.LENGTH_LONG,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 2,

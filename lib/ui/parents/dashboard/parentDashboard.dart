@@ -1,5 +1,6 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
+import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:SMV2/ui/parents/dashboard/parentDashboardViewModel.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,8 @@ class ParentDashboard extends StatelessWidget {
         defaults.widget.flashCardActionable(
           value: _viewModel.activeTripDetails.value?.trip_id.toString() ?? "~",
           title: "TRIPS",
+          buttonText: labelText.view_trip,
+          buttonColor: Colors.black,
           onButtonPressed: () {
             // Fluttertoast.showToast(msg: "hey");
             navigate().toParentTripView();

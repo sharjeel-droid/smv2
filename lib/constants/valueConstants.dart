@@ -11,6 +11,9 @@ class inforMessages{
   static const trip_finished = 'Trip Finished';
   static const new_trip_started = 'New Trip Started';
 }
+class labelText{
+  static const view_trip = 'View Trip';
+}
 
 class StudentTripStatus{
   static const WAITING = "waiting";
