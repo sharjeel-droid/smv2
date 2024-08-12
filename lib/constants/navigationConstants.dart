@@ -7,6 +7,8 @@ import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
 import 'package:SMV2/ui/parents/trips/parentTripView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
+import 'package:SMV2/ui/drivers/trips/driverTripView.dart';
+import 'package:SMV2/ui/drivers/dashboard/driverDashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:retrofit/retrofit.dart';
@@ -25,40 +27,62 @@ class navigate{
     GetPage(name: _home().routeName(), page: () => _home().routePage()),
     GetPage(name: _about().routeName(), page: () => _about().routePage()),
     GetPage(name: _settings().routeName(), page: () => _settings().routePage()),
+    GetPage(
+        name: _driverTripView().routeName(),
+        page: () => _driverTripView().routePage()),
+    GetPage(
+        name: _driverDashboardView().routeName(),
+        page: () => _driverDashboardView().routePage()),
   ];
 
 
-   toLogin(/*{required context}*/){
-     Get.off(_login().routePage());
-   }
-   toHome(/*{required context}*/){
-     Get.off(_home().routePage());
-   }
-   toAbout(/*{required context}*/){
-     // dev.log('navigating to about page');
-     Get.to(_about().routePage());
-   }
-   toSettings(/*{required context}*/){
-     Get.to(_settings().routePage());
-   }
-   toSchoolWizard(/*{required context}*/){
-     Get.to(_schoolWizard().routePage());
-   }
-   toAddressPicker(/*{required context}*/){
-     Get.to(_addressPicker().routePage());
-   }
-   toStudentWizard(/*{required context}*/){
-     Get.to(_studentWizard().routePage());
-   }
-   toVanWizard(/*{required context}*/){
-     Get.to(_vanWizard().routePage());
-   }
-   toParentTripView(/*{required context}*/){
+  toLogin(/*{required context}*/) {
+    Get.off(_login().routePage());
+  }
+
+  toHome(/*{required context}*/) {
+    Get.off(_home().routePage());
+  }
+
+  toAbout(/*{required context}*/) {
+    // dev.log('navigating to about page');
+    Get.to(_about().routePage());
+  }
+
+  toSettings(/*{required context}*/) {
+    Get.to(_settings().routePage());
+  }
+
+  toSchoolWizard(/*{required context}*/) {
+    Get.to(_schoolWizard().routePage());
+  }
+
+  toAddressPicker(/*{required context}*/) {
+    Get.to(_addressPicker().routePage());
+  }
+
+  toStudentWizard(/*{required context}*/) {
+    Get.to(_studentWizard().routePage());
+  }
+
+  toVanWizard(/*{required context}*/) {
+    Get.to(_vanWizard().routePage());
+  }
+
+  todriverTripView(/*{required context}*/) {
+    Get.to(_driverTripView().routePage());
+  }
+
+  todriverDashboardView(/*{required context}*/) {
+    Get.to(_driverDashboardView().routePage());
+  }
+  toParentTripView(/*{required context}*/){
      Get.to(_parentTripView().routePage());
-   }
-   back(/*{required context}*/){
+  }
+
+  back(/*{required context}*/){
      Get.back();//to(_schoolWizard().routePage());
-   }
+  }
 
 }
 
@@ -73,7 +97,30 @@ class _splash implements getXNavGetter{
   routePage() {
     return SplashView();
   }
+}
 
+class _driverDashboardView implements getXNavGetter {
+  @override
+  String routeName() {
+    return "/driverDashboard";
+  }
+
+  @override
+  Widget routePage() {
+    return DriverDashboard();
+  }
+}
+
+class _driverTripView implements getXNavGetter {
+  @override
+  String routeName() {
+    return "/driverTipView";
+  }
+
+  @override
+  Widget routePage() {
+    return DriverTripView();
+  }
 }
 class _login implements getXNavGetter{
   _login();
