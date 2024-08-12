@@ -87,5 +87,9 @@ abstract class DataCentreApi{
       @Path(dataKeys.TRIP_ID) int trip_id
       );
 
+  @GET(ApiConst.URL_TRIP_ACTIVE_FOR_PARENT)
+  Future<HttpResponse<ApiResponseNetworkEntity>> activeTripsForParent(
+      @Query(dataKeys.PARENT_ID) int parent_id
+      );
 
 }

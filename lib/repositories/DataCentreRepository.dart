@@ -706,6 +706,53 @@ class DataCentreRepository{
 
   }
 
+  //PARENTS
+  getParentActiveTrips(int parent_id, {Function(DcDriverActiveTripsDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> parent_id : ${parent_id}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.activeTripsForParent(parent_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+
+      if(resp.success == 1){
+        if(resp!=null){
+
+          // var dt = this.mapper_base.mapFromEntity(resp).data as DcDriverActiveTripsDataDomainModel;
+          var dt = DcDriverActiveTripsDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
+          // dt = _updateStudentCounts(dt);
+
+          onSuccess!(dt);
+
+          // onSuccess!(this.mapper_base.mapFromEntity(resp) as DcDriverActiveTripsDataDomainModel);
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
+
 
 
   void authCallback(){}

@@ -11,6 +11,9 @@ import 'package:SMV2/ui/drivers/dashboard/driverDashboardViewModel.dart';
 import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
 import 'package:SMV2/ui/login/loginViewModel.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerViewModel.dart';
+import 'package:SMV2/ui/parents/dashboard/parentDashboard.dart';
+import 'package:SMV2/ui/parents/dashboard/parentDashboardViewModel.dart';
+import 'package:SMV2/ui/parents/trips/parentTripViewModel.dart';
 import 'package:SMV2/ui/splash/splashViewModel.dart';
 import 'package:SMV2/utils/AppSession.dart';
 import 'package:get/get.dart';
@@ -33,7 +36,10 @@ class ViewBindings extends Bindings{
     Get.put<VanWizardViewModel>(VanWizardViewModel(Get.find<DataCentreRepository>()));//
     //drivers
     Get.put<DriverDashboardViewModel>(DriverDashboardViewModel(Get.find<DataCentreRepository>()));//
-    Get.put<DriverTripViewModel>(DriverTripViewModel(Get.find<DataCentreRepository>()));//
+    Get.put<DriverTripViewModel>(DriverTripViewModel(Get.find<DataCentreRepository>()));
+    //parents
+    Get.put<ParentDashboardViewModel>(ParentDashboardViewModel(Get.find<DataCentreRepository>()));
+    Get.put<ParentTripViewModel>(ParentTripViewModel(Get.find<DataCentreRepository>()));
 
   }
 }

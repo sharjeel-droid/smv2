@@ -3,6 +3,7 @@ import 'package:SMV2/constants/valueConstants.dart';
 import 'package:SMV2/ui/admin/students/adminStudentsView.dart';
 import 'package:SMV2/ui/admin/vans/adminVansView.dart';
 import 'package:SMV2/ui/drivers/dashboard/driverDashboard.dart';
+import 'package:SMV2/ui/parents/dashboard/parentDashboard.dart';
 import 'package:SMV2/utils/AppSession.dart';
 import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
@@ -98,7 +99,12 @@ class NavDrawerViewModel extends GetxController{
 
       case UserRole.PARENT:{
         tree = [];
-        tree.addAll([]);
+        tree.addAll(
+            _getParentNavTree(onSelection: (int selectedPosition){
+              handleNavselection(selectedPosition);
+            })
+
+        );
         // mappedNavTree([]);
         break;
       }
@@ -170,7 +176,8 @@ class NavDrawerViewModel extends GetxController{
 
 
       case UserRole.PARENT:{
-        mappedNavView(_getEmptyView());
+        // mappedNavView(_getEmptyView());
+        mappedNavView(_getParentNavViews(selectedNavItemPos.value));
         break;
       }
 
@@ -631,6 +638,133 @@ dev.log("selection -> ${selection}");
     switch(selection){
       case 0 : {
         return DriverDashboard();
+        break;
+      }
+      case 1:{
+        // return AdminSchoolView();
+        return _getEmptyView();
+        break;
+      }
+      default:{
+        return _getEmptyView();
+      }
+    }
+
+
+    // return [
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.dashboard),
+    //     title: const Text('Dashboard'),
+    //     onTap: () {
+    //       // navigateTo("/home", context);
+    //       setState(() {
+    //         selectedNavItemPos = 0;
+    //       });
+    //     },
+    //   ),
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.school),
+    //     title: const Text('Schools'),
+    //     onTap: () {
+    //       setState(() {
+    //         selectedNavItemPos = 1;
+    //       });
+    //       // navigateTo("/about", context);
+    //     },
+    //   ),
+    //
+    //   ListTile(
+    //     leading: const Icon(Icons.supervisor_account),
+    //     title: const Text('Supervisors'),
+    //     onTap: () {
+    //       setState(() {
+    //         selectedNavItemPos = 2;
+    //       });
+    //       // navigateTo("/about", context);
+    //     },
+    //   ),
+    //
+    // ];
+
+
+    //   ListView(
+    //   padding: EdgeInsets.all(defaults.dimens.padding.none),
+    //   children: <Widget>[
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.dashboard),
+    //       title: const Text('Dashboard'),
+    //       onTap: () {
+    //         // navigateTo("/home", context);
+    //       },
+    //     ),
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.school),
+    //       title: const Text('Schools'),
+    //       onTap: () {
+    //         // navigateTo("/about", context);
+    //       },
+    //     ),
+    //
+    //     ListTile(
+    //       leading: const Icon(Icons.supervisor_account),
+    //       title: const Text('Supervisors'),
+    //       onTap: () {
+    //         // navigateTo("/about", context);
+    //       },
+    //     ),
+    //
+    //   ],
+    // );
+  }
+
+  //parent views
+  _getParentNavTree({required Function(int selectedPosition) onSelection}){
+    dev.log("getting parent nav tree");
+
+    return [
+
+      ListTile(
+        leading: const Icon(Icons.dashboard),
+        title: const Text('Dashboard'),
+        onTap: () {
+          onSelection(0);
+          // _setNavselection(0);
+          // navigateTo("/home", context);
+          // setState(() {
+          //   selectedNavItemPos = 0;
+          // });
+        },
+      ),
+
+      ListTile(
+        leading: const Icon(Icons.school),
+        title: const Text('History'),
+        onTap: (){
+          dev.log("selection -> 1");
+          onSelection(1);
+        }
+        // onTap: (){_setNavselection(1);}
+        /*() {
+          setState(() {
+            selectedNavItemPos = 1;
+          });
+          // navigateTo("/about", context);
+        }*/,
+      ),
+
+
+    ];
+
+  }
+  Widget _getParentNavViews(int selection){
+    dev.log("selection -> ${selection}");
+    switch(selection){
+      case 0 : {
+        return ParentDashboard();
         break;
       }
       case 1:{

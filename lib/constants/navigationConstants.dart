@@ -5,6 +5,7 @@ import 'package:SMV2/ui/admin/students/studentWizard/studentWizardView.dart';
 import 'package:SMV2/ui/admin/vans/vanWizard/vanWizardView.dart';
 import 'package:SMV2/ui/mapsandplaces/addressPickerView.dart';
 import 'package:SMV2/ui/navigationDrawer/navDrawerView.dart';
+import 'package:SMV2/ui/parents/trips/parentTripView.dart';
 import 'package:SMV2/ui/splash/splashView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,6 +52,9 @@ class navigate{
    }
    toVanWizard(/*{required context}*/){
      Get.to(_vanWizard().routePage());
+   }
+   toParentTripView(/*{required context}*/){
+     Get.to(_parentTripView().routePage());
    }
    back(/*{required context}*/){
      Get.back();//to(_schoolWizard().routePage());
@@ -170,6 +174,20 @@ class _vanWizard implements getXNavGetter{
   }
 
 }
+//parent
+class _parentTripView implements getXNavGetter{
+  @override
+  String routeName() {
+    return "/parentTripView";
+  }
+
+  @override
+  Widget routePage() {
+    return ParentTripView();
+  }
+
+}
+
 
 abstract class getXNavGetter{
   String routeName();

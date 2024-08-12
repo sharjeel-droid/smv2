@@ -67,7 +67,7 @@ class _CurrentUser{
      s_admin_id,
      school_id,
     required first_name,
-    required last_name,
+     last_name,
     required gender,
     required nic_number,
     email,
@@ -90,7 +90,7 @@ class _CurrentUser{
     await _set_s_admin_id(s_admin_id??0);
     await _set_school_id(school_id);
     await _set_first_name(first_name);
-    await _set_last_name(last_name);
+    await _set_last_name(last_name??"");
     await _set_gender(gender);
     await _set_nic_number(nic_number);
     await _set_email(email??"");

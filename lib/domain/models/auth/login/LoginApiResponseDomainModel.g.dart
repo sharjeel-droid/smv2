@@ -61,7 +61,7 @@ BIODomainModel _$BIODomainModelFromJson(Map<String, dynamic> json) =>
       admin_id: json['admin_id'] as int?,
       school_id: json['school_id'] as int?,
       first_name: json['first_name'] as String,
-      last_name: json['last_name'] as String,
+      last_name: json['last_name'] as String?,
       gender: json['gender'] as String,
       nic_number: json['nic_number'] as String,
       email: json['email'] as String?,
