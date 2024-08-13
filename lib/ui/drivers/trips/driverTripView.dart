@@ -1,12 +1,15 @@
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:intl/intl.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'dart:math';
+import 'dart:convert';
 
 class DriverTripView extends StatefulWidget {
   const DriverTripView({Key? key}) : super(key: key);
@@ -21,6 +24,8 @@ class _DriverTripViewState extends State<DriverTripView> {
   final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
 
   bool _isTripStarted = false;
+  Set<Polyline> _polylines = {};
+  Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +54,59 @@ class _DriverTripViewState extends State<DriverTripView> {
                       child: Text('No active trip details available'));
                 } else {
                   var tripDetails = _viewModel.activeTripDetails.value!;
+
+                  if (tripDetails.route_direction_string != null) {
+                    String? jsonString = tripDetails.route_direction_string;
+                    Map<String, dynamic> decodedJson = jsonDecode(jsonString!);
+                    List<String> polylinePoints = [];
+
+                    for (var route in decodedJson['routes']) {
+                      for (var leg in route['legs']) {
+                        for (var step in leg['steps']) {
+                          polylinePoints.add(step['polyline']['points']);
+                        }
+                      }
+                    }
+                    for (String polyline in polylinePoints) {
+                      List<LatLng> points = decodePolyline(polyline);
+                      print('polylinePoints');
+                      print(points);
+
+                      for (String polyline in polylinePoints) {
+                        List<LatLng> points = decodePolyline(polyline);
+                        _polylines.add(
+                          Polyline(
+                            polylineId:
+                                PolylineId('polyline_${_polylines.length}'),
+                            color: Colors.blue,
+                            width: 5,
+                            points: points,
+                          ),
+                        );
+                      }
+                    }
+                  }
+                  print('route_direction_string');
+                  print(tripDetails.route_direction_string);
+
+                  String? time_start = tripDetails.time_start;
+                  String? time_end = tripDetails.time_end;
+
+                  String startformattedTime = '';
+                  String endformattedTime = '';
+
+                  if (time_start != null) {
+                    DateTime startparsedDateTime = DateTime.parse(time_start);
+                    startformattedTime =
+                        DateFormat('HH:mm').format(startparsedDateTime);
+                  }
+
+                  if (time_end != null) {
+                    DateTime endparsedDateTime = DateTime.parse(time_end);
+                    endformattedTime =
+                        DateFormat('HH:mm').format(endparsedDateTime);
+                  }
+
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -63,7 +121,7 @@ class _DriverTripViewState extends State<DriverTripView> {
                                 style: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
-                              const Text('07:00 - 08:00'),
+                              Text('$startformattedTime - $endformattedTime'),
                               const SizedBox(height: 10),
                               const SizedBox(height: 10),
                               Row(
@@ -413,5 +471,36 @@ class _DriverTripViewState extends State<DriverTripView> {
     }
 
     return statusColor;
+  }
+
+  List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> poly = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
+
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lng += dlng;
+
+      poly.add(LatLng(lat / 1E5, lng / 1E5));
+    }
+
+    return poly;
   }
 }
