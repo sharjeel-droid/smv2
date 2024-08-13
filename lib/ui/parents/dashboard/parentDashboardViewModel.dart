@@ -25,7 +25,7 @@ class ParentDashboardViewModel extends GetxController{
 
   //observables
   RxBool isProcessing = false.obs;
-  RxBool showTripViewAction = false.obs;
+  // RxBool showTripViewAction = false.obs;
   Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
   // Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
@@ -37,11 +37,11 @@ class ParentDashboardViewModel extends GetxController{
 
   init(){
 
-    ever(activeTripDetails,
-            (callback) {
-              showTripViewAction(callback!=null);
-            }
-            );
+    // ever(activeTripDetails,
+    //         (callback) {
+    //           showTripViewAction(callback!=null);
+    //         }
+    //         );
 
     getActiveTrips();
   }
@@ -80,6 +80,7 @@ class ParentDashboardViewModel extends GetxController{
             activeTripDetails(data.trip);
 
           }
+          activeTripDetails.refresh();
 
           // dev.log("tripActive -> ${tripActive.value.length}");
           // dev.log("tripToday -> ${tripToday.value.length}");

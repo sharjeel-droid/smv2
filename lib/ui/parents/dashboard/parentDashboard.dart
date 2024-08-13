@@ -28,7 +28,7 @@ class ParentDashboard extends StatelessWidget {
 
         Obx(() =>
 
-        _viewModel.showTripViewAction.value
+        _viewModel.activeTripDetails.value==null
 
             ?
 
