@@ -12,6 +12,7 @@ ApiResponseNetworkEntity _$ApiResponseNetworkEntityFromJson(
       success: json['success'] as int,
       message: json['message'] as String,
       fcmResponse: json['fcmResponse'] as String?,
+      lastInsertedId: json['lastInsertedId'] as int?,
       data: json['data'],
     );
 
@@ -21,5 +22,6 @@ Map<String, dynamic> _$ApiResponseNetworkEntityToJson(
       'success': instance.success,
       'message': instance.message,
       'fcmResponse': instance.fcmResponse,
+      'lastInsertedId': instance.lastInsertedId,
       'data': instance.data,
     };

@@ -15,9 +15,9 @@ import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
 
 
-class DriverDashboardViewModel extends GetxController{
+class ParentDashboardViewModel extends GetxController{
   final DataCentreRepository repo;
-  DriverDashboardViewModel(this.repo);
+  ParentDashboardViewModel(this.repo);
 
   //non-observables
   final _context = Get.find<BuildContext>();
@@ -25,30 +25,91 @@ class DriverDashboardViewModel extends GetxController{
 
   //observables
   RxBool isProcessing = false.obs;
-  // RxBool showNewTripAction = false.obs;
+  // RxBool showTripViewAction = false.obs;
+  Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
-  Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
-  Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
-  Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
-  RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
-  RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
+  // Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
+  // Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
+  // Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
+  // RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
+  // RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
   // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
   init(){
-    dev.log("driverDashVM init");
-    // ever(tripActive,
-    //         (callback) {
-    //           showNewTripAction(callback!=null);
-    //     }
-    // );
 
-    getDashboardDetails();
+    // ever(activeTripDetails,
+    //         (callback) {
+    //           showTripViewAction(callback!=null);
+    //         }
+    //         );
+
+    getActiveTrips();
+  }
+
+  getActiveTrips() async
+  {
+
+    isProcessing(true);
+
+    // schools(["asd", "123", "523"]);
+
+    int parentId = await AppSession.currentUser.user_id() as int;
+    // int userId = 1;
+
+
+    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_PARENT}");
+    dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
+
+    repo
+        .getParentActiveTrips(
+        parentId ,
+        onSuccess: (response)
+        // async
+        {
+          // dev.log("on success -> ${response.success}");
+          dev.log("response -> ${response.toJson()}");
+          // dev.log("response.data -> ${response.data!.toJson()}");
+
+          var data = response;
+
+          if(data == null){
+            Fluttertoast.showToast(msg: "no Data Found");
+            activeTripDetails(null);
+          }else{
+
+            activeTripDetails(data.trip);
+
+          }
+          activeTripDetails.refresh();
+
+          // dev.log("tripActive -> ${tripActive.value.length}");
+          // dev.log("tripToday -> ${tripToday.value.length}");
+
+          isProcessing(false);
+        },
+        onFailure: (errorMsg){
+          dev.log("error message -> ${errorMsg}");
+          isProcessing(false);
+          Fluttertoast.showToast(
+              msg: "Error in fethcing dashboard details",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        });
+
+
+
+
+
 
   }
 
 
-
-getDashboardDetails() async
+/*getDashboardDetails() async
 {
 
   isProcessing(true);
@@ -115,9 +176,9 @@ getDashboardDetails() async
 
 
 
-}
+}*/
 
-startNewTrip({required int route_id, required String trip_course, required Function() onComplete}) async
+/*startNewTrip({required int route_id, required String trip_course, required Function() onComplete}) async
 {
 
   isProcessing(true);
@@ -177,7 +238,7 @@ startNewTrip({required int route_id, required String trip_course, required Funct
 
 
 
-}
+}*/
 
 
 
@@ -244,9 +305,9 @@ getActiveTrips() async
 
 }*/
 
-// bool shouldShowNewTripAction(){
+// bool shouldShowTripView(){
 //
-//   return (tripActive!=null);
+//   return (activeTripDetails!=null);
 //
 // }
 

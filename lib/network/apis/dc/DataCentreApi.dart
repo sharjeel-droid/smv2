@@ -60,9 +60,11 @@ abstract class DataCentreApi{
       );
 
   @POST(ApiConst.URL_NEW_TRIP_BY_DRIVER)
-  Future<HttpResponse<DCnewVanApiResponseNetworkEntity>> newTripByDriver(
-      @Query(dataKeys.ROUTE_ID) int route_id,
-      @Query(dataKeys.TIME_START) String time_start
+  @FormUrlEncoded()
+  Future<HttpResponse<ApiResponseNetworkEntity>> newTripByDriver(
+      @Field(dataKeys.ROUTE_ID) int route_id,
+      @Field(dataKeys.TIME_START) String time_start,
+      @Field(dataKeys.TRIP_COURSE) String trip_course
       );
 
   @GET(ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER)
@@ -73,12 +75,24 @@ abstract class DataCentreApi{
 
 
   @POST(ApiConst.URL_UPD_STUDENT_TRIP_STATUS)
+  @FormUrlEncoded()
   Future<HttpResponse<ApiResponseNetworkEntity>> updateStudentTripStatus(
-      @Path(dataKeys.TRIP_ID) int trip_id,
-      @Path(dataKeys.STUDENT_ID) int student_id,
-      @Path(dataKeys.STATUS) String status,
-      @Path(dataKeys.REASON) String? reason,
+      @Field(dataKeys.TRIP_ID) int trip_id,
+      @Field(dataKeys.STUDENT_ID) int student_id,
+      @Field(dataKeys.STATUS) String status,
+      // @Path(dataKeys.REASON) String? reason,
       );
 
+  @POST(ApiConst.URL_FINISH_TRIP)
+  @FormUrlEncoded()
+  Future<HttpResponse<ApiResponseNetworkEntity>> finishTrip(
+      @Field(dataKeys.TIME_END) String time_end,
+      @Field(dataKeys.TRIP_ID) int trip_id
+      );
+
+  @GET(ApiConst.URL_TRIP_ACTIVE_FOR_PARENT)
+  Future<HttpResponse<ApiResponseNetworkEntity>> activeTripsForParent(
+      @Query(dataKeys.PARENT_ID) int parent_id
+      );
 
 }

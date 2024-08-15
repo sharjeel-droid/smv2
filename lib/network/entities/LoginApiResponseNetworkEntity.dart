@@ -55,7 +55,7 @@ class BIONetworkEntity{
   int? s_admin_id;
   int? school_id;
   String first_name;
-  String last_name;
+  String? last_name;
   String gender;
   String nic_number;
   String? email;
@@ -73,7 +73,7 @@ class BIONetworkEntity{
      this.s_admin_id,
      this.school_id,
     required this.first_name,
-    required this.last_name,
+    this.last_name,
     required this.gender,
     required this.nic_number,
      this.email,
