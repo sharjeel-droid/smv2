@@ -338,6 +338,7 @@ class _DriverTripViewState extends State<DriverTripView> {
                         _viewModel.finishTrip(trip_id: _viewModel.activeTripDetails.value?.trip_id??0, onComplete: (){
 
                           Navigator.of(context).pop();
+                          Navigator.of(context).pop();
 
                         });
 

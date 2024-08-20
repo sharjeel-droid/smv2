@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 class DriverDashboard extends StatelessWidget {
   DriverDashboard({Key? key}) : super(key: key);
 
+  final _context = Get.find<BuildContext>();
+
   final DriverDashboardViewModel _viewModel =
       Get.find<DriverDashboardViewModel>();
 
@@ -78,19 +80,95 @@ class DriverDashboard extends StatelessWidget {
               buttonColor: Colors.black,
               onButtonPressed: () {
                 if (_viewModel.tripActive.isNotEmpty) {
-                  String message = _viewModel.tripActive.value.isEmpty
-                      ? newTrip
-                      : continueTrip;
-                  Fluttertoast.showToast(msg: message);
+                  // String message = _viewModel.tripActive.value.isEmpty
+                  //     ? newTrip
+                  //     : continueTrip;
+                  // Fluttertoast.showToast(msg: message);
                   const navigate().todriverTripView();
+
                 } else {
-                  Fluttertoast.showToast(msg: 'No Trip Found Today.');
+
+                  _showNewTripAlert(context);
+
+                  // Fluttertoast.showToast(msg: 'No Trip Found Today.');
                 }
               },
             );
           }),
         ],
       ),
+    );
+  }
+
+
+
+  //customs
+  Future _showNewTripAlert(BuildContext _context) async
+  {
+    return showDialog(
+      context: _context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Finish Trip ?',
+              style: TextStyle(fontSize: 17)),
+
+          content: Text('Do you really want to Finish the Trip ?',
+              style: TextStyle(fontSize: 14)),
+
+          actions: <Widget>[
+
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.green,
+                      ),
+                      child: const Text(
+                        'Finish',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+
+                        // _viewModel.finishTrip(trip_id: _viewModel.activeTripDetails.value?.trip_id??0, onComplete: (){
+                        //
+                        //   Navigator.of(context).pop();
+                        //   Navigator.of(context).pop();
+                        //
+                        // });
+
+
+                        // if(student.student_id!=null){
+                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
+                        // }
+
+
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        backgroundColor: Colors.red,
+                      ),
+                      child: const Text('Cancel',
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: () {
+                        // Navigator.of(context).pop();
+                        // if(student.student_id!=null){
+                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
+                        // }
+
+                      },
+                    ),
+                  ),
+                ])
+
+          ],
+        );
+      },
     );
   }
 }

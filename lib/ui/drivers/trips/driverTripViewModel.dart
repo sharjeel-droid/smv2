@@ -5,6 +5,7 @@ import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
 import 'package:SMV2/utils/AppSession.dart';
+import 'package:SMV2/utils/DateTimeHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -220,10 +221,12 @@ class DriverTripViewModel extends GetxController{
     isProcessing(true);
 
     int trip_id = activeTripDetails.value?.trip_id ?? 0;
-    String time_end = "";
+    String time_end = DateTimeHandler.dateTimeNow_ymd();
 
     dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
-    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
+    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}, time_end:${time_end}");
+
+    // return;
 
     repo
         .finishTrip(
