@@ -5,6 +5,7 @@ import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
 import 'package:SMV2/utils/AppSession.dart';
+import 'package:SMV2/utils/DateTimeHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -127,9 +128,9 @@ startNewTrip({required int route_id, required String trip_course, required Funct
   // int driverId = await AppSession.currentUser.user_id() as int;
   // int userId = 1;
 
-  String start_time = "";
+  String start_time = DateTimeHandler.dateTimeNow_ymd();
 
-  dev.log("request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_DET_FOR_DRIVER}");
+  dev.log("request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_NEW_TRIP_BY_DRIVER}");
   dev.log("request DriverDashDet; params -> {route_id:${route_id}, trip_course:${trip_course}, start_time, ${start_time}");
 
   repo
@@ -139,7 +140,7 @@ startNewTrip({required int route_id, required String trip_course, required Funct
       {
         dev.log("on success -> ${response.success}");
         dev.log("response -> ${response.toJson()}");
-        dev.log("response.data -> ${response.data!.toJson()}");
+        // dev.log("response.data -> ${response.data!.toJson()}");
 
         // var data = response.data;
         Fluttertoast.showToast(msg: inforMessages.new_trip_started);

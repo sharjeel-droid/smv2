@@ -70,7 +70,7 @@ class navigate{
   }
 
   todriverTripView(/*{required context}*/) {
-    Get.to(_driverTripView().routePage());
+    Get.to(() => _driverTripView().routePage());
   }
 
   todriverDashboardView(/*{required context}*/) {
@@ -80,10 +80,12 @@ class navigate{
      Get.to(_parentTripView().routePage());
   }
 
-  back(/*{required context}*/){
-     Get.back();//to(_schoolWizard().routePage());
+  // back(/*{required context}*/){
+  //    Get.back();//to(_schoolWizard().routePage());
+  // }
+  back({dynamic res = null}){
+    Get.back(result: res);//to(_schoolWizard().routePage());
   }
-
 }
 
 //get x navigation

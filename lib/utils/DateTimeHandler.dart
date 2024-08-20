@@ -20,5 +20,15 @@ class DateTimeHandler{
 
   }
 
+  static String dateTime_ymd_to_hm(String ymd_hms){
+    String timeCalculated = "";
+
+    DateTime dttm = DateTime.parse(ymd_hms);
+
+    timeCalculated = DateFormat('HH:mm').format(dttm);
+
+    return timeCalculated;
+  }
+
 
 }
