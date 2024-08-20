@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:collection';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,300 +21,181 @@ class DriverTripView extends StatefulWidget {
 }
 
 class _DriverTripViewState extends State<DriverTripView> {
-  static const LatLng _karachi = LatLng(24.8607, 67.0011);
-
+  Completer<GoogleMapController> _mapController = Completer();
+  final Set<Marker> _markers = {};
+  final Set<Polyline> _polyline = {};
   final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
-
-  bool _isTripStarted = false;
-  Set<Polyline> _polylines = {};
-  Set<Marker> _markers = {};
 
   @override
   Widget build(BuildContext context) {
+    // Start loading trips
     _viewModel.getActiveTrips();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    String formattedTime = DateFormat('hh:mm a').format(now);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          const GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: _karachi,
-              zoom: 13,
+      body: Obx(() {
+        // Show a loading spinner while the data is being fetched
+        if (_viewModel.isProcessing.value) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        // Check if the trip details are available
+        final tripDetails = _viewModel.activeTripDetails.value;
+        if (tripDetails == null) {
+          return Center(child: Text("No active trips found"));
+        }
+
+        // Only proceed when data is available
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+        String formattedTime = DateFormat('hh:mm a').format(now);
+        LatLng? startingPoint;
+
+        if (tripDetails.route_direction_string != null) {
+          String? jsonString = tripDetails.route_direction_string;
+          if (jsonString != null) {
+            Map<String, dynamic> decodedJson = jsonDecode(jsonString);
+            List<String> polylinePoints = [];
+
+            for (var route in decodedJson['routes']) {
+              for (var leg in route['legs']) {
+                for (var step in leg['steps']) {
+                  polylinePoints.add(step['polyline']['points']);
+                }
+              }
+            }
+
+            for (String polyline in polylinePoints) {
+              List<LatLng> points = _viewModel.decodePolyline(polyline);
+
+              for (var i = 0; i < points.length; i++) {
+                if (i == 0) {
+                  startingPoint = points[i];
+                }
+                _markers.add(Marker(
+                  markerId: MarkerId(i.toString()),
+                  position: points[i],
+                  icon: BitmapDescriptor.defaultMarker,
+                ));
+                _polyline.add(Polyline(
+                  polylineId: PolylineId(i.toString()),
+                  points: points,
+                  color: Colors.red,
+                  width: 2,
+                ));
+              }
+            }
+          }
+        }
+
+        LatLng initialLocation = startingPoint!;
+
+        return Stack(
+          children: [
+            GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: initialLocation,
+                zoom: 13,
+              ),
+              mapType: MapType.normal,
+              markers: _markers,
+              polylines: _polyline,
+              onMapCreated: (GoogleMapController controller) {
+                _mapController.complete(controller);
+              },
             ),
-          ),
-          if (!_isTripStarted)
             Positioned(
               top: 10,
               left: 5,
               right: 5,
-              child: Obx(() {
-                if (_viewModel.activeTripDetails.value == null) {
-                  return const Center(
-                      child: Text('No active trip details available'));
-                } else {
-                  var tripDetails = _viewModel.activeTripDetails.value!;
-
-                  if (tripDetails.route_direction_string != null) {
-                    String? jsonString = tripDetails.route_direction_string;
-                    Map<String, dynamic> decodedJson = jsonDecode(jsonString!);
-                    List<String> polylinePoints = [];
-
-                    for (var route in decodedJson['routes']) {
-                      for (var leg in route['legs']) {
-                        for (var step in leg['steps']) {
-                          polylinePoints.add(step['polyline']['points']);
-                        }
-                      }
-                    }
-                    for (String polyline in polylinePoints) {
-                      List<LatLng> points = decodePolyline(polyline);
-                      print('polylinePoints');
-                      print(points);
-
-                      for (String polyline in polylinePoints) {
-                        List<LatLng> points = decodePolyline(polyline);
-                        _polylines.add(
-                          Polyline(
-                            polylineId:
-                                PolylineId('polyline_${_polylines.length}'),
-                            color: Colors.blue,
-                            width: 5,
-                            points: points,
-                          ),
-                        );
-                      }
-                    }
-                  }
-                  print('route_direction_string');
-                  print(tripDetails.route_direction_string);
-
-                  String? time_start = tripDetails.time_start;
-                  String? time_end = tripDetails.time_end;
-
-                  String startformattedTime = '';
-                  String endformattedTime = '';
-
-                  if (time_start != null) {
-                    DateTime startparsedDateTime = DateTime.parse(time_start);
-                    startformattedTime =
-                        DateFormat('HH:mm').format(startparsedDateTime);
-                  }
-
-                  if (time_end != null) {
-                    DateTime endparsedDateTime = DateTime.parse(time_end);
-                    endformattedTime =
-                        DateFormat('HH:mm').format(endparsedDateTime);
-                  }
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(9.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 tripDetails.route_title ?? '',
                                 style: const TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
-                              ),
-                              Text('$startformattedTime - $endformattedTime'),
-                              const SizedBox(height: 10),
-                              const SizedBox(height: 10),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Colors.green,
-                                      ),
-                                      child: const Text(
-                                        'Starting Address Here',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.arrow_right_alt,
-                                    color: Colors.black,
-                                  ),
-                                  const SizedBox(width: 10),
-                                  Expanded(
-                                    child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                      ),
-                                      child: const Text(
-                                        'Starting Address Here',
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                      onPressed: () {},
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  );
-                }
-              }),
-            ),
-          if (_isTripStarted)
-            Positioned(
-              top: 10,
-              left: 5,
-              right: 5,
-              child: Obx(() {
-                if (_viewModel.activeTripDetails.value == null) {
-                  return const Center(
-                      child: Text('No active trip details available'));
-                } else {
-                  var tripDetails = _viewModel.activeTripDetails.value!;
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(9.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    tripDetails.route_title ?? '',
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(formattedDate),
-                                      Text(formattedTime),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(height: 10),
-                              const Text(
-                                'Students',
-                                style: TextStyle(
                                     fontSize: 16, fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  _buildStudentInfoCard(
-                                      'Total', tripDetails.count_total),
-                                  _buildStudentInfoCard(
-                                      'Picked', tripDetails.count_picked),
-                                  _buildStudentInfoCard(
-                                      'Absent', tripDetails.count_absent),
-                                  _buildStudentInfoCard(
-                                      'Remaining', tripDetails.count_remaining),
+                                  Text(formattedDate),
+                                  Text(formattedTime),
                                 ],
                               ),
                             ],
                           ),
-                        ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Students',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildStudentInfoCard(
+                                  'Total', tripDetails.count_total),
+                              _buildStudentInfoCard(
+                                  'Picked', tripDetails.count_picked),
+                              _buildStudentInfoCard(
+                                  'Absent', tripDetails.count_absent),
+                              _buildStudentInfoCard(
+                                  'Remaining', tripDetails.count_remaining),
+                            ],
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 10),
-                      tripDetails.students != null
-                          ? SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: tripDetails.students!
-                                    .map(
-                                        (student) => _buildStudentCard(student))
-                                    .toList(),
-                              ),
-                            )
-                          : Container(),
-                    ],
-                  );
-                }
-              }),
-            ),
-          Positioned(
-            bottom: 20,
-            left: 10,
-            right: 10,
-            child: _isTripStarted
-                ? Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text(
-                            'Finish Trip',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            const navigate().todriverDashboardView();
-                          },
-                        ),
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.red,
-                          ),
-                          child: const Text(
-                            'Cancel',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            const navigate().todriverDashboardView();
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            backgroundColor: Colors.green,
-                          ),
-                          child: const Text(
-                            'Start Trip',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            setState(() {
-                              _isTripStarted = true;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-          ),
-        ],
-      ),
+                  const SizedBox(height: 10),
+                  tripDetails.students != null
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: tripDetails.students!
+                                .map((student) => _buildStudentCard(student))
+                                .toList(),
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            Positioned(
+                bottom: 20,
+                left: 10,
+                right: 10,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: const Text(
+                          'Finish Trip',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        );
+      }),
     );
   }
 
@@ -471,36 +354,5 @@ class _DriverTripViewState extends State<DriverTripView> {
     }
 
     return statusColor;
-  }
-
-  List<LatLng> decodePolyline(String encoded) {
-    List<LatLng> poly = [];
-    int index = 0, len = encoded.length;
-    int lat = 0, lng = 0;
-
-    while (index < len) {
-      int b, shift = 0, result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1F) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
-      lat += dlat;
-
-      shift = 0;
-      result = 0;
-      do {
-        b = encoded.codeUnitAt(index++) - 63;
-        result |= (b & 0x1F) << shift;
-        shift += 5;
-      } while (b >= 0x20);
-      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
-      lng += dlng;
-
-      poly.add(LatLng(lat / 1E5, lng / 1E5));
-    }
-
-    return poly;
   }
 }

@@ -16,7 +16,7 @@ class DriverDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.init();//getDashboardDetails();
+    _viewModel.init(); //getDashboardDetails();
 
     String newTrip = 'New Trip';
     String continueTrip = 'Continue Trip';
@@ -45,11 +45,10 @@ class DriverDashboard extends StatelessWidget {
                 title: "Route",
               )),
           Obx(() {
-            print('tripActive:');
-            print(_viewModel.tripActive);
             return defaults.widget.flashCardActionable(
-              value:
-                  _viewModel.tripToday.value.isEmpty  ? inforMessages.no_trips_today : "",
+              value: _viewModel.tripToday.value.isEmpty
+                  ? inforMessages.no_trips_today
+                  : "",
               title: "TRIPS",
               content: _viewModel.tripToday.isNotEmpty
                   ? Center(
