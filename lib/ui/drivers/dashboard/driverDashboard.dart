@@ -64,6 +64,7 @@ class DriverDashboard extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final trip = _viewModel.tripToday[index];
                           return ListTile(
+
                             title: Center(
                               child: Text(
                                 '${trip.time_start ?? "N/A"} -> ${trip.status ?? "N/A"}',
