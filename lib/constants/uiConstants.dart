@@ -36,12 +36,13 @@ class _color {
 
   _grads get gradients => _grads();
 
-  Color get Primary => Color(argb.yellow);
+  Color get Primary => Color(0xFFFFD700);
+  Color get PrimaryLight => Color(0xFFFFE36E);
   Color get PrimaryDark => Color(argb.yellowDark);
   Color get Accent => Color(argb.yellowLight);
   Color get NavBar => PrimaryDark;
   Color get WindowBg => Color(argb.white);
-  Color get PrimaryText => Color(argb.black);
+  Color get PrimaryText => Color(0xFF003366);
   Color get SecondaryText => Color(argb.white);
 }
 
@@ -1071,7 +1072,7 @@ class _avatarImages {
 class _logoMain {
   const _logoMain();
   compose() {
-    double w = 120;
+    double w = 180;
     return defaults.widget
         .imageSVG(imagePath: defaults.images.path.logo, width: w, height: w);
 
