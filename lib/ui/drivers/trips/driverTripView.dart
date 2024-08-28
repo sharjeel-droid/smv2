@@ -1,13 +1,17 @@
+import 'dart:async';
+import 'dart:collection';
 import 'package:SMV2/constants/navigationConstants.dart';
-import 'package:SMV2/constants/valueConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:intl/intl.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/drivers/trips/driverTripViewModel.dart';
 import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'dart:math';
+import 'dart:convert';
 
 class DriverTripView extends StatefulWidget {
   const DriverTripView({Key? key}) : super(key: key);
@@ -17,137 +21,181 @@ class DriverTripView extends StatefulWidget {
 }
 
 class _DriverTripViewState extends State<DriverTripView> {
-  static const LatLng _karachi = LatLng(24.8607, 67.0011);
-
+  Completer<GoogleMapController> _mapController = Completer();
+  final Set<Marker> _markers = {};
+  final Set<Polyline> _polyline = {};
   final DriverTripViewModel _viewModel = Get.find<DriverTripViewModel>();
-
-  // bool _isTripStarted = false;
 
   @override
   Widget build(BuildContext context) {
+    // Start loading trips
     _viewModel.getActiveTrips();
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
-    String formattedTime = DateFormat('hh:mm a').format(now);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          const GoogleMap(
-            initialCameraPosition: CameraPosition(
-              target: _karachi,
-              zoom: 13,
-            ),
-          ),
-          Positioned(
-            top: 10,
-            left: 5,
-            right: 5,
-            child: Obx(() {
-              if (_viewModel.activeTripDetails.value == null) {
-                return const Center(
-                    child: Text('No active trip details available'));
-              } else {
-                var tripDetails = _viewModel.activeTripDetails.value!;
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(9.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  tripDetails.route_title ?? '',
-                                  style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(formattedDate),
-                                    Text(formattedTime),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            const Text(
-                              'Students',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceBetween,
-                              children: [
-                                _buildStudentInfoCard(
-                                    'Total', tripDetails.count_total),
-                                _buildStudentInfoCard(
-                                    'Picked', tripDetails.count_picked),
-                                _buildStudentInfoCard(
-                                    'Absent', tripDetails.count_absent),
-                                _buildStudentInfoCard(
-                                    'Remaining', tripDetails.count_remaining),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    tripDetails.students != null
-                        ? SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: tripDetails.students!
-                            .map(
-                                (student) => _buildStudentCard(student))
-                            .toList(),
-                      ),
-                    )
-                        : Container(),
-                  ],
-                );
+      body: Obx(() {
+        // Show a loading spinner while the data is being fetched
+        if (_viewModel.isProcessing.value) {
+          return Center(child: CircularProgressIndicator());
+        }
+
+        // Check if the trip details are available
+        final tripDetails = _viewModel.activeTripDetails.value;
+        if (tripDetails == null) {
+          return Center(child: Text("No active trips found"));
+        }
+
+        // Only proceed when data is available
+        DateTime now = DateTime.now();
+        String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+        String formattedTime = DateFormat('hh:mm a').format(now);
+        LatLng? startingPoint;
+
+        if (tripDetails.route_direction_string != null) {
+          String? jsonString = tripDetails.route_direction_string;
+          if (jsonString != null) {
+            Map<String, dynamic> decodedJson = jsonDecode(jsonString);
+            List<String> polylinePoints = [];
+
+            for (var route in decodedJson['routes']) {
+              for (var leg in route['legs']) {
+                for (var step in leg['steps']) {
+                  polylinePoints.add(step['polyline']['points']);
+                }
               }
-            }),
-          ),
-          Positioned(
-            bottom: 20,
-            left: 10,
-            right: 10,
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Colors.green,
-                    ),
-                    child: const Text(
-                      'Finish Trip',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      // const navigate().todriverDashboardView();
+            }
 
-                      _showFinishTripAlert();
+            for (String polyline in polylinePoints) {
+              List<LatLng> points = _viewModel.decodePolyline(polyline);
 
+              for (var i = 0; i < points.length; i++) {
+                if (i == 0) {
+                  startingPoint = points[i];
+                }
+                _markers.add(Marker(
+                  markerId: MarkerId(i.toString()),
+                  position: points[i],
+                  icon: BitmapDescriptor.defaultMarker,
+                ));
+                _polyline.add(Polyline(
+                  polylineId: PolylineId(i.toString()),
+                  points: points,
+                  color: Colors.red,
+                  width: 2,
+                ));
+              }
+            }
+          }
+        }
 
-                    },
-                  ),
-                ),
-              ],
+        LatLng initialLocation = startingPoint!;
+
+        return Stack(
+          children: [
+            GoogleMap(
+              initialCameraPosition: CameraPosition(
+                target: initialLocation,
+                zoom: 13,
+              ),
+              mapType: MapType.normal,
+              markers: _markers,
+              polylines: _polyline,
+              onMapCreated: (GoogleMapController controller) {
+                _mapController.complete(controller);
+              },
             ),
-          ),
-        ],
-      ),
+            Positioned(
+              top: 10,
+              left: 5,
+              right: 5,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(9.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                tripDetails.route_title ?? '',
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(formattedDate),
+                                  Text(formattedTime),
+                                ],
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            'Students',
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              _buildStudentInfoCard(
+                                  'Total', tripDetails.count_total),
+                              _buildStudentInfoCard(
+                                  'Picked', tripDetails.count_picked),
+                              _buildStudentInfoCard(
+                                  'Absent', tripDetails.count_absent),
+                              _buildStudentInfoCard(
+                                  'Remaining', tripDetails.count_remaining),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  tripDetails.students != null
+                      ? SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            children: tripDetails.students!
+                                .map((student) => _buildStudentCard(student))
+                                .toList(),
+                          ),
+                        )
+                      : Container(),
+                ],
+              ),
+            ),
+            Positioned(
+                bottom: 20,
+                left: 10,
+                right: 10,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.green,
+                        ),
+                        child: const Text(
+                          'Finish Trip',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                )),
+          ],
+        );
+      }),
     );
   }
 
@@ -251,7 +299,6 @@ class _DriverTripViewState extends State<DriverTripView> {
             ],
           ),
           actions: <Widget>[
-
             student.status == 'next'
                 ? Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -265,15 +312,7 @@ class _DriverTripViewState extends State<DriverTripView> {
                               'Pick Up',
                               style: TextStyle(color: Colors.white),
                             ),
-                            onPressed: () {
-                              if(student.student_id!=null){
-                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP, onComplete: (){
-                                  Navigator.of(context).pop();
-                                });
-                              }
-
-
-                            },
+                            onPressed: () {},
                           ),
                         ),
                         const SizedBox(width: 10),
@@ -284,15 +323,7 @@ class _DriverTripViewState extends State<DriverTripView> {
                             ),
                             child: const Text('Absent',
                                 style: TextStyle(color: Colors.white)),
-                            onPressed: () {
-
-                              if(student.student_id!=null){
-                                _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT, onComplete: (){
-                                  Navigator.of(context).pop();
-                                });
-                              }
-
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ])
@@ -313,64 +344,53 @@ class _DriverTripViewState extends State<DriverTripView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Finish Trip ?',
-              style: TextStyle(fontSize: 17)),
-
+          title: Text('Finish Trip ?', style: TextStyle(fontSize: 17)),
           content: Text('Do you really want to Finish the Trip ?',
               style: TextStyle(fontSize: 14)),
-
           actions: <Widget>[
-
-            Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.green,
-                      ),
-                      child: const Text(
-                        'Finish',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-
-                        _viewModel.finishTrip(trip_id: _viewModel.activeTripDetails.value?.trip_id??0, onComplete: (){
-
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Expanded(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.green,
+                  ),
+                  child: const Text(
+                    'Finish',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  onPressed: () {
+                    _viewModel.finishTrip(
+                        trip_id:
+                            _viewModel.activeTripDetails.value?.trip_id ?? 0,
+                        onComplete: () {
                           Navigator.of(context).pop();
                           // Navigator.of(context).pop();
                           navigate().back(res: true);
-
                         });
 
-
-                        // if(student.student_id!=null){
-                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
-                        // }
-
-
-                      },
-                    ),
+                    // if(student.student_id!=null){
+                    //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.PICKED_UP);
+                    // }
+                  },
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.red,
                   ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: Colors.red,
-                      ),
-                      child: const Text('Cancel',
-                          style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        // if(student.student_id!=null){
-                        //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
-                        // }
-
-                      },
-                    ),
-                  ),
-                ])
-
+                  child: const Text('Cancel',
+                      style: TextStyle(color: Colors.white)),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // if(student.student_id!=null){
+                    //   _viewModel.updateStudentTripStatus(studentId: student.student_id??0, status: StudentTripStatus.ABSENT);
+                    // }
+                  },
+                ),
+              ),
+            ])
           ],
         );
       },

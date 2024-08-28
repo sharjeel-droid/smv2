@@ -14,9 +14,9 @@ import 'dart:developer' as dev;
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-
-class DriverTripViewModel extends GetxController{
+class DriverTripViewModel extends GetxController {
   final DataCentreRepository repo;
   DriverTripViewModel(this.repo);
 
@@ -28,9 +28,7 @@ class DriverTripViewModel extends GetxController{
   RxBool isProcessing = false.obs;
   Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
-  getActiveTrips() async
-  {
-
+  getActiveTrips() async {
     isProcessing(true);
 
     // schools(["asd", "123", "523"]);
@@ -38,150 +36,120 @@ class DriverTripViewModel extends GetxController{
     int driverId = await AppSession.currentUser.user_id() as int;
     // int userId = 1;
 
-
-    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER}");
+    dev.log(
+        "request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_DRIVER}");
     dev.log("request getActiveTrips; params -> {driver_id:${driverId}}");
 
-    repo
-        .getDriverActiveTrips(
-        driverId ,
-        onSuccess: (response)
+    repo.getDriverActiveTrips(driverId, onSuccess: (response)
         // async
         {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
+      // dev.log("on success -> ${response.success}");
+      dev.log("response -> ${response.toJson()}");
+      // dev.log("response.data -> ${response.data!.toJson()}");
 
-          var data = response;
+      var data = response;
 
-          if(data == null){
-            Fluttertoast.showToast(msg: "no Data Found");
-            activeTripDetails(null);
-          }else{
+      if (data == null) {
+        Fluttertoast.showToast(msg: "no Data Found");
+        activeTripDetails(null);
+      } else {
+        activeTripDetails(data.trip);
+      }
 
-            activeTripDetails(data.trip);
+      // dev.log("tripActive -> ${tripActive.value.length}");
+      // dev.log("tripToday -> ${tripToday.value.length}");
 
-          }
-
-          // dev.log("tripActive -> ${tripActive.value.length}");
-          // dev.log("tripToday -> ${tripToday.value.length}");
-
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: "Error in fethcing dashboard details",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
+      isProcessing(false);
+    }, onFailure: (errorMsg) {
+      dev.log("error message -> ${errorMsg}");
+      isProcessing(false);
+      Fluttertoast.showToast(
+          msg: "Error in fethcing dashboard details",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    });
   }
 
   updateStudentTripStatus(
       {required int studentId,
-        required String status,
-        String? reason = null,
-      required Function() onComplete}
-      ) async
-  {
-
-    if(activeTripDetails==null){
+      required String status,
+      String? reason = null,
+      required Function() onComplete}) async {
+    if (activeTripDetails == null) {
       return null;
     }
-
-
 
     isProcessing(true);
 
     int trip_id = activeTripDetails.value?.trip_id ?? 0;
 
-
-    dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
+    dev.log(
+        "request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
     dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
-    dev.log("request updateStudentTripStatus; params -> {studentId:${studentId}}");
+    dev.log(
+        "request updateStudentTripStatus; params -> {studentId:${studentId}}");
     dev.log("request updateStudentTripStatus; params -> {status:${status}}");
     dev.log("request updateStudentTripStatus; params -> {reason:${reason}}");
 
-    repo
-        .updateStudentTripStatus(
-        trip_id,
-        studentId,
-        status,
+    repo.updateStudentTripStatus(trip_id, studentId, status,
         // reason,
         // "",
         onSuccess: (response)
-        // async
-        {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
+            // async
+            {
+      // dev.log("on success -> ${response.success}");
+      dev.log("response -> ${response.toJson()}");
+      // dev.log("response.data -> ${response.data!.toJson()}");
 
-          // var data = response;
+      // var data = response;
 
-          var data = response;
+      var data = response;
 
-          if(data == null){
-            Fluttertoast.showToast(msg: "no Data Found");
-            // activeTripDetails(null);
-          }else{
-            _updateStudentStatusInObservable(data.trip ?? activeTripDetails.value!);
+      if (data == null) {
+        Fluttertoast.showToast(msg: "no Data Found");
+        // activeTripDetails(null);
+      } else {
+        _updateStudentStatusInObservable(data.trip ?? activeTripDetails.value!);
 
-            onComplete();
-            // activeTripDetails(data.trip);
+        onComplete();
+        // activeTripDetails(data.trip);
+      }
 
-          }
+      // if(response.success == 1){
+      //   // Fluttertoast.showToast(msg: "no Data Found");
+      //   // activeTripDetails(null);
+      //   _updateStudentStatusInObservable(studentId, status, reason);
+      // }else{
+      //   Fluttertoast.showToast(msg: errorMessages.unable_to_update_stat);
+      //   // activeTripDetails(data.trip);
+      //
+      // }
 
-          // if(response.success == 1){
-          //   // Fluttertoast.showToast(msg: "no Data Found");
-          //   // activeTripDetails(null);
-          //   _updateStudentStatusInObservable(studentId, status, reason);
-          // }else{
-          //   Fluttertoast.showToast(msg: errorMessages.unable_to_update_stat);
-          //   // activeTripDetails(data.trip);
-          //
-          // }
+      // dev.log("tripActive -> ${tripActive.value.length}");
+      // dev.log("tripToday -> ${tripToday.value.length}");
 
-          // dev.log("tripActive -> ${tripActive.value.length}");
-          // dev.log("tripToday -> ${tripToday.value.length}");
-
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: "Error in fethcing dashboard details",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
+      isProcessing(false);
+    }, onFailure: (errorMsg) {
+      dev.log("error message -> ${errorMsg}");
+      isProcessing(false);
+      Fluttertoast.showToast(
+          msg: "Error in fethcing dashboard details",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    });
   }
 
   // _updateStudentStatusInObservable(int studentId, String status, String? reason){
-  _updateStudentStatusInObservable(DcDriverActiveTripsDataTripDomainModel updatedTrip){
-
+  _updateStudentStatusInObservable(
+      DcDriverActiveTripsDataTripDomainModel updatedTrip) {
     // dev.log("current time");
     dev.log("current time of pickup -> ${DateTime.timestamp().toString()}");
 
@@ -205,72 +173,80 @@ class DriverTripViewModel extends GetxController{
     // }
   }
 
-  finishTrip(
-      {required int trip_id,
-        required Function() onComplete
-      }
-      ) async
-  {
-
-    if(activeTripDetails==null){
+  finishTrip({required int trip_id, required Function() onComplete}) async {
+    if (activeTripDetails == null) {
       return null;
     }
-
-
 
     isProcessing(true);
 
     int trip_id = activeTripDetails.value?.trip_id ?? 0;
     String time_end = DateTimeHandler.dateTimeNow_ymd();
 
-    dev.log("request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
-    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}, time_end:${time_end}");
+    dev.log(
+        "request updateStudentTripStatus; url -> ${ApiConst.BASE_URL}${ApiConst.URL_UPD_STUDENT_TRIP_STATUS}");
+    dev.log("request updateStudentTripStatus; params -> {trip_id:${trip_id}}");
 
-    // return;
-
-    repo
-        .finishTrip(
-        trip_id,
-        time_end,
-        onSuccess: (response)
+    repo.finishTrip(trip_id, time_end, onSuccess: (response)
         // async
         {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
+      // dev.log("on success -> ${response.success}");
+      dev.log("response -> ${response.toJson()}");
+      // dev.log("response.data -> ${response.data!.toJson()}");
 
-          // var data = response;
-          Fluttertoast.showToast(msg: inforMessages.trip_finished);
-          onComplete();
-          // if(response.success == 1){
-          //   Fluttertoast.showToast(msg: inforMessages.trip_finished);
-          //   onComplete();
-          // }else{
-          //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
-          //
-          // }
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: errorMessages.unable_to_process,
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
+      // var data = response;
+      Fluttertoast.showToast(msg: inforMessages.trip_finished);
+      onComplete();
+      // if(response.success == 1){
+      //   Fluttertoast.showToast(msg: inforMessages.trip_finished);
+      //   onComplete();
+      // }else{
+      //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
+      //
+      // }
+      isProcessing(false);
+    }, onFailure: (errorMsg) {
+      dev.log("error message -> ${errorMsg}");
+      isProcessing(false);
+      Fluttertoast.showToast(
+          msg: errorMessages.unable_to_process,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    });
   }
 
+  List<LatLng> decodePolyline(String encoded) {
+    List<LatLng> poly = [];
+    int index = 0, len = encoded.length;
+    int lat = 0, lng = 0;
 
+    while (index < len) {
+      int b, shift = 0, result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlat = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lat += dlat;
+
+      shift = 0;
+      result = 0;
+      do {
+        b = encoded.codeUnitAt(index++) - 63;
+        result |= (b & 0x1F) << shift;
+        shift += 5;
+      } while (b >= 0x20);
+      int dlng = (result & 1) != 0 ? ~(result >> 1) : (result >> 1);
+      lng += dlng;
+
+      poly.add(LatLng(lat / 1E5, lng / 1E5));
+    }
+
+    return poly;
+  }
 }
