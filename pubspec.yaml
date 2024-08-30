@@ -83,6 +83,7 @@ flutter:
     - assets/images/navDrawerBg.jpg
     - assets/images/ic_avt_male_def.jpg
     - assets/images/def_student.png
+    - assets/images/smartVanLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
