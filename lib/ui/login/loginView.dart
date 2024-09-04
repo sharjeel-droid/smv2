@@ -29,6 +29,12 @@ class LoginView extends StatelessWidget {
 
     var _email = "";
 
+    // var isTab = deviceConfig.screenType.isTablet(context);
+    dev.log("type -> ${deviceConfig.screenType.type(context)}");
+    dev.log("isTablet -> ${deviceConfig.screenType.isTablet(context)}");
+    dev.log("isMobile -> ${deviceConfig.screenType.isMobile(context)}");
+    dev.log("isWeb -> ${deviceConfig.screenType.isWeb()}");
+
     return defaults.layout.basic(
         bodyContent: SafeArea(
             child: Column(
