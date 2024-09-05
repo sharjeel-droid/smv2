@@ -39,6 +39,7 @@ class _color {
   Color get Primary => Color(0xFFFFD700);
   Color get PrimaryLight => Color(0xFFFFE36E);
   Color get PrimaryDark => Color(argb.yellowDark);
+  Color get PrimaryBlue => Color(0xFF003366);
   Color get Accent => Color(argb.yellowLight);
   Color get NavBar => PrimaryDark;
   Color get WindowBg => Color(argb.white);

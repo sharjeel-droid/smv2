@@ -1,3 +1,5 @@
+// import 'dart:ffi';
+
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/repositories/AuthRepository.dart';
@@ -25,6 +27,8 @@ class LoginViewModel extends GetxController{
   RxString userName = "".obs;
   RxString password = "".obs;
   RxBool isProcessing = false.obs;
+  RxBool showPass = false.obs;
+  RxBool doRememberMe = false.obs;
 
 
   handleUserNameChanges(String? updatedValue){
@@ -131,6 +135,9 @@ class LoginViewModel extends GetxController{
 
   }
 
+  // setPassVisibility(bool shouldShow){showPass.value=shouldShow;}
+  changePassVisibility(){showPass.value=!showPass.value;}
+  changeRememberMeCheck(){doRememberMe.value=!doRememberMe.value;}
 
 
   /*Future<String>*/

@@ -8,9 +8,7 @@ class deviceConfig{
   static const screen = _deviceScreen();
   static const navBar = _navigationBar();
   static _screenType screenType = _screenType();
-
-
-
+  static _screenSizeSys screenSizeSystem = _screenSizeSys();
 }
 
 class _deviceScreen{
@@ -62,6 +60,46 @@ class _screenType{
     }
 
     return _type;
+  }
+  //--//
+  bool isWeb(){
+    return kIsWeb;
+  }
+
+  bool isTablet(BuildContext context){
+    if(kIsWeb){
+      return false;
+    }else{
+      final width = MediaQuery.of(context).size.width;
+      return width >= 600;
+    }
+  }
+
+  bool isMobile(BuildContext context){
+    if(kIsWeb){
+      return false;
+    }else{
+      return !isTablet(context) && (Platform.isAndroid || Platform.isIOS);
+    }
+
+  }
+
+
+
+}
+
+class _screenSizeSys{
+  _screenSizeSys();
+
+  Size size(BuildContext context){
+    return MediaQuery.of(context).size;
+  }
+
+  double width(BuildContext context){
+    return size(context).width;
+  }
+  double height(BuildContext context){
+    return size(context).height;
   }
   //--//
   bool isWeb(){
