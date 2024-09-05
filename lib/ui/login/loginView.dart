@@ -5,7 +5,7 @@ import 'package:SMV2/utils/deviceConfigHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'dart:developer' as dev;
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 // class LoginView extends StatefulWidget {
