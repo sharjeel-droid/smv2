@@ -15,7 +15,7 @@ class defaults {
   //ThemeData
   static var themeData = ThemeData(
     primarySwatch: colors.Primary.toMaterialColor(),
-    fontFamily: font.monsterrat,
+    fontFamily: font.roboto,
     /*textTheme: TextTheme(
       bodyText1: GoogleFonts.montserrat(fontSize: fontSize.body, fontWeight: FontWeight.normal)
     )*/
@@ -36,12 +36,13 @@ class _color {
 
   _grads get gradients => _grads();
 
-  Color get Primary => Color(argb.yellow);
+  Color get Primary => Color(0xFFFFD700);
+  Color get PrimaryLight => Color(0xFFFFE36E);
   Color get PrimaryDark => Color(argb.yellowDark);
   Color get Accent => Color(argb.yellowLight);
   Color get NavBar => PrimaryDark;
   Color get WindowBg => Color(argb.white);
-  Color get PrimaryText => Color(argb.black);
+  Color get PrimaryText => Color(0xFF003366);
   Color get SecondaryText => Color(argb.white);
 }
 
@@ -103,7 +104,8 @@ class _font {
   _fontSize get size => _fontSize();
 
   //fonts
-  get monsterrat => GoogleFonts.montserrat().fontFamily;
+  // get monsterrat => GoogleFonts.montserrat().fontFamily;
+  get roboto => GoogleFonts.roboto().fontFamily;
   // static var fontFamily = font.fontFamily;
 }
 
@@ -1070,18 +1072,31 @@ class _avatarImages {
 
 class _logoMain {
   const _logoMain();
-  compose() {
-    double w = 120;
-    return defaults.widget
-        .imageSVG(imagePath: defaults.images.path.logo, width: w, height: w);
 
-    // const h = 100.0;
-    // return SizedBox(
-    //   width: w,
-    // child: defaults.widget.imageSVG(imagePath: defaults.images.path.logo, /*width : w, height : w*/),
-    // );
+  Widget compose() {
+    double w = 180;
+    return Image.asset(
+      'assets/images/smartVanLogo.png', // Path to your PNG image
+      width: w,
+      height: w,
+    );
   }
 }
+
+// class _logoMain {
+//   const _logoMain();
+//   compose() {
+//     double w = 180;
+//     return defaults.widget
+//         .imageSVG(imagePath: defaults.images.path.logo, width: w, height: w);
+
+//     // const h = 100.0;
+//     // return SizedBox(
+//     //   width: w,
+//     // child: defaults.widget.imageSVG(imagePath: defaults.images.path.logo, /*width : w, height : w*/),
+//     // );
+//   }
+// }
 
 class _logoSmall {
   const _logoSmall();

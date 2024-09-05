@@ -1,4 +1,3 @@
-
 import 'package:SMV2/constants/navigationConstants.dart';
 import 'package:SMV2/constants/uiConstants.dart';
 import 'package:SMV2/ui/splash/splashViewModel.dart';
@@ -6,11 +5,8 @@ import 'package:SMV2/utils/deviceConfigHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class SplashView extends StatelessWidget {
   const SplashView(/*{super.key}*/);
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -19,49 +15,41 @@ class SplashView extends StatelessWidget {
     final SplashViewModel _viewModel = Get.find<SplashViewModel>();
     _viewModel.checkSessionAndNavigate();
 
-
-    return
-      defaults
-          .layout
-          .basic
-        (
-          bgColor: defaults.colors.Primary,
-          bodyContent:
-          Stack(
-            children: [
-
-              Center(
-                child: defaults.images.logoMain(),
-              ),
-
-
-
-
-              Positioned(
-                // top: 10.0,
-                // right: 10.0,
-                  bottom: 10.0,
-                  left: 10.0,
-                  child:
-                  Obx(() =>
-
-                      Row(children: [
-
-                        _viewModel.isProcessing.value?defaults.widget.circularProgIndicator():defaults.widget.emptySpace15dp(),
-
-                        Padding(padding: EdgeInsets.only(left: 10),
-                          child: defaults.widget.label.small(labelText: "processing data. plz wait!", isBold:true),
-                        )
-                      ],
-                      )
-                  )
-
-              )
-
-            ],
+    return Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            // colors: [Colors.purple, Colors.red],
+            colors: [Color(0xFFFFD700), Color(0xFFFFE36E)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: Stack(children: [
+          Center(
+            child: defaults.images.logoMain(),
+          ),
+          Positioned(
+            bottom: 30.0,
+            left: 0,
+            right: 0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Obx(() => _viewModel.isProcessing.value
+                    ? defaults.widget
+                        .circularProgIndicator(color: Color(0xff003366))
+                    : defaults.widget
+                        .circularProgIndicator(color: Color(0xff003366))),
+                const SizedBox(height: 10), // Spacing between loader and text
+                defaults.widget.label.small(
+                  labelText: "PROCESSING. PLEASE WAIT",
+                  isBold: true,
+                  textColor: Color(0xFF003366),
+                ),
+              ],
+            ),
           )
-
-      );
+        ]));
 
     // return const layouts().fullScreen();
   }

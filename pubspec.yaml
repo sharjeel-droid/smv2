@@ -45,7 +45,9 @@ dependencies:
   fluttertoast: ^8.2.4
   icons_launcher: ^2.1.7
   google_maps_flutter: ^2.5.0
+  flutter_polyline_points: ^2.0.0
   intl: ^0.17.0
+  font_awesome_flutter: ^10.3.0
 #  google_maps_flutter: ^2.2.8
 #  google_places_flutter: ^2.0.8
 
@@ -81,6 +83,7 @@ flutter:
     - assets/images/navDrawerBg.jpg
     - assets/images/ic_avt_male_def.jpg
     - assets/images/def_student.png
+    - assets/images/smartVanLogo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

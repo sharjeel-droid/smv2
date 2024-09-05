@@ -20,7 +20,7 @@ class DriverDashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _viewModel.init();//getDashboardDetails();
+    _viewModel.init(); //getDashboardDetails();
 
     String newTrip = 'New Trip';
     String continueTrip = 'Continue Trip';
@@ -49,11 +49,10 @@ class DriverDashboard extends StatelessWidget {
                 title: "Route",
               )),
           Obx(() {
-            print('tripActive:');
-            print(_viewModel.tripActive);
             return defaults.widget.flashCardActionable(
-              value:
-                  _viewModel.tripToday.value.isEmpty  ? inforMessages.no_trips_today : "",
+              value: _viewModel.tripToday.value.isEmpty
+                  ? inforMessages.no_trips_today
+                  : "",
               title: "TRIPS",
               content: _viewModel.tripToday.isNotEmpty
                   ? Center(
@@ -209,49 +208,3 @@ class DriverDashboard extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
-
-// class DriverDashboard extends StatefulWidget {
-//   const DriverDashboard(/*{super.key}*/);
-//
-//   @override
-//   State<DriverDashboard> createState() => _DriverDashboardState();
-// }
-//
-// class _DriverDashboardState extends State<DriverDashboard> {
-//
-//
-//
-//
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(mainAxisSize: MainAxisSize.max,
-//     crossAxisAlignment: CrossAxisAlignment.center,
-//     mainAxisAlignment: MainAxisAlignment.start,
-//     children: [
-//
-//       defaults.widget.flashCard(value: "003", title: "Driver Dash")
-//
-//
-//
-//     ],);
-//
-//
-//
-//     //   Center(
-//     //   child: Text("admin dash"),
-//     //   // drawer: const BaseNavigationDrawer(),
-//     //   // appBar: AppBar(title: const Text("Dash")),
-//     //
-//     // );
-//   }
-// }
