@@ -23,14 +23,9 @@ class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
 
   final LoginViewModel _viewModel = Get.find<LoginViewModel>();
-  // bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
