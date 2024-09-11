@@ -12,8 +12,8 @@ class ParentDashSummDomainModel{
 
   ParentDashSummDomainModel({required this.success, required this.message, this.data});
 
-  factory ParentDashSummDomainModel.fromJson(Map<String, dynamic> json) => ParentDashSummDomainModelFromJson(json);
-  Map<String, dynamic> toJson() => ParentDashSummDomainModelToJson(this);
+  factory ParentDashSummDomainModel.fromJson(Map<String, dynamic> json) => _$ParentDashSummDomainModelFromJson(json);
+  Map<String, dynamic> toJson() => _$ParentDashSummDomainModelToJson(this);
 }
 
 
@@ -24,8 +24,8 @@ class ParentDashSummDataDomainModel{
 
   ParentDashSummDataDomainModel({this.school, this.trips});
 
-  factory ParentDashSummDataDomainModel.fromJson(Map<String, dynamic> json) => ParentDashSummDataDomainModelFromJson(json);
-  Map<String, dynamic> toJson() => ParentDashSummDataDomainModelToJson(this);
+  factory ParentDashSummDataDomainModel.fromJson(Map<String, dynamic> json) => _$ParentDashSummDataDomainModelFromJson(json);
+  Map<String, dynamic> toJson() => _$ParentDashSummDataDomainModelToJson(this);
 }
 
 @JsonSerializable()

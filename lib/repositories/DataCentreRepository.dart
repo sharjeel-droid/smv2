@@ -13,6 +13,7 @@ import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewStdApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewVanApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/ParentDashSummDomainModel.dart';
 import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
 import 'package:SMV2/network/entities/ApiResponseNetworkEntity.dart';
@@ -763,22 +764,25 @@ class DataCentreRepository{
 
   }
 
-  /*getParentsDashboardSummary(int parentId, {Function(DCDriverDashApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  getParentsDashboardSummary(int parentId, {Function(ParentDashSummDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
   async
   {
 
     try{
 
-      dev.log("request parameter -> driver_id : ${driver_id}");
+      dev.log("request parameter -> parentId : ${parentId}");
 
-      HttpResponse<DCDriverDashApiResponseNetworkEntity> httpResponse = await api.dashboardDetailsForDriver(driver_id);
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.dashboardSummaryForParent(parentId);
       dev.log("response code -> ${httpResponse.response.statusCode}");
 
       var resp = httpResponse.data;
       dev.log("data.success -> ${resp.success}");
       if(resp.success == 1){
         if(resp!=null){
-          onSuccess!(this.mapper_driverDash.mapFromEntity(resp));
+
+          var dt = ParentDashSummDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
+
+          onSuccess!(dt);
         }
 
       }else{
@@ -800,7 +804,7 @@ class DataCentreRepository{
 
     }
 
-  }*/
+  }
 
 
   void authCallback(){}
