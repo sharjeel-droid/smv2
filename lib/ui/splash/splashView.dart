@@ -16,10 +16,10 @@ class SplashView extends StatelessWidget {
     _viewModel.checkSessionAndNavigate();
 
     return Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             // colors: [Colors.purple, Colors.red],
-            colors: [Color(0xFFFFD700), Color(0xFFFFE36E)],
+            colors: [defaults.colors.Primary, defaults.colors.PrimaryLight],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

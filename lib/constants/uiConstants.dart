@@ -45,6 +45,7 @@ class _color {
   Color get WindowBg => Color(argb.white);
   Color get PrimaryText => Color(0xFF003366);
   Color get SecondaryText => Color(argb.white);
+  Color get red => Color(0xFFfe504d);
 }
 
 class _argb {

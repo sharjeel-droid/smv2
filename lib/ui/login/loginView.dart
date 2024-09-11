@@ -27,26 +27,14 @@ class LoginView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child:
-        deviceConfig.screenType.isWeb()
-            ?
-        _viewForTablet()
-            :
-          deviceConfig.screenType.isTablet(context)
-              ?
-          _viewForTablet()
-              :
-          _viewForMobile()
-
-
-        ,
+        child: deviceConfig.screenType.isWeb()
+            ? _viewForTablet()
+            : deviceConfig.screenType.isTablet(context)
+                ? _viewForTablet()
+                : _viewForMobile(),
       ),
     );
   }
@@ -84,41 +72,34 @@ class LoginView extends StatelessWidget {
   //     :
   //       viewForMobile()
 
-  Widget _viewForTablet(){
+  Widget _viewForTablet() {
     return Padding(
       padding: EdgeInsets.all(defaults.dimens.padding.x4),
       child: Row(
         children: [
-
-          Expanded(child:
-              Center(
-                child: defaults.images.logoMain(),
-              )
-            // _LoginForm(),
-          ),
-          Expanded(child:
-              Center(child:
-              _LoginForm(),
-              )
-
+          Expanded(
+              child: Center(
+            child: defaults.images.logoMain(),
           )
-
-
+              // _LoginForm(),
+              ),
+          Expanded(
+              child: Center(
+            child: _LoginForm(),
+          ))
         ],
       ),
     );
     // return Text("tablet");
   }
 
-  Widget _viewForMobile(){
-
+  Widget _viewForMobile() {
     // var fontsize = defaults.font.size.large;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16.0),
       child: _LoginForm(),
     );
-
 
     //////////////////////////////////
 
@@ -306,7 +287,7 @@ class LoginView extends StatelessWidget {
     // );
   }
 
-  Widget _LoginForm(){
+  Widget _LoginForm() {
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -319,8 +300,8 @@ class LoginView extends StatelessWidget {
             style: TextStyle(
                 fontSize: defaults.font.size.large,
                 fontWeight: FontWeight.bold,
-                color: defaults.colors.PrimaryBlue//Color(0xFF003366)
-            ),
+                color: defaults.colors.PrimaryBlue //Color(0xFF003366)
+                ),
           ),
           const SizedBox(height: 24),
           Center(
@@ -343,7 +324,7 @@ class LoginView extends StatelessWidget {
                       border: OutlineInputBorder(),
                     ),
                     onSaved: (value) =>
-                    {_viewModel.handleUserNameChanges(value)},
+                        {_viewModel.handleUserNameChanges(value)},
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Username cannot be empty';
@@ -352,61 +333,60 @@ class LoginView extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 16),
-                  Obx(()=>
-                  /*child:*/ TextFormField(
-                    decoration: InputDecoration(
-                      labelText: "Password",
-                      prefixIcon: const Icon(Icons.lock),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _viewModel.showPass.value
-                              ? Icons.visibility_off
-                              : Icons.visibility,
+                  Obx(
+                    () => /*child:*/ TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        prefixIcon: const Icon(Icons.lock),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _viewModel.showPass.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            _viewModel.changePassVisibility();
+                            // _viewModel.setPassVisibility(shouldShow)
+                            // setState(() {
+                            //   _obscureText = !_obscureText;
+                            // });
+                          },
                         ),
-                        onPressed: () {
-                          _viewModel.changePassVisibility();
-                          // _viewModel.setPassVisibility(shouldShow)
-                          // setState(() {
-                          //   _obscureText = !_obscureText;
-                          // });
-                        },
+                        filled: true,
+                        fillColor: Colors.white,
+                        focusedBorder: const OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.yellow),
+                        ),
+                        border: const OutlineInputBorder(),
                       ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      focusedBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.yellow),
-                      ),
-                      border: const OutlineInputBorder(),
+                      obscureText: !_viewModel.showPass.value,
+                      onSaved: (value) =>
+                          {_viewModel.handlePasswordChanges(value)},
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Password cannot be empty';
+                        }
+                        return null;
+                      },
                     ),
-                    obscureText: !_viewModel.showPass.value,
-                    onSaved: (value) =>
-                    {_viewModel.handlePasswordChanges(value)},
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Password cannot be empty';
-                      }
-                      return null;
-                    },
-                  ),
                   ),
                   const SizedBox(height: 16),
-                  Obx(() =>
-                    Row(
+                  Obx(
+                    () => Row(
                       children: [
-
                         Expanded(
                           flex: 1,
                           child: CheckboxListTile(
-                            title:
-                              Text("Remember me",
-                                  style: TextStyle(color: defaults.colors.PrimaryBlue),
+                              title: Text(
+                                "Remember me",
+                                style: TextStyle(
+                                    color: defaults.colors.PrimaryBlue),
                               ),
                               controlAffinity: ListTileControlAffinity.leading,
                               value: _viewModel.doRememberMe.value,
-                              onChanged: (bool? value){
+                              onChanged: (bool? value) {
                                 _viewModel.changeRememberMeCheck();
-                              }
-                          ),
+                              }),
                         ),
                         // Checkbox(
                         //   value: _viewModel.doRememberMe.value, // Replace with actual logic
@@ -421,16 +401,18 @@ class LoginView extends StatelessWidget {
                         // ),
                         // Spacer(flex: 1,),
 
-
                         (_viewModel.isProcessing.value
-                            ?
-                            Padding(padding: EdgeInsets.all(defaults.dimens.padding.tiny), child: defaults.widget.circularProgIndicator(),)
-
+                            ? Padding(
+                                padding: EdgeInsets.all(
+                                    defaults.dimens.padding.tiny),
+                                child: defaults.widget.circularProgIndicator(),
+                              )
                             :
                             // Text("hey")
-                              // defaults.widget.circularProgIndicator()
-                              Spacer(flex: 1,)
-                        )
+                            // defaults.widget.circularProgIndicator()
+                            Spacer(
+                                flex: 1,
+                              ))
                       ],
                     ),
                   ),
@@ -467,7 +449,7 @@ class LoginView extends StatelessWidget {
                       style: TextStyle(color: Color(0xFFFFD700)),
                     ),
                   ),
-      
+
                   const SizedBox(height: 24),
                   const Center(
                     child: Text(
@@ -534,7 +516,7 @@ class LoginView extends StatelessWidget {
                       ),
                     ],
                   ),
-      
+
                   const SizedBox(
                       height: 40), // Optional: to adjust the bottom padding
                 ],
@@ -545,5 +527,4 @@ class LoginView extends StatelessWidget {
       ),
     );
   }
-
 }

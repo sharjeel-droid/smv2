@@ -82,8 +82,12 @@ flutter:
     - assets/vectors/ic_avt_male.svg
     - assets/images/navDrawerBg.jpg
     - assets/images/ic_avt_male_def.jpg
+    - assets/images/ic_avt_male_def.png
     - assets/images/def_student.png
     - assets/images/smartVanLogo.png
+    - assets/images/school-bus.png
+    - assets/images/school.png
+    - assets/images/student.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
