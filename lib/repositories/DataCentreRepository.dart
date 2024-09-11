@@ -763,6 +763,44 @@ class DataCentreRepository{
 
   }
 
+  /*getParentsDashboardSummary(int parentId, {Function(DCDriverDashApiResponseDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> driver_id : ${driver_id}");
+
+      HttpResponse<DCDriverDashApiResponseNetworkEntity> httpResponse = await api.dashboardDetailsForDriver(driver_id);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+      dev.log("data.success -> ${resp.success}");
+      if(resp.success == 1){
+        if(resp!=null){
+          onSuccess!(this.mapper_driverDash.mapFromEntity(resp));
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }*/
 
 
   void authCallback(){}
