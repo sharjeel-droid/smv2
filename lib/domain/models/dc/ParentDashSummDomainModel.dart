@@ -1,5 +1,6 @@
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
-import 'package:SMV2/domain/models/dc/TripDomainModel.dart';
+import 'package:SMV2/domain/models/dc/MSchoolDomainModel.dart';
+import 'package:SMV2/domain/models/dc/MTripDomainModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'ParentDashSummDomainModel.g.dart';
@@ -19,7 +20,7 @@ class ParentDashSummDomainModel{
 
 @JsonSerializable()
 class ParentDashSummDataDomainModel{
-  SchoolDomainModel? school;
+  MSchoolDomainModel? school;
   ParentDashSummTripDomainModel? trips;
 
   ParentDashSummDataDomainModel({this.school, this.trips});
@@ -30,8 +31,8 @@ class ParentDashSummDataDomainModel{
 
 @JsonSerializable()
 class ParentDashSummTripDomainModel{
-  List<TripDomainModel>? today;
-  List<TripDomainModel>? active;
+  List<MTripDomainModel>? today;
+  List<MTripDomainModel>? active;
 
   ParentDashSummTripDomainModel({this.today, this.active});
 

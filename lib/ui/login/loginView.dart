@@ -419,12 +419,14 @@ class LoginView extends StatelessWidget {
 
                         (_viewModel.isProcessing.value
                             ?
-                            Padding(padding: EdgeInsets.all(defaults.dimens.padding.tiny), child: defaults.widget.circularProgIndicator(),)
+                            Padding(padding: EdgeInsets.only(top: defaults.dimens.padding.tiny, bottom: defaults.dimens.padding.tiny),
+                              child: defaults.widget.circularProgIndicator(),)
 
                             :
+                            SizedBox(width: 10, height: 10,)
                             // Text("hey")
                               // defaults.widget.circularProgIndicator()
-                              Spacer(flex: 1,)
+                              // Spacer(flex: 0,)
                         )
                       ],
                     ),

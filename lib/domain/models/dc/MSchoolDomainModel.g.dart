@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'SchoolDomainModel.dart';
+part of 'MSchoolDomainModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-SchoolDomainModel _$SchoolDomainModelFromJson(Map<String, dynamic> json) =>
-    SchoolDomainModel(
+MSchoolDomainModel _$MSchoolDomainModelFromJson(Map<String, dynamic> json) =>
+    MSchoolDomainModel(
       verification_code: json['verification_code'] as int,
       school_name: json['school_name'] as String,
       address: json['address'] as String,
@@ -15,7 +15,7 @@ SchoolDomainModel _$SchoolDomainModelFromJson(Map<String, dynamic> json) =>
       pic: json['pic'] as String?,
     );
 
-Map<String, dynamic> _$SchoolDomainModelToJson(SchoolDomainModel instance) =>
+Map<String, dynamic> _$MSchoolDomainModelToJson(MSchoolDomainModel instance) =>
     <String, dynamic>{
       'verification_code': instance.verification_code,
       'school_name': instance.school_name,

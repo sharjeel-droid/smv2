@@ -45,7 +45,7 @@ class ParentDashboardViewModel extends GetxController{
 
     getActiveTrips();
 
-    getDashSummTest();
+    // getDashSummTest();
   }
 
   getActiveTrips() async
@@ -111,7 +111,7 @@ class ParentDashboardViewModel extends GetxController{
   }
 
 
-  getDashSummTest() async
+  /*getDashSummTest() async
   {
 
     isProcessing(true);
@@ -141,9 +141,9 @@ class ParentDashboardViewModel extends GetxController{
             Fluttertoast.showToast(msg: "no Data Found");
             // activeTripDetails(null);
           }else{
-            dev.log("data -> school name -> ${response.school!.school_name}");
-            dev.log("data -> trips today -> ${response.trips!.today!.length}");
-            dev.log("data -> trips active -> ${response.trips!.active!.length}");
+            // dev.log("data -> school name -> ${response.school!.school_name}");
+            // dev.log("data -> trips today -> ${response.trips!.today!.length}");
+            // dev.log("data -> trips active -> ${response.trips!.active!.length}");
             // activeTripDetails(data.trip);
 
           }
@@ -173,7 +173,7 @@ class ParentDashboardViewModel extends GetxController{
 
 
 
-  }
+  }*/
 
 /*getDashboardDetails() async
 {

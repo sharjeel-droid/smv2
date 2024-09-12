@@ -30,7 +30,7 @@ ParentDashSummDataDomainModel _$ParentDashSummDataDomainModelFromJson(
     ParentDashSummDataDomainModel(
       school: json['school'] == null
           ? null
-          : SchoolDomainModel.fromJson(json['school'] as Map<String, dynamic>),
+          : MSchoolDomainModel.fromJson(json['school'] as Map<String, dynamic>),
       trips: json['trips'] == null
           ? null
           : ParentDashSummTripDomainModel.fromJson(
@@ -48,10 +48,10 @@ ParentDashSummTripDomainModel _$ParentDashSummTripDomainModelFromJson(
         Map<String, dynamic> json) =>
     ParentDashSummTripDomainModel(
       today: (json['today'] as List<dynamic>?)
-          ?.map((e) => TripDomainModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => MTripDomainModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       active: (json['active'] as List<dynamic>?)
-          ?.map((e) => TripDomainModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => MTripDomainModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

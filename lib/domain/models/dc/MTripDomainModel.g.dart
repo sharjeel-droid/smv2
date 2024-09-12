@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'TripDomainModel.dart';
+part of 'MTripDomainModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-TripDomainModel _$TripDomainModelFromJson(Map<String, dynamic> json) =>
-    TripDomainModel(
+MTripDomainModel _$MTripDomainModelFromJson(Map<String, dynamic> json) =>
+    MTripDomainModel(
       trip_id: json['trip_id'] as int,
       trip_course: json['trip_course'] as String,
       time_start: json['time_start'] as String,
@@ -15,7 +15,7 @@ TripDomainModel _$TripDomainModelFromJson(Map<String, dynamic> json) =>
       status: json['status'] as String,
     );
 
-Map<String, dynamic> _$TripDomainModelToJson(TripDomainModel instance) =>
+Map<String, dynamic> _$MTripDomainModelToJson(MTripDomainModel instance) =>
     <String, dynamic>{
       'trip_id': instance.trip_id,
       'trip_course': instance.trip_course,
