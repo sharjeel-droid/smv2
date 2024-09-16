@@ -23,7 +23,6 @@ class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
 
   final LoginViewModel _viewModel = Get.find<LoginViewModel>();
-  // bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -403,16 +402,19 @@ class LoginView extends StatelessWidget {
 
                         (_viewModel.isProcessing.value
                             ? Padding(
-                                padding: EdgeInsets.all(
-                                    defaults.dimens.padding.tiny),
+                                padding: EdgeInsets.only(
+                                    top: defaults.dimens.padding.tiny,
+                                    bottom: defaults.dimens.padding.tiny),
                                 child: defaults.widget.circularProgIndicator(),
                               )
-                            :
-                            // Text("hey")
-                            // defaults.widget.circularProgIndicator()
-                            Spacer(
-                                flex: 1,
-                              ))
+                            : SizedBox(
+                                width: 10,
+                                height: 10,
+                              )
+                        // Text("hey")
+                        // defaults.widget.circularProgIndicator()
+                        // Spacer(flex: 0,)
+                        )
                       ],
                     ),
                   ),

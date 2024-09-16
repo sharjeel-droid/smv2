@@ -13,6 +13,7 @@ import 'package:SMV2/domain/models/dc/DCnewSchoolApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewStdApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DCnewVanApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
+import 'package:SMV2/domain/models/dc/ParentDashSummDomainModel.dart';
 import 'package:SMV2/network/apis/AuthApi.dart';
 import 'package:SMV2/network/apis/dc/DataCentreApi.dart';
 import 'package:SMV2/network/entities/ApiResponseNetworkEntity.dart';
@@ -763,6 +764,47 @@ class DataCentreRepository{
 
   }
 
+  getParentsDashboardSummary(int parentId, {Function(ParentDashSummDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  async
+  {
+
+    try{
+
+      dev.log("request parameter -> parentId : ${parentId}");
+
+      HttpResponse<ApiResponseNetworkEntity> httpResponse = await api.dashboardSummaryForParent(parentId);
+      dev.log("response code -> ${httpResponse.response.statusCode}");
+
+      var resp = httpResponse.data;
+      dev.log("data.success -> ${resp.success}");
+      if(resp.success == 1){
+        if(resp!=null){
+
+          var dt = ParentDashSummDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
+
+          onSuccess!(dt);
+        }
+
+      }else{
+        onFailure!("request un-succcessful");
+      }
+
+    }
+    on DioException catch(e){
+      dev.log("onFailure -> ${e.message}");
+      dev.log("onFailure -> ${e.stackTrace}");
+      onFailure!("${e.response?.statusMessage??"unknown error"}");
+
+    }
+    catch(e){
+      // e as DioException;
+      dev.log("error -> ${e.toString()}");
+      // dev.log("error stack-> ${e}");
+      onFailure!(e.toString());
+
+    }
+
+  }
 
 
   void authCallback(){}

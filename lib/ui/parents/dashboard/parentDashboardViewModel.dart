@@ -44,6 +44,8 @@ class ParentDashboardViewModel extends GetxController{
     //         );
 
     getActiveTrips();
+
+    // getDashSummTest();
   }
 
   getActiveTrips() async
@@ -108,6 +110,70 @@ class ParentDashboardViewModel extends GetxController{
 
   }
 
+
+  /*getDashSummTest() async
+  {
+
+    isProcessing(true);
+
+    // schools(["asd", "123", "523"]);
+
+    int parentId = await AppSession.currentUser.user_id() as int;
+    // int userId = 1;
+
+
+    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_SUMM_FOR_PARENT}");
+    dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
+
+    repo
+        .getParentsDashboardSummary(
+        parentId ,
+        onSuccess: (response)
+        // async
+        {
+          // dev.log("on success -> ${response.success}");
+          dev.log("response -> ${response.toJson()}");
+          // dev.log("response.data -> ${response.data!.toJson()}");
+
+          var data = response;
+
+          if(data == null){
+            Fluttertoast.showToast(msg: "no Data Found");
+            // activeTripDetails(null);
+          }else{
+            // dev.log("data -> school name -> ${response.school!.school_name}");
+            // dev.log("data -> trips today -> ${response.trips!.today!.length}");
+            // dev.log("data -> trips active -> ${response.trips!.active!.length}");
+            // activeTripDetails(data.trip);
+
+          }
+          // activeTripDetails.refresh();
+
+          // dev.log("tripActive -> ${tripActive.value.length}");
+          // dev.log("tripToday -> ${tripToday.value.length}");
+
+          isProcessing(false);
+        },
+        onFailure: (errorMsg){
+          dev.log("error message -> ${errorMsg}");
+          isProcessing(false);
+          Fluttertoast.showToast(
+              msg: "Error in fethcing dashboard details",
+              toastLength: Toast.LENGTH_LONG,
+              gravity: ToastGravity.CENTER,
+              timeInSecForIosWeb: 2,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        });
+
+
+
+
+
+
+  }*/
 
 /*getDashboardDetails() async
 {

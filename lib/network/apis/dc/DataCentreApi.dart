@@ -95,4 +95,10 @@ abstract class DataCentreApi{
       @Query(dataKeys.PARENT_ID) int parent_id
       );
 
+
+  @GET(ApiConst.URL_DASH_SUMM_FOR_PARENT)
+  Future<HttpResponse<ApiResponseNetworkEntity>> dashboardSummaryForParent(
+      @Query(dataKeys.PARENT_ID) int parent_id
+      );
+
 }
