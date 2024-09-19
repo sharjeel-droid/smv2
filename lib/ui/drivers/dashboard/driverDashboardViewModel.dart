@@ -15,8 +15,7 @@ import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:get/state_manager.dart';
 
-
-class DriverDashboardViewModel extends GetxController{
+class DriverDashboardViewModel extends GetxController {
   final DataCentreRepository repo;
   DriverDashboardViewModel(this.repo);
 
@@ -33,155 +32,132 @@ class DriverDashboardViewModel extends GetxController{
   Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
   RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
   RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
+  String firstName = '';
+  String lastName = '';
+  int? mobileNumber;
   // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
-  init(){
+  Future<void> init() async {
     dev.log("driverDashVM init");
     // ever(tripActive,
     //         (callback) {
     //           showNewTripAction(callback!=null);
     //     }
     // );
-
+    firstName = await AppSession.currentUser.first_name() as String;
+    lastName = await AppSession.currentUser.last_name() as String;
+    mobileNumber = await AppSession.currentUser.contact_1() as int;
     getDashboardDetails();
-
   }
 
+  getDashboardDetails() async {
+    isProcessing(true);
 
+    // schools(["asd", "123", "523"]);
 
-getDashboardDetails() async
-{
+    int driverId = await AppSession.currentUser.user_id() as int;
+    // int userId = 1;
 
-  isProcessing(true);
+    dev.log(
+        "request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_DET_FOR_DRIVER}");
+    dev.log("request DriverDashDet; params -> {driver_id:${driverId}}");
 
-  // schools(["asd", "123", "523"]);
+    repo.getDriverDashboardDetails(driverId, onSuccess: (response)
+        // async
+        {
+      dev.log("on success -> ${response.success}");
+      dev.log("response -> ${response.toJson()}");
+      dev.log("response.data -> ${response.data!.toJson()}");
 
-  int driverId = await AppSession.currentUser.user_id() as int;
-  // int userId = 1;
+      var data = response.data;
 
+      if (data == null) {
+        Fluttertoast.showToast(msg: "no Data Found");
+        schools(null);
+        vehicle(null);
+        route(null);
+        tripActive(null);
+        tripToday(null);
+      } else {
+        schools(data.school);
+        vehicle(data.vehicle);
+        route(data.route);
+        tripActive(data.trips!.active);
+        tripToday(data.trips!.today);
+      }
 
-  dev.log("request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_DET_FOR_DRIVER}");
-  dev.log("request DriverDashDet; params -> {driver_id:${driverId}}");
+      dev.log("tripActive -> ${tripActive.value.length}");
+      dev.log("tripToday -> ${tripToday.value.length}");
 
-  repo
-      .getDriverDashboardDetails(
-      driverId ,
-      onSuccess: (response)
-      // async
-      {
-        dev.log("on success -> ${response.success}");
-        dev.log("response -> ${response.toJson()}");
-        dev.log("response.data -> ${response.data!.toJson()}");
+      isProcessing(false);
+    }, onFailure: (errorMsg) {
+      dev.log("error message -> ${errorMsg}");
+      isProcessing(false);
+      Fluttertoast.showToast(
+          msg: "Error in fethcing dashboard details",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    });
+  }
 
-        var data = response.data;
+  startNewTrip(
+      {required int route_id,
+      required String trip_course,
+      required Function() onComplete}) async {
+    isProcessing(true);
 
-        if(data == null){
-          Fluttertoast.showToast(msg: "no Data Found");
-          schools(null);
-          vehicle(null);
-          route(null);
-          tripActive(null);
-          tripToday(null);
-        }else{
+    // schools(["asd", "123", "523"]);
 
-          schools(data.school);
-          vehicle(data.vehicle);
-          route(data.route);
-          tripActive(data.trips!.active);
-          tripToday(data.trips!.today);
+    // int driverId = await AppSession.currentUser.user_id() as int;
+    // int userId = 1;
 
-        }
+    String start_time = DateTimeHandler.dateTimeNow_ymd();
 
-        dev.log("tripActive -> ${tripActive.value.length}");
-        dev.log("tripToday -> ${tripToday.value.length}");
+    dev.log(
+        "request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_NEW_TRIP_BY_DRIVER}");
+    dev.log(
+        "request DriverDashDet; params -> {route_id:${route_id}, trip_course:${trip_course}, start_time, ${start_time}");
 
-        isProcessing(false);
-      },
-      onFailure: (errorMsg){
-        dev.log("error message -> ${errorMsg}");
-        isProcessing(false);
-        Fluttertoast.showToast(
-            msg: "Error in fethcing dashboard details",
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      });
+    repo.startNewTrip(route_id, start_time, trip_course, onSuccess: (response)
+        // async
+        {
+      dev.log("on success -> ${response.success}");
+      dev.log("response -> ${response.toJson()}");
+      // dev.log("response.data -> ${response.data!.toJson()}");
 
+      // var data = response.data;
+      Fluttertoast.showToast(msg: inforMessages.new_trip_started);
+      onComplete();
+      // if(data != null){
+      //   Fluttertoast.showToast(msg: inforMessages.new_trip_started);
+      //   onComplete();
+      // }else{
+      //
+      //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
+      //
+      // }
 
+      // dev.log("tripActive -> ${tripActive.value.length}");
+      // dev.log("tripToday -> ${tripToday.value.length}");
 
-
-
-
-}
-
-startNewTrip({required int route_id, required String trip_course, required Function() onComplete}) async
-{
-
-  isProcessing(true);
-
-  // schools(["asd", "123", "523"]);
-
-  // int driverId = await AppSession.currentUser.user_id() as int;
-  // int userId = 1;
-
-  String start_time = DateTimeHandler.dateTimeNow_ymd();
-
-  dev.log("request DriverDashDet; url -> ${ApiConst.BASE_URL}${ApiConst.URL_NEW_TRIP_BY_DRIVER}");
-  dev.log("request DriverDashDet; params -> {route_id:${route_id}, trip_course:${trip_course}, start_time, ${start_time}");
-
-  repo
-      .startNewTrip(route_id, start_time, trip_course,
-      onSuccess: (response)
-      // async
-      {
-        dev.log("on success -> ${response.success}");
-        dev.log("response -> ${response.toJson()}");
-        // dev.log("response.data -> ${response.data!.toJson()}");
-
-        // var data = response.data;
-        Fluttertoast.showToast(msg: inforMessages.new_trip_started);
-        onComplete();
-        // if(data != null){
-        //   Fluttertoast.showToast(msg: inforMessages.new_trip_started);
-        //   onComplete();
-        // }else{
-        //
-        //   Fluttertoast.showToast(msg: errorMessages.unable_to_process);
-        //
-        // }
-
-        // dev.log("tripActive -> ${tripActive.value.length}");
-        // dev.log("tripToday -> ${tripToday.value.length}");
-
-        isProcessing(false);
-      },
-      onFailure: (errorMsg){
-        dev.log("error message -> ${errorMsg}");
-        isProcessing(false);
-        Fluttertoast.showToast(
-            msg: errorMessages.unable_to_process,
-            toastLength: Toast.LENGTH_LONG,
-            gravity: ToastGravity.CENTER,
-            timeInSecForIosWeb: 2,
-            backgroundColor: Colors.red,
-            textColor: Colors.white,
-            fontSize: 16.0
-        );
-      });
-
-
-
-
-
-
-}
-
-
-
+      isProcessing(false);
+    }, onFailure: (errorMsg) {
+      dev.log("error message -> ${errorMsg}");
+      isProcessing(false);
+      Fluttertoast.showToast(
+          msg: errorMessages.unable_to_process,
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 2,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    });
+  }
 
 /*
 getActiveTrips() async
@@ -250,6 +226,4 @@ getActiveTrips() async
 //   return (tripActive!=null);
 //
 // }
-
-
 }

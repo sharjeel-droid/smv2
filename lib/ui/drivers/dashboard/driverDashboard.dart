@@ -12,10 +12,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:developer' as dev;
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DriverDashboard extends StatelessWidget {
   DriverDashboard({Key? key}) : super(key: key);
-
+  final DriverDashboardViewModel _viewModel =
+      Get.find<DriverDashboardViewModel>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -238,7 +240,7 @@ class DriverDashboard extends StatelessWidget {
                 children: [
                   _recentScheduledTripSection(),
                   const SizedBox(height: 5),
-                  _onGoingTripSection(),
+                  _onGoingTripSection(context),
                   const SizedBox(height: 5),
                   _recentTripSection(),
                 ],
@@ -251,6 +253,7 @@ class DriverDashboard extends StatelessWidget {
   }
 
   Widget _viewForMobile(BuildContext context) {
+    _viewModel.init();
     return Padding(
       padding: const EdgeInsets.all(16),
       child: SingleChildScrollView(
@@ -280,12 +283,13 @@ class DriverDashboard extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("M. Asad Sheikh",
+                            Text(
+                                "${_viewModel.firstName} ${_viewModel.lastName}",
                                 style: TextStyle(
                                     color: defaults.colors.PrimaryBlue,
                                     fontSize: 24,
                                     fontWeight: FontWeight.w800)),
-                            Text("+92123456789",
+                            Text("${_viewModel.mobileNumber ?? '-'}",
                                 style: TextStyle(
                                     color: defaults.colors.PrimaryBlue,
                                     fontSize: 17,
@@ -308,14 +312,14 @@ class DriverDashboard extends StatelessWidget {
                             fit: BoxFit.contain,
                           )),
                       Expanded(
-                          flex: 1,
-                          child: Text(
-                            'AAQ-1234',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: defaults.colors.PrimaryBlue),
-                          ))
+                          flex: 2,
+                          child: Obx(() => Text(
+                                "${_viewModel.vehicle.value?.vehicle_type ?? "-"} : ${_viewModel.vehicle.value?.reg_number ?? "-"}",
+                                style: TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: defaults.colors.PrimaryBlue),
+                              )))
                     ],
                   )
                 ]),
@@ -324,7 +328,7 @@ class DriverDashboard extends StatelessWidget {
             const SizedBox(height: 5),
             _recentScheduledTripSection(),
             const SizedBox(height: 5),
-            _onGoingTripSection(),
+            _onGoingTripSection(context),
             const SizedBox(height: 5),
             _recentTripSection(),
           ],
@@ -332,346 +336,626 @@ class DriverDashboard extends StatelessWidget {
       ),
     );
   }
-}
 
-Widget _recentScheduledTripSection() {
-  return Card(
-    color: defaults.colors.SecondaryText,
-    elevation: 2,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: SizedBox(
-      height: 200,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("TODAY'S SCHEDULED",
-                style: TextStyle(
-                    fontSize: 24,
-                    color: defaults.colors.PrimaryBlue,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(height: 10),
-            Expanded(child: _buildScheduleTripRows()),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _onGoingTripSection() {
-  return Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        colors: [
-          defaults.colors.Primary,
-          defaults.colors.PrimaryLight
-        ], // Define your gradient colors here
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-      ),
-      borderRadius:
-          BorderRadius.circular(10), // Match the border radius with the Card
-    ),
-    child: Card(
-      color: const Color.fromARGB(0, 0, 0, 0),
-      elevation: 0,
+  Widget _recentScheduledTripSection() {
+    return Card(
+      color: defaults.colors.SecondaryText,
+      elevation: 2,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("ON GOING TRIP",
-                style: TextStyle(
-                    color: defaults.colors.SecondaryText,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            Row(
-              children: [
-                // Image with border radius
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    width: 80,
-                    height: 80,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/school-bus.png'),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                // Column with name, mobile, and text
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("started at: 00:00 am",
-                        style: TextStyle(
-                            color: defaults.colors.SecondaryText,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600)),
-                    Text("expected to end at: 00:00 am",
-                        style: TextStyle(
-                            color: defaults.colors.SecondaryText,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600)),
-                    Text("you are next to be picked up",
-                        style: TextStyle(
-                            color: defaults.colors.SecondaryText,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // Add button action
-                  },
-                  style: ElevatedButton.styleFrom(
-                    // backgroundColor: const Color.fromARGB(5, 255, 255, 255),
-                    backgroundColor: const Color.fromARGB(1, 0, 0, 0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      side: BorderSide(
-                          color:
-                              defaults.colors.SecondaryText.withOpacity(0.1)),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 35),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        "View Trip",
-                        style: TextStyle(
-                            color: defaults.colors.SecondaryText,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(width: 8),
-                      Icon(Icons.arrow_forward_ios,
-                          color: defaults.colors.SecondaryText),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-Widget _recentTripSection() {
-  return Card(
-    color: defaults.colors.SecondaryText,
-    elevation: 2,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: SizedBox(
+        height: 200,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("RECENT TRIPS",
+              Text("TODAY'S SCHEDULED",
                   style: TextStyle(
                       fontSize: 24,
                       color: defaults.colors.PrimaryBlue,
                       fontWeight: FontWeight.bold)),
-              Icon(Icons.arrow_forward_ios, color: defaults.colors.PrimaryBlue),
+              const SizedBox(height: 10),
+              Expanded(child: _buildScheduleTripRows()),
             ],
           ),
-          const SizedBox(height: 10),
-          _buildTripRows(),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildTripRows() {
-  return Column(
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-            decoration: BoxDecoration(
-              color: defaults.colors.PrimaryBlue,
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Text("Today",
-                style: TextStyle(
-                    color: defaults.colors.SecondaryText,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 15)),
-          ),
-        ],
-      ),
-      ExpansionTile(
-        // leading: Icon(Icons.arrow_drop_down),
-        title: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Started at 00:00 from abc, block n",
-              style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: defaults.colors.PrimaryBlue),
-            ),
-            Text("Ended at 00:00 from abc, block n",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: defaults.colors.PrimaryBlue))
-          ],
         ),
-        children: [
-          const ListTile(
-            title: Text("More details about the status..."),
-          ),
-        ],
       ),
-    ],
-  );
-}
+    );
+  }
 
-Widget _buildScheduleTripRows() {
-  List<Trip> trips = [
-    Trip('Block A, Clifton', 'Block A, Clifton', '07:00 A.M.', '08:00 A.M.'),
-    Trip('Block B, Gulshan', 'Block A, Clifton', '08:30 A.M.', '09:30 A.M.'),
-    Trip('Block C, DHA', 'Block A, Clifton', '10:00 A.M.', '11:00 A.M.'),
-    Trip('Block D, Saddar', 'Block A, Clifton', '11:30 A.M.', '12:30 P.M.'),
-    Trip('Block E, Korangi', 'Block A, Clifton', '01:00 P.M.', '02:00 P.M.'),
-  ];
-  return ListView.builder(
-    itemCount: trips.length,
-    itemBuilder: (context, index) {
-      final trip = trips[index];
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
+  Widget _onGoingTripSection(context) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            defaults.colors.Primary,
+            defaults.colors.PrimaryLight
+          ], // Define your gradient colors here
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius:
+            BorderRadius.circular(10), // Match the border radius with the Card
+      ),
+      child: Card(
+        color: const Color.fromARGB(0, 0, 0, 0),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("ON GOING TRIP",
+                  style: TextStyle(
+                      color: defaults.colors.SecondaryText,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold)),
+              const SizedBox(height: 16),
+              _viewModel.tripActive.value.isNotEmpty
+                  ? Row(
+                      children: [
+                        // Image with border radius
+                        Expanded(
+                          flex: 1,
+                          child: Container(
+                            width: 80,
+                            height: 80,
+                            decoration: const BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/images/school-bus.png'),
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        // Column with name, mobile, and text
+                        Expanded(
+                          flex: 3,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Wrap ListView.builder with a SizedBox to give it a height constraint
+                              SizedBox(
+                                height:
+                                    100, // You can adjust this value as needed
+                                child: ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount: _viewModel.tripToday.length,
+                                  itemBuilder: (context, index) {
+                                    final trip = _viewModel.tripToday[index];
+                                    return ListTile(
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            '${trip.time_start ?? "N/A"} -> ${trip.status ?? "N/A"}',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize:
+                                                  defaults.font.size.small,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text("started at: 00:00 am",
+                                              style: TextStyle(
+                                                  color: defaults
+                                                      .colors.SecondaryText,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600)),
+                                          Text("expected to end at: 00:00 am",
+                                              style: TextStyle(
+                                                  color: defaults
+                                                      .colors.SecondaryText,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600)),
+                                          Text("you are next to be picked up",
+                                              style: TextStyle(
+                                                  color: defaults
+                                                      .colors.SecondaryText,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w600)),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child: Text(
+                          'No Trip Found',
+                          style: TextStyle(
+                              color: defaults.colors.SecondaryText,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+              const SizedBox(height: 5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        _showNewTripAlert(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        // backgroundColor: const Color.fromARGB(5, 255, 255, 255),
+                        backgroundColor: const Color.fromARGB(1, 0, 0, 0),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          side: BorderSide(
+                              color: defaults.colors.SecondaryText
+                                  .withOpacity(0.1)),
+                        ),
+                        padding: const EdgeInsets.symmetric(horizontal: 35),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "${_viewModel.route.value != null ? "View Trip" : "Start Trip"}",
+                            style: TextStyle(
+                                color: defaults.colors.SecondaryText,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(width: 8),
+                          Icon(Icons.arrow_forward_ios,
+                              color: defaults.colors.SecondaryText),
+                        ],
+                      )),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _recentTripSection() {
+    return Card(
+      color: defaults.colors.SecondaryText,
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Column(
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                  decoration: BoxDecoration(
-                    color: defaults.colors.PrimaryBlue,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Text("ROUTE # 13",
-                      style: TextStyle(
-                          color: defaults.colors.SecondaryText,
-                          fontWeight: FontWeight.w800,
-                          fontSize: 13)),
-                ),
-                const SizedBox(
-                  width: 35,
-                ),
-                Icon(
-                  Icons.visibility,
-                  color: defaults.colors.PrimaryBlue,
-                ),
+                Text("RECENT TRIPS",
+                    style: TextStyle(
+                        fontSize: 24,
+                        color: defaults.colors.PrimaryBlue,
+                        fontWeight: FontWeight.bold)),
+                Icon(Icons.arrow_forward_ios,
+                    color: defaults.colors.PrimaryBlue),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    children: [
-                      Text(
-                        trip.startLocation,
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: defaults.colors.PrimaryBlue,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    trip.startTime,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: defaults.colors.PrimaryBlue,
+            const SizedBox(height: 10),
+            _buildTripRows(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTripRows() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+              decoration: BoxDecoration(
+                color: defaults.colors.PrimaryBlue,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Text("Today",
+                  style: TextStyle(
+                      color: defaults.colors.SecondaryText,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15)),
+            ),
+          ],
+        ),
+        ExpansionTile(
+          // leading: Icon(Icons.arrow_drop_down),
+          title: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Started at 00:00 from abc, block n",
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: defaults.colors.PrimaryBlue),
+              ),
+              Text("Ended at 00:00 from abc, block n",
+                  style: TextStyle(
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
+                      color: defaults.colors.PrimaryBlue))
+            ],
+          ),
+          children: [
+            const ListTile(
+              title: Text("More details about the status..."),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _buildScheduleTripRows() {
+    List<Trip> trips = [
+      Trip('Block A, Clifton', 'Block A, Clifton', '07:00 A.M.', '08:00 A.M.'),
+      Trip('Block B, Gulshan', 'Block A, Clifton', '08:30 A.M.', '09:30 A.M.'),
+      Trip('Block C, DHA', 'Block A, Clifton', '10:00 A.M.', '11:00 A.M.'),
+      Trip('Block D, Saddar', 'Block A, Clifton', '11:30 A.M.', '12:30 P.M.'),
+      Trip('Block E, Korangi', 'Block A, Clifton', '01:00 P.M.', '02:00 P.M.'),
+    ];
+    return ListView.builder(
+      itemCount: trips.length,
+      itemBuilder: (context, index) {
+        final trip = trips[index];
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    decoration: BoxDecoration(
+                      color: defaults.colors.PrimaryBlue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text("ROUTE # 13",
+                        style: TextStyle(
+                            color: defaults.colors.SecondaryText,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 13)),
+                  ),
+                  const SizedBox(
+                    width: 35,
+                  ),
+                  Icon(
+                    Icons.visibility,
+                    color: defaults.colors.PrimaryBlue,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      children: [
+                        Text(
+                          trip.startLocation,
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: defaults.colors.PrimaryBlue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Row(
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      trip.startTime,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: defaults.colors.PrimaryBlue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.subdirectory_arrow_right,
+                          color: defaults.colors.red,
+                        ),
+                        Text(
+                          '${trip.startLocation}, ${trip.startTime}',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: defaults.colors.PrimaryBlue,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      trip.endTime,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: defaults.colors.PrimaryBlue,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Divider(
+                thickness: 1,
+                color: defaults.colors.PrimaryBlue,
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future _showNewTripAlert(BuildContext _context) async {
+    return showModalBottomSheet(
+      context: _context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          child: Wrap(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize:
+                    MainAxisSize.min, // Adjust height based on content
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Left side: Text and first icon
+                      Row(
+                        children: [
+                          Text('NEW TRIP',
+                              style: TextStyle(
+                                  fontSize: 28,
+                                  color: defaults.colors.PrimaryBlue,
+                                  fontWeight: FontWeight.bold)),
+                          SizedBox(width: 15),
+                          Icon(FontAwesomeIcons.arrowUpRightFromSquare,
+                              color: defaults.colors.PrimaryBlue),
+                        ],
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.zero, // Removes padding
+                          minimumSize:
+                              Size.zero, // Removes any minimum size constraints
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: defaults.colors.PrimaryBlue,
+                          size: 28,
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      // Icon(Icons.close),
+                      // Icon(Icons.swap_vert),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          top: 5,
+                          right: 50,
+                          bottom: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          color: defaults.colors.PrimaryBlue,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text("DEPARTURE",
+                            style: TextStyle(
+                                color: defaults.colors.SecondaryText,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 15)),
+                      ),
+                      const SizedBox(
+                        width: 15,
+                      ),
+                      Icon(Icons.swap_vert, color: defaults.colors.PrimaryBlue),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('ABC School',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: defaults.colors.SecondaryText)),
+                          Text(
+                              's/123, Block S, Jahangir Town, North Karachi, \nPakistan.',
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: defaults.colors.SecondaryText)),
+                          Text('15 Sep, 2024, 7:00 am.',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: defaults.colors.SecondaryText)),
+                        ],
+                      )),
+                  const SizedBox(height: 10),
+                  Row(
                     children: [
                       Icon(
                         Icons.subdirectory_arrow_right,
-                        color: defaults.colors.red,
+                        color: defaults.colors.PrimaryBlue,
                       ),
-                      Text(
-                        '${trip.startLocation}, ${trip.startTime}',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: defaults.colors.PrimaryBlue,
-                          fontWeight: FontWeight.bold,
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'ABC School',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: defaults.colors.SecondaryText,
+                                ),
+                              ),
+                              Text(
+                                's/123, Block S, Jahangir Town, North Karachi, \nPakistan.',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: defaults.colors.SecondaryText,
+                                ),
+                              ),
+                              Text(
+                                '15 Sep, 2024, 7:00 am.',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: defaults.colors.SecondaryText,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    trip.endTime,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: defaults.colors.PrimaryBlue,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Expanded(
+                          flex: 10,
+                          child: Text(
+                            'Kamran Ahmed, Babar Azam and 23 others...',
+                            style:
+                                TextStyle(color: defaults.colors.PrimaryBlue),
+                          )),
+                      Expanded(
+                          flex: 1,
+                          child: Icon(Icons.visibility,
+                              color: defaults.colors.PrimaryBlue))
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.30, // 50vh
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                    ),
+                    child: GoogleMap(
+                      initialCameraPosition: const CameraPosition(
+                        target:
+                            LatLng(24.8607, 67.0011), // Coordinates of Karachi
+                        zoom: 14.0,
+                      ),
+                      mapType: MapType.normal,
+                      onMapCreated: (GoogleMapController controller) {},
                     ),
                   ),
-                ),
-              ],
-            ),
-            Divider(
-              thickness: 1,
-              color: defaults.colors.PrimaryBlue,
-            )
-          ],
-        ),
-      );
-    },
-  );
+                  ElevatedButton(
+                    onPressed: () {
+                      // _showNewTripAlert(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: defaults.colors.PrimaryBlue,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        side: BorderSide(color: defaults.colors.SecondaryText),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 35, vertical: 5),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.center, // Centers the text
+                      children: [
+                        Center(
+                          child: Text(
+                            "START NOW",
+                            style: TextStyle(
+                              color: defaults.colors.SecondaryText,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 0, // Positions the icon to the right
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            color: defaults.colors.SecondaryText,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
 
 class Trip {
