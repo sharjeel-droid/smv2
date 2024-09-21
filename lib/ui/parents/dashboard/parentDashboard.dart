@@ -19,11 +19,12 @@ class ParentDashboard extends StatelessWidget {
     {'name': 'Ali Raza', 'icon': Icons.visibility},
     {'name': 'Khan', 'icon': Icons.visibility},
   ];
-  // final ParentDashboardViewModel _viewModel = Get.find<ParentDashboardViewModel>();
+  final ParentDashboardViewModel _viewModel =
+      Get.find<ParentDashboardViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    // _viewModel.init();
+    _viewModel.init();
 
     return Scaffold(
       backgroundColor: defaults.colors.SecondaryText,
