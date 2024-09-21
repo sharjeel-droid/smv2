@@ -764,7 +764,7 @@ class DataCentreRepository{
 
   }
 
-  getParentsDashboardSummary(int parentId, {Function(ParentDashSummDataDomainModel response)? onSuccess, Function(String? errorMessage)? onFailure})
+  getParentsDashboardSummary(int parentId, {required Function(ParentDashSummDataDomainModel? response) onSuccess,required Function(String? errorMessage) onFailure})
   async
   {
 
@@ -776,31 +776,33 @@ class DataCentreRepository{
       dev.log("response code -> ${httpResponse.response.statusCode}");
 
       var resp = httpResponse.data;
-      dev.log("data.success -> ${resp.success}");
+      dev.log("success -> ${resp.success}");
       if(resp.success == 1){
         if(resp!=null){
 
           var dt = ParentDashSummDataDomainModel.fromJson(this.mapper_base.mapFromEntity(resp).data);
 
-          onSuccess!(dt);
+          onSuccess(dt);
         }
 
       }else{
-        onFailure!("request un-succcessful");
+        // dev.log("success is 0");
+        onSuccess(null);
+        // onFailure!("request un-succcessful");
       }
 
     }
     on DioException catch(e){
       dev.log("onFailure -> ${e.message}");
       dev.log("onFailure -> ${e.stackTrace}");
-      onFailure!("${e.response?.statusMessage??"unknown error"}");
+      onFailure("${e.response?.statusMessage??"unknown error"}");
 
     }
     catch(e){
       // e as DioException;
       dev.log("error -> ${e.toString()}");
       // dev.log("error stack-> ${e}");
-      onFailure!(e.toString());
+      onFailure(e.toString());
 
     }
 

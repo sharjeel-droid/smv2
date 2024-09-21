@@ -118,7 +118,8 @@ class ParentDashboardViewModel extends GetxController{
 
     // schools(["asd", "123", "523"]);
 
-    int parentId = await AppSession.currentUser.user_id() as int;
+    // int parentId = await AppSession.currentUser.user_id() as int;
+    int parentId = 49;
     // int userId = 1;
 
 
@@ -131,16 +132,20 @@ class ParentDashboardViewModel extends GetxController{
         onSuccess: (response)
         // async
         {
-          // dev.log("on success -> ${response.success}");
-          dev.log("response -> ${response.toJson()}");
+          // dev.log("on success -> ${response?.success}");
+          // dev.log("response -> ${response?.school?.school_name}");
           // dev.log("response.data -> ${response.data!.toJson()}");
+          dev.log("response fetched");
 
+          dev.log("response fetched -> ${response}");
+          dev.log("response fetched");
           var data = response;
 
           if(data == null){
             Fluttertoast.showToast(msg: "no Data Found");
             // activeTripDetails(null);
           }else{
+            Fluttertoast.showToast(msg: "Data populated");
             // dev.log("data -> school name -> ${response.school!.school_name}");
             // dev.log("data -> trips today -> ${response.trips!.today!.length}");
             // dev.log("data -> trips active -> ${response.trips!.active!.length}");
