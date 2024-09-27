@@ -1,7 +1,5 @@
 import 'package:SMV2/constants/apiConstants.dart';
 import 'package:SMV2/constants/valueConstants.dart';
-import 'package:SMV2/domain/models/dc/DCDriverActiveTripsDataDomainModel.dart';
-import 'package:SMV2/domain/models/dc/DCDriverDashApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/DataCentreApiResponseDomainModel.dart';
 import 'package:SMV2/domain/models/dc/ParentDashSummDomainModel.dart';
 import 'package:SMV2/repositories/DataCentreRepository.dart';
@@ -27,60 +25,105 @@ class ParentDashboardViewModel extends GetxController {
   //observables
   RxBool isProcessing = false.obs;
   // RxBool showTripViewAction = false.obs;
-  Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
-  Rxn<ParentDashSummDataDomainModel> school = Rxn();
 
-  // Rxn<DcDriverDashDataSchoolDomainModel> schools = Rxn();
-  // Rxn<DcDriverDashDataVehicleDomainModel> vehicle = Rxn();
-  // Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
-  // RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
-  // RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
-  // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
+  Rxn<ParentDashSummDataDomainModel> parentDashData = Rxn();
+  String firstName = '';
+  String lastName = '';
+  String mobileNumber = '';
 
-  init() {
-    // ever(activeTripDetails,
-    //         (callback) {
-    //           showTripViewAction(callback!=null);
-    //         }
-    //         );
-
-    getActiveTrips();
-
-    // getDashSummTest();
+  Future<void> init() async {
+    firstName = await AppSession.currentUser.first_name() as String;
+    lastName = await AppSession.currentUser.last_name() as String;
+    mobileNumber = await AppSession.currentUser.contact_1() as String;
+    getDashSumm();
   }
 
-  getActiveTrips() async {
+  // getActiveTrips() async {
+  //   isProcessing(true);
+
+  //   // schools(["asd", "123", "523"]);
+
+  //   int parentId = await AppSession.currentUser.user_id() as int;
+  //   // int userId = 1;
+
+  //   dev.log(
+  //       "request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_PARENT}");
+  //   dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
+
+  //   repo.getParentActiveTrips(parentId, onSuccess: (response)
+  //       // async
+  //       {
+  //     // dev.log("on success -> ${response.success}");
+  //     dev.log("response -> ${response.toJson()}");
+  //     // dev.log("response.data -> ${response.data!.toJson()}");
+
+  //     var data = response;
+
+  //     if (data == null) {
+  //       Fluttertoast.showToast(msg: "no Data Found");
+  //       activeTripDetails(null);
+  //     } else {
+  //       activeTripDetails(data.trip);
+  //     }
+  //     activeTripDetails.refresh();
+  //     dev.log("Data content: ${jsonEncode(data)}");
+  //     // dev.log("tripActive -> ${tripActive.value.length}");
+  //     // dev.log("tripToday -> ${tripToday.value.length}");
+
+  //     isProcessing(false);
+  //   }, onFailure: (errorMsg) {
+  //     dev.log("error message -> ${errorMsg}");
+  //     isProcessing(false);
+  //     Fluttertoast.showToast(
+  //         msg: "Error in fethcing dashboard details",
+  //         toastLength: Toast.LENGTH_LONG,
+  //         gravity: ToastGravity.CENTER,
+  //         timeInSecForIosWeb: 2,
+  //         backgroundColor: Colors.red,
+  //         textColor: Colors.white,
+  //         fontSize: 16.0);
+  //   });
+  // }
+
+  getDashSumm() async {
     isProcessing(true);
 
-    // schools(["asd", "123", "523"]);
-
     int parentId = await AppSession.currentUser.user_id() as int;
-    // int userId = 1;
 
     dev.log(
-        "request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_TRIP_ACTIVE_FOR_PARENT}");
+        "request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_SUMM_FOR_PARENT}");
     dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
 
-    repo.getParentActiveTrips(parentId, onSuccess: (response)
+    repo.getParentsDashboardSummary(parentId, onSuccess: (response)
         // async
         {
-      // dev.log("on success -> ${response.success}");
-      dev.log("response -> ${response.toJson()}");
+      // dev.log("on success -> ${response?.success}");
+      // dev.log("response -> ${response?.school?.school_name}");
       // dev.log("response.data -> ${response.data!.toJson()}");
+      dev.log("response fetched");
 
+      dev.log("response fetched -> ${response}");
+      dev.log("response fetched");
+      dev.log("Data content: ${jsonEncode(response)}");
       var data = response;
 
       if (data == null) {
         Fluttertoast.showToast(msg: "no Data Found");
-        activeTripDetails(null);
+        // activeTripDetails(null);
       } else {
-        activeTripDetails(data.trip);
+        Fluttertoast.showToast(msg: "Data populated");
+        // dev.log("data -> school name -> ${response.school!.school_name}");
+        // dev.log("data -> trips today -> ${response.trips!.today!.length}");
+        // dev.log("data -> trips active -> ${response.trips!.active!.length}");
+        // activeTripDetails(data.trip);
       }
-      activeTripDetails.refresh();
-      dev.log("Data content: ${jsonEncode(data)}");
+      // activeTripDetails.refresh();
+
       // dev.log("tripActive -> ${tripActive.value.length}");
       // dev.log("tripToday -> ${tripToday.value.length}");
-
+      if (response != null) {
+        parentDashData.value = data; // Assign the entire response object
+      }
       isProcessing(false);
     }, onFailure: (errorMsg) {
       dev.log("error message -> ${errorMsg}");
@@ -95,75 +138,6 @@ class ParentDashboardViewModel extends GetxController {
           fontSize: 16.0);
     });
   }
-
-  /*getDashSummTest() async
-  {
-
-    isProcessing(true);
-
-    // schools(["asd", "123", "523"]);
-
-    // int parentId = await AppSession.currentUser.user_id() as int;
-    int parentId = 49;
-    // int userId = 1;
-
-
-    dev.log("request getActiveTrips; url -> ${ApiConst.BASE_URL}${ApiConst.URL_DASH_SUMM_FOR_PARENT}");
-    dev.log("request getActiveTrips; params -> {parentId:${parentId}}");
-
-    repo
-        .getParentsDashboardSummary(
-        parentId ,
-        onSuccess: (response)
-        // async
-        {
-          // dev.log("on success -> ${response?.success}");
-          // dev.log("response -> ${response?.school?.school_name}");
-          // dev.log("response.data -> ${response.data!.toJson()}");
-          dev.log("response fetched");
-
-          dev.log("response fetched -> ${response}");
-          dev.log("response fetched");
-          var data = response;
-
-          if(data == null){
-            Fluttertoast.showToast(msg: "no Data Found");
-            // activeTripDetails(null);
-          }else{
-            Fluttertoast.showToast(msg: "Data populated");
-            // dev.log("data -> school name -> ${response.school!.school_name}");
-            // dev.log("data -> trips today -> ${response.trips!.today!.length}");
-            // dev.log("data -> trips active -> ${response.trips!.active!.length}");
-            // activeTripDetails(data.trip);
-
-          }
-          // activeTripDetails.refresh();
-
-          // dev.log("tripActive -> ${tripActive.value.length}");
-          // dev.log("tripToday -> ${tripToday.value.length}");
-
-          isProcessing(false);
-        },
-        onFailure: (errorMsg){
-          dev.log("error message -> ${errorMsg}");
-          isProcessing(false);
-          Fluttertoast.showToast(
-              msg: "Error in fethcing dashboard details",
-              toastLength: Toast.LENGTH_LONG,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 2,
-              backgroundColor: Colors.red,
-              textColor: Colors.white,
-              fontSize: 16.0
-          );
-        });
-
-
-
-
-
-
-  }*/
 
 /*getDashboardDetails() async
 {

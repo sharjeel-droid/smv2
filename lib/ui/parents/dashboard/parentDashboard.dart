@@ -306,12 +306,12 @@ class ParentDashboard extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Mutahir Rehman",
+                          Text("${_viewModel.firstName} ${_viewModel.lastName}",
                               style: TextStyle(
                                   color: defaults.colors.PrimaryBlue,
                                   fontSize: 24,
                                   fontWeight: FontWeight.w800)),
-                          Text("+92123456789",
+                          Text("${_viewModel.mobileNumber ?? '-'}",
                               style: TextStyle(
                                   color: defaults.colors.PrimaryBlue,
                                   fontSize: 17,
@@ -522,19 +522,22 @@ class ParentDashboard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("The Deenway Academy",
+                      Obx(() => Text(
+                          "${_viewModel.parentDashData.value!.school!.school_name}",
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 18,
                               color: defaults.colors.PrimaryBlue,
-                              fontWeight: FontWeight.bold)),
-                      Text("a/123, abc road, Karachi, Pakistan",
+                              fontWeight: FontWeight.bold))),
+                      Obx(() => Text(
+                          "${_viewModel.parentDashData.value!.school!.address}",
                           style: TextStyle(
                               fontSize: 14,
-                              color: defaults.colors.PrimaryBlue)),
-                      Text("+9845645645",
+                              color: defaults.colors.PrimaryBlue))),
+                      Obx(() => Text(
+                          "${_viewModel.parentDashData.value!.school!.contact_1}",
                           style: TextStyle(
                               fontSize: 14,
-                              color: defaults.colors.PrimaryBlue)),
+                              color: defaults.colors.PrimaryBlue))),
                     ],
                   ),
                 ),
@@ -608,54 +611,135 @@ class ParentDashboard extends StatelessWidget {
   }
 
   Widget _buildTripRows() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-              decoration: BoxDecoration(
-                color: defaults.colors.PrimaryBlue,
-                borderRadius: BorderRadius.circular(15),
-              ),
-              child: Text("Today",
-                  style: TextStyle(
-                      color: defaults.colors.SecondaryText,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 15)),
+    return Obx(() {
+      // Fetch the trips from the observable field
+      final trips = _viewModel.parentDashData.value?.trips?.active ?? [];
+
+      // Handle case where there are no active trips
+      if (trips.isEmpty) {
+        return Center(
+          child: Text(
+            "No active trips available.",
+            style: TextStyle(
+              fontSize: 16,
+              color: defaults.colors.PrimaryBlue,
             ),
-          ],
-        ),
-        ExpansionTile(
-          // leading: Icon(Icons.arrow_drop_down),
-          title: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Started at 00:00 from abc, block n",
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: defaults.colors.PrimaryBlue),
-              ),
-              Text("Ended at 00:00 from abc, block n",
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: defaults.colors.PrimaryBlue))
-            ],
           ),
-          children: [
-            ListTile(
-              title: Text("More details about the status..."),
-            ),
-          ],
-        ),
-      ],
-    );
+        );
+      }
+
+      // Build the dynamic list of active trips
+      return Column(
+        children: trips.map((trip) {
+          return Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                    decoration: BoxDecoration(
+                      color: defaults.colors.PrimaryBlue,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Text(trip.trip_course.toUpperCase(),
+                        style: TextStyle(
+                            color: defaults.colors.SecondaryText,
+                            fontWeight: FontWeight.w800,
+                            fontSize: 15)),
+                  ),
+                ],
+              ),
+              ExpansionTile(
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Started at ${trip.time_start}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: defaults.colors.PrimaryBlue),
+                    ),
+                    Text(
+                      "Ended at ${trip.time_end}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: defaults.colors.PrimaryBlue),
+                    ),
+                  ],
+                ),
+                children: [
+                  ListTile(
+                    title: Text(
+                      "Status: ${trip.status}",
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: defaults.colors.PrimaryBlue),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          );
+        }).toList(),
+      );
+    });
   }
+
+  // Widget _buildTripRows() {
+  //   return Column(
+  //     children: [
+  //       Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Container(
+  //             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+  //             decoration: BoxDecoration(
+  //               color: defaults.colors.PrimaryBlue,
+  //               borderRadius: BorderRadius.circular(15),
+  //             ),
+  //             child: Text("Today",
+  //                 style: TextStyle(
+  //                     color: defaults.colors.SecondaryText,
+  //                     fontWeight: FontWeight.w800,
+  //                     fontSize: 15)),
+  //           ),
+  //         ],
+  //       ),
+  //       ExpansionTile(
+  //         // leading: Icon(Icons.arrow_drop_down),
+  //         title: Column(
+  //           mainAxisAlignment: MainAxisAlignment.start,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             Text(
+  //               "Started at 00:00 from abc, block n",
+  //               style: TextStyle(
+  //                   fontSize: 12,
+  //                   fontWeight: FontWeight.bold,
+  //                   color: defaults.colors.PrimaryBlue),
+  //             ),
+  //             Text("Ended at 00:00 from abc, block n",
+  //                 style: TextStyle(
+  //                     fontSize: 12,
+  //                     fontWeight: FontWeight.bold,
+  //                     color: defaults.colors.PrimaryBlue))
+  //           ],
+  //         ),
+  //         children: [
+  //           ListTile(
+  //             title: Text("More details about the status..."),
+  //           ),
+  //         ],
+  //       ),
+  //     ],
+  //   );
+  // }
 }
 
 

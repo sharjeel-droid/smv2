@@ -34,7 +34,7 @@ class DriverDashboardViewModel extends GetxController {
   RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
   String firstName = '';
   String lastName = '';
-  int? mobileNumber;
+  String mobileNumber = '';
   // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
   Future<void> init() async {
@@ -46,7 +46,7 @@ class DriverDashboardViewModel extends GetxController {
     // );
     firstName = await AppSession.currentUser.first_name() as String;
     lastName = await AppSession.currentUser.last_name() as String;
-    mobileNumber = await AppSession.currentUser.contact_1() as int;
+    mobileNumber = await AppSession.currentUser.contact_1() as String;
     getDashboardDetails();
   }
 
