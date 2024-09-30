@@ -925,27 +925,49 @@ class DriverDashboard extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 35, vertical: 5),
                     ),
-                    child: Stack(
-                      alignment: Alignment.center, // Centers the text
-                      children: [
-                        Center(
-                          child: Text(
-                            "START NOW",
-                            style: TextStyle(
-                              color: defaults.colors.SecondaryText,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                    child: TextButton(
+                      style: TextButton.styleFrom(
+                        padding: EdgeInsets.zero, // Removes padding
+                        minimumSize:
+                            Size.zero, // Removes any minimum size constraints
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center, // Centers the text
+                        children: [
+                          Center(
+                            child: Text(
+                              "START NOW",
+                              style: TextStyle(
+                                color: defaults.colors.SecondaryText,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        Positioned(
-                          right: 0, // Positions the icon to the right
-                          child: Icon(
-                            Icons.arrow_forward_ios,
-                            color: defaults.colors.SecondaryText,
+                          Positioned(
+                            right: 0, // Positions the icon to the right
+                            child: Icon(
+                              Icons.arrow_forward_ios,
+                              color: defaults.colors.SecondaryText,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        _viewModel.startNewTrip(
+                            route_id: _viewModel.route.value!.route_id,
+                            trip_course: "arrival",
+                            onComplete: () async {
+                              bool res = await navigate().todriverTripView();
+                              if (res == true) {
+                                dev.log("refreshing dashboard details");
+                                _viewModel.getDashboardDetails();
+                              } else {
+                                dev.log("not refreshing");
+                              }
+                            });
+                      },
                     ),
                   )
                 ],
