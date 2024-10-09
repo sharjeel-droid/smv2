@@ -9,7 +9,7 @@ part of 'ApiResponseDomainModel.dart';
 ApiResponseDomainModel _$ApiResponseDomainModelFromJson(
         Map<String, dynamic> json) =>
     ApiResponseDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       data: json['data'],
     );

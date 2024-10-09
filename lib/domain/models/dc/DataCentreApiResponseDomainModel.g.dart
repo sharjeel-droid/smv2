@@ -9,7 +9,7 @@ part of 'DataCentreApiResponseDomainModel.dart';
 DataCentreApiResponseDomainModel _$DataCentreApiResponseDomainModelFromJson(
         Map<String, dynamic> json) =>
     DataCentreApiResponseDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       data: json['data'] == null
           ? null
@@ -26,7 +26,7 @@ Map<String, dynamic> _$DataCentreApiResponseDomainModelToJson(
 
 DcDataDomainModel _$DcDataDomainModelFromJson(Map<String, dynamic> json) =>
     DcDataDomainModel(
-      num_of_records: json['num_of_records'] as int,
+      num_of_records: (json['num_of_records'] as num).toInt(),
       schools: (json['schools'] as List<dynamic>?)
           ?.map((e) => SchoolDomainModel.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -40,15 +40,15 @@ Map<String, dynamic> _$DcDataDomainModelToJson(DcDataDomainModel instance) =>
 
 SchoolDomainModel _$SchoolDomainModelFromJson(Map<String, dynamic> json) =>
     SchoolDomainModel(
-      school_id: json['school_id'] as int,
-      admin_id: json['admin_id'] as int,
-      verification_code: json['verification_code'] as int?,
+      school_id: (json['school_id'] as num).toInt(),
+      admin_id: (json['admin_id'] as num).toInt(),
+      verification_code: (json['verification_code'] as num?)?.toInt(),
       school_name: json['school_name'] as String,
       address: json['address'] as String,
       contact_1: json['contact_1'] as String,
       contact_2: json['contact_2'] as String?,
       pic: json['pic'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String,
       supervisor: json['supervisor'] == null
           ? null
@@ -74,7 +74,7 @@ Map<String, dynamic> _$SchoolDomainModelToJson(SchoolDomainModel instance) =>
 SupervisorDomainModel _$SupervisorDomainModelFromJson(
         Map<String, dynamic> json) =>
     SupervisorDomainModel(
-      user_id: json['user_id'] as int,
+      user_id: (json['user_id'] as num).toInt(),
       first_name: json['first_name'] as String,
       last_name: json['last_name'] as String?,
       gender: json['gender'] as String,
@@ -84,7 +84,7 @@ SupervisorDomainModel _$SupervisorDomainModelFromJson(
       contact_1: json['contact_1'] as String?,
       contact_2: json['contact_2'] as String?,
       pic: json['pic'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
     );
 
 Map<String, dynamic> _$SupervisorDomainModelToJson(

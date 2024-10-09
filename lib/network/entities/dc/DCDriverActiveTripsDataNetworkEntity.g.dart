@@ -25,8 +25,8 @@ DcDriverActiveTripsDataTripNetworkEntity
     _$DcDriverActiveTripsDataTripNetworkEntityFromJson(
             Map<String, dynamic> json) =>
         DcDriverActiveTripsDataTripNetworkEntity(
-          trip_id: json['trip_id'] as int?,
-          route_id: json['route_id'] as int?,
+          trip_id: (json['trip_id'] as num?)?.toInt(),
+          route_id: (json['route_id'] as num?)?.toInt(),
           time_start: json['time_start'] as String?,
           time_end: json['time_end'] as String?,
           status: json['status'] as String?,
@@ -57,8 +57,8 @@ DcDriverActiveTripsDataTripStudentsNetworkEntity
     _$DcDriverActiveTripsDataTripStudentsNetworkEntityFromJson(
             Map<String, dynamic> json) =>
         DcDriverActiveTripsDataTripStudentsNetworkEntity(
-          trip_detail_id: json['trip_detail_id'] as int?,
-          student_id: json['student_id'] as int?,
+          trip_detail_id: (json['trip_detail_id'] as num?)?.toInt(),
+          student_id: (json['student_id'] as num?)?.toInt(),
           status: json['status'] as String?,
           time_pickup: json['time_pickup'] as String?,
           reason: json['reason'] as String?,

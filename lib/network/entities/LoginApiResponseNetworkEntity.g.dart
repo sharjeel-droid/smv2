@@ -9,7 +9,7 @@ part of 'LoginApiResponseNetworkEntity.dart';
 LoginApiResponseNetworkEntity _$LoginApiResponseNetworkEntityFromJson(
         Map<String, dynamic> json) =>
     LoginApiResponseNetworkEntity(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => DataNetworkEntity.fromJson(e as Map<String, dynamic>))
@@ -26,15 +26,15 @@ Map<String, dynamic> _$LoginApiResponseNetworkEntityToJson(
 
 DataNetworkEntity _$DataNetworkEntityFromJson(Map<String, dynamic> json) =>
     DataNetworkEntity(
-      access_id: json['access_id'] as int,
-      label_id: json['label_id'] as int,
-      user_id: json['user_id'] as int,
+      access_id: (json['access_id'] as num).toInt(),
+      label_id: (json['label_id'] as num).toInt(),
+      user_id: (json['user_id'] as num).toInt(),
       login_id: json['login_id'] as String,
       pass: json['pass'] as String,
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
-      is_active: json['is_active'] as int,
-      is_loggedin: json['is_loggedin'] as int,
+      is_active: (json['is_active'] as num).toInt(),
+      is_loggedin: (json['is_loggedin'] as num).toInt(),
       token_id: json['token_id'] as String?,
       bio: BIONetworkEntity.fromJson(json['bio'] as Map<String, dynamic>),
     );
@@ -56,10 +56,10 @@ Map<String, dynamic> _$DataNetworkEntityToJson(DataNetworkEntity instance) =>
 
 BIONetworkEntity _$BIONetworkEntityFromJson(Map<String, dynamic> json) =>
     BIONetworkEntity(
-      user_id: json['user_id'] as int,
-      admin_id: json['admin_id'] as int?,
-      s_admin_id: json['s_admin_id'] as int?,
-      school_id: json['school_id'] as int?,
+      user_id: (json['user_id'] as num).toInt(),
+      admin_id: (json['admin_id'] as num?)?.toInt(),
+      s_admin_id: (json['s_admin_id'] as num?)?.toInt(),
+      school_id: (json['school_id'] as num?)?.toInt(),
       first_name: json['first_name'] as String,
       last_name: json['last_name'] as String?,
       gender: json['gender'] as String,
@@ -69,7 +69,7 @@ BIONetworkEntity _$BIONetworkEntityFromJson(Map<String, dynamic> json) =>
       contact_2: json['contact_2'] as String?,
       address: json['address'] as String,
       pic: json['pic'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String,
       date_update: json['date_update'] as String?,
       loc_users: json['loc_users'] == null
@@ -102,9 +102,9 @@ Map<String, dynamic> _$BIONetworkEntityToJson(BIONetworkEntity instance) =>
 LOCUsersNetworkEntity _$LOCUsersNetworkEntityFromJson(
         Map<String, dynamic> json) =>
     LOCUsersNetworkEntity(
-      loc_user_id: json['loc_user_id'] as int,
-      user_id: json['user_id'] as int,
-      label_id: json['label_id'] as int,
+      loc_user_id: (json['loc_user_id'] as num).toInt(),
+      user_id: (json['user_id'] as num).toInt(),
+      label_id: (json['label_id'] as num).toInt(),
       longitude: json['longitude'] as String?,
       latitude: json['latitude'] as String?,
       date_create: json['date_create'] as String,

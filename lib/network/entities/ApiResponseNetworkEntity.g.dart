@@ -9,10 +9,10 @@ part of 'ApiResponseNetworkEntity.dart';
 ApiResponseNetworkEntity _$ApiResponseNetworkEntityFromJson(
         Map<String, dynamic> json) =>
     ApiResponseNetworkEntity(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       fcmResponse: json['fcmResponse'] as String?,
-      lastInsertedId: json['lastInsertedId'] as int?,
+      lastInsertedId: (json['lastInsertedId'] as num?)?.toInt(),
       data: json['data'],
     );
 

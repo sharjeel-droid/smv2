@@ -9,7 +9,7 @@ part of 'ParentDashSummDomainModel.dart';
 ParentDashSummDomainModel _$ParentDashSummDomainModelFromJson(
         Map<String, dynamic> json) =>
     ParentDashSummDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       data: json['data'] == null
           ? null

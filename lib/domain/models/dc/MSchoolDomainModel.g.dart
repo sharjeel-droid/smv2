@@ -8,7 +8,7 @@ part of 'MSchoolDomainModel.dart';
 
 MSchoolDomainModel _$MSchoolDomainModelFromJson(Map<String, dynamic> json) =>
     MSchoolDomainModel(
-      verification_code: json['verification_code'] as int,
+      verification_code: (json['verification_code'] as num).toInt(),
       school_name: json['school_name'] as String,
       address: json['address'] as String,
       contact_1: json['contact_1'] as String,

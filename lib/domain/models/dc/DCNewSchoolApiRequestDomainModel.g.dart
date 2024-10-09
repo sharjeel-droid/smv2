@@ -9,7 +9,7 @@ part of 'DCNewSchoolApiRequestDomainModel.dart';
 DCNewSchoolApiRequestDomainModel _$DCNewSchoolApiRequestDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCNewSchoolApiRequestDomainModel(
-      adminId: json['adminId'] as int,
+      adminId: (json['adminId'] as num).toInt(),
       schoolName: json['schoolName'] as String,
       schoolAddress: json['schoolAddress'] as String,
       schoolContact: json['schoolContact'] as String,

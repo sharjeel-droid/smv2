@@ -9,7 +9,7 @@ part of 'DCnewVanApiResponseNetworkEntity.dart';
 DCnewVanApiResponseNetworkEntity _$DCnewVanApiResponseNetworkEntityFromJson(
         Map<String, dynamic> json) =>
     DCnewVanApiResponseNetworkEntity(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
     );
 

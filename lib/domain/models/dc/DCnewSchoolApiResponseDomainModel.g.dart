@@ -9,7 +9,7 @@ part of 'DCnewSchoolApiResponseDomainModel.dart';
 DCnewSchoolApiResponseDomainModel _$DCnewSchoolApiResponseDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCnewSchoolApiResponseDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
     );
 

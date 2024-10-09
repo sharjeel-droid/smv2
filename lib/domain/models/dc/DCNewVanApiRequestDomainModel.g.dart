@@ -9,8 +9,8 @@ part of 'DCNewVanApiRequestDomainModel.dart';
 DCNewVanApiRequestDomainModel _$DCNewVanApiRequestDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCNewVanApiRequestDomainModel(
-      adminId: json['adminId'] as int,
-      schoolId: json['schoolId'] as int,
+      adminId: (json['adminId'] as num).toInt(),
+      schoolId: (json['schoolId'] as num).toInt(),
       vehicleRegNum: json['vehicleRegNum'] as String,
       vehicleType: json['vehicleType'] as String,
       driverName: json['driverName'] as String,
@@ -38,8 +38,8 @@ Map<String, dynamic> _$DCNewVanApiRequestDomainModelToJson(
 DCNewVanApiStdRequestDomainModel _$DCNewVanApiStdRequestDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCNewVanApiStdRequestDomainModel(
-      studentId: json['studentId'] as int,
-      sortingIndex: json['sortingIndex'] as int,
+      studentId: (json['studentId'] as num).toInt(),
+      sortingIndex: (json['sortingIndex'] as num).toInt(),
     );
 
 Map<String, dynamic> _$DCNewVanApiStdRequestDomainModelToJson(

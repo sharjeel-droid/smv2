@@ -9,7 +9,7 @@ part of 'DCDriverDashApiResponseNetworkEntity.dart';
 DCDriverDashApiResponseNetworkEntity
     _$DCDriverDashApiResponseNetworkEntityFromJson(Map<String, dynamic> json) =>
         DCDriverDashApiResponseNetworkEntity(
-          success: json['success'] as int,
+          success: (json['success'] as num).toInt(),
           message: json['message'] as String,
           data: json['data'] == null
               ? null
@@ -58,7 +58,7 @@ Map<String, dynamic> _$DcDriverDashDataNetworkEntityToJson(
 DcDriverDashDataSchoolNetworkEntity
     _$DcDriverDashDataSchoolNetworkEntityFromJson(Map<String, dynamic> json) =>
         DcDriverDashDataSchoolNetworkEntity(
-          verification_code: json['verification_code'] as int?,
+          verification_code: (json['verification_code'] as num?)?.toInt(),
           school_name: json['school_name'] as String?,
           address: json['address'] as String?,
           contact_1: json['contact_1'] as String?,
@@ -92,7 +92,7 @@ Map<String, dynamic> _$DcDriverDashDataVehicleNetworkEntityToJson(
 DcDriverDashDataRouteNetworkEntity _$DcDriverDashDataRouteNetworkEntityFromJson(
         Map<String, dynamic> json) =>
     DcDriverDashDataRouteNetworkEntity(
-      route_id: json['route_id'] as int,
+      route_id: (json['route_id'] as num).toInt(),
       route_title: json['route_title'] as String?,
       time_start_approx: json['time_start_approx'] as String?,
       time_end_approx: json['time_end_approx'] as String?,
@@ -131,7 +131,7 @@ DcDriverDashDataTripDetsNetworkEntity
     _$DcDriverDashDataTripDetsNetworkEntityFromJson(
             Map<String, dynamic> json) =>
         DcDriverDashDataTripDetsNetworkEntity(
-          trip_id: json['trip_id'] as int,
+          trip_id: (json['trip_id'] as num).toInt(),
           trip_course: json['trip_course'] as String?,
           time_start: json['time_start'] as String?,
           time_end: json['time_end'] as String?,

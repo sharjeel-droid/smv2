@@ -25,8 +25,8 @@ DcDriverActiveTripsDataTripDomainModel
     _$DcDriverActiveTripsDataTripDomainModelFromJson(
             Map<String, dynamic> json) =>
         DcDriverActiveTripsDataTripDomainModel(
-          trip_id: json['trip_id'] as int?,
-          route_id: json['route_id'] as int?,
+          trip_id: (json['trip_id'] as num?)?.toInt(),
+          route_id: (json['route_id'] as num?)?.toInt(),
           route_title: json['route_title'] as String?,
           time_start: json['time_start'] as String?,
           time_end: json['time_end'] as String?,
@@ -34,10 +34,10 @@ DcDriverActiveTripsDataTripDomainModel
           route_direction_string: json['route_direction_string'] as String?,
           date_create: json['date_create'] as String?,
           date_update: json['date_update'] as String?,
-          count_total: json['count_total'] as int? ?? 0,
-          count_picked: json['count_picked'] as int? ?? 0,
-          count_absent: json['count_absent'] as int? ?? 0,
-          count_remaining: json['count_remaining'] as int? ?? 0,
+          count_total: (json['count_total'] as num?)?.toInt() ?? 0,
+          count_picked: (json['count_picked'] as num?)?.toInt() ?? 0,
+          count_absent: (json['count_absent'] as num?)?.toInt() ?? 0,
+          count_remaining: (json['count_remaining'] as num?)?.toInt() ?? 0,
         )..students = (json['students'] as List<dynamic>?)
             ?.map((e) =>
                 DcDriverActiveTripsDataTripStudentsDomainModel.fromJson(
@@ -67,8 +67,8 @@ DcDriverActiveTripsDataTripStudentsDomainModel
     _$DcDriverActiveTripsDataTripStudentsDomainModelFromJson(
             Map<String, dynamic> json) =>
         DcDriverActiveTripsDataTripStudentsDomainModel(
-          trip_detail_id: json['trip_detail_id'] as int?,
-          student_id: json['student_id'] as int?,
+          trip_detail_id: (json['trip_detail_id'] as num?)?.toInt(),
+          student_id: (json['student_id'] as num?)?.toInt(),
           status: json['status'] as String?,
           time_pickup: json['time_pickup'] as String?,
           reason: json['reason'] as String?,

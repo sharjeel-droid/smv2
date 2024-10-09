@@ -9,7 +9,7 @@ part of 'DCVanDetApiResponseDomainModel.dart';
 DCVanDetApiResponseDomainModel _$DCVanDetApiResponseDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCVanDetApiResponseDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
       data: json['data'] == null
           ? null
@@ -40,13 +40,13 @@ Map<String, dynamic> _$DcVanDataDomainModelToJson(
 
 VehiclesDomainModel _$VehiclesDomainModelFromJson(Map<String, dynamic> json) =>
     VehiclesDomainModel(
-      vehicle_id: json['vehicle_id'] as int,
-      admin_id: json['admin_id'] as int,
-      school_id: json['school_id'] as int?,
-      driver_id: json['driver_id'] as int?,
+      vehicle_id: (json['vehicle_id'] as num).toInt(),
+      admin_id: (json['admin_id'] as num).toInt(),
+      school_id: (json['school_id'] as num?)?.toInt(),
+      driver_id: (json['driver_id'] as num?)?.toInt(),
       vehicle_type: json['vehicle_type'] as String,
       reg_number: json['reg_number'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String?,
       date_update: json['date_update'] as String?,
       school_name: json['school_name'] as String?,
@@ -77,10 +77,10 @@ Map<String, dynamic> _$VehiclesDomainModelToJson(
 
 DriverDomainModel _$DriverDomainModelFromJson(Map<String, dynamic> json) =>
     DriverDomainModel(
-      user_id: json['user_id'] as int,
-      admin_id: json['admin_id'] as int,
-      school_id: json['school_id'] as int,
-      vehicle_id: json['vehicle_id'] as int,
+      user_id: (json['user_id'] as num).toInt(),
+      admin_id: (json['admin_id'] as num).toInt(),
+      school_id: (json['school_id'] as num).toInt(),
+      vehicle_id: (json['vehicle_id'] as num).toInt(),
       first_name: json['first_name'] as String,
       last_name: json['last_name'] as String?,
       gender: json['gender'] as String,
@@ -90,7 +90,7 @@ DriverDomainModel _$DriverDomainModelFromJson(Map<String, dynamic> json) =>
       contact_1: json['contact_1'] as String?,
       contact_2: json['contact_2'] as String?,
       pic: json['pic'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String?,
       date_update: json['date_update'] as String?,
       access_auth: json['access_auth'] == null
@@ -123,15 +123,15 @@ Map<String, dynamic> _$DriverDomainModelToJson(DriverDomainModel instance) =>
 AccessAuthDomainModel _$AccessAuthDomainModelFromJson(
         Map<String, dynamic> json) =>
     AccessAuthDomainModel(
-      access_id: json['access_id'] as int,
-      label_id: json['label_id'] as int,
-      user_id: json['user_id'] as int,
+      access_id: (json['access_id'] as num).toInt(),
+      label_id: (json['label_id'] as num).toInt(),
+      user_id: (json['user_id'] as num).toInt(),
       login_id: json['login_id'] as String,
       pass: json['pass'] as String,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String?,
       date_update: json['date_update'] as String?,
-      is_loggedin: json['is_loggedin'] as int,
+      is_loggedin: (json['is_loggedin'] as num).toInt(),
       token_id: json['token_id'] as String?,
     );
 
@@ -152,14 +152,14 @@ Map<String, dynamic> _$AccessAuthDomainModelToJson(
 
 RouteDomainModel _$RouteDomainModelFromJson(Map<String, dynamic> json) =>
     RouteDomainModel(
-      route_id: json['route_id'] as int,
+      route_id: (json['route_id'] as num).toInt(),
       route_title: json['route_title'] as String?,
-      vehicle_id: json['vehicle_id'] as int,
-      driver_id: json['driver_id'] as int,
-      school_id: json['school_id'] as int,
+      vehicle_id: (json['vehicle_id'] as num).toInt(),
+      driver_id: (json['driver_id'] as num).toInt(),
+      school_id: (json['school_id'] as num).toInt(),
       time_start_approx: json['time_start_approx'] as String?,
       time_end_approx: json['time_end_approx'] as String?,
-      is_active: json['is_active'] as int,
+      is_active: (json['is_active'] as num).toInt(),
       date_create: json['date_create'] as String?,
       date_update: json['date_update'] as String?,
     )..route_details = (json['route_details'] as List<dynamic>?)
@@ -185,10 +185,10 @@ Map<String, dynamic> _$RouteDomainModelToJson(RouteDomainModel instance) =>
 RouteDetailsDomainModel _$RouteDetailsDomainModelFromJson(
         Map<String, dynamic> json) =>
     RouteDetailsDomainModel(
-      route_detail_id: json['route_detail_id'] as int,
-      route_id: json['route_id'] as int,
-      student_id: json['student_id'] as int,
-      sorting_index: json['sorting_index'] as int?,
+      route_detail_id: (json['route_detail_id'] as num).toInt(),
+      route_id: (json['route_id'] as num).toInt(),
+      student_id: (json['student_id'] as num).toInt(),
+      sorting_index: (json['sorting_index'] as num?)?.toInt(),
       date_create: json['date_create'] as String?,
       date_update: json['date_update'] as String?,
     );

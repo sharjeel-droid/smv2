@@ -9,7 +9,7 @@ part of 'DCnewStdApiResponseDomainModel.dart';
 DCnewStdApiResponseDomainModel _$DCnewStdApiResponseDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCnewStdApiResponseDomainModel(
-      success: json['success'] as int,
+      success: (json['success'] as num).toInt(),
       message: json['message'] as String,
     );
 

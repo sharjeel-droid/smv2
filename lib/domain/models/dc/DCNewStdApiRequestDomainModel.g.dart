@@ -9,9 +9,9 @@ part of 'DCNewStdApiRequestDomainModel.dart';
 DCNewStdApiRequestDomainModel _$DCNewStdApiRequestDomainModelFromJson(
         Map<String, dynamic> json) =>
     DCNewStdApiRequestDomainModel(
-      adminId: json['adminId'] as int,
+      adminId: (json['adminId'] as num).toInt(),
       studentName: json['studentName'] as String,
-      schoolId: json['schoolId'] as int,
+      schoolId: (json['schoolId'] as num).toInt(),
       fatherName: json['fatherName'] as String,
       fatherNIC: json['fatherNIC'] as String,
       fatherAddress: json['fatherAddress'] as String,
