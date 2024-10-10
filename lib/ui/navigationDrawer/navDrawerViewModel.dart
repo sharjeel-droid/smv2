@@ -9,6 +9,7 @@ import 'package:SMV2/utils/AppSessionRX.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'dart:developer' as dev;
 
 import '../admin/dashboard/adminDashboard.dart';
@@ -23,6 +24,8 @@ class NavDrawerViewModel extends GetxController{
   RxInt selectedNavItemPos = 0.obs;
   RxBool isProcessingLogout = false.obs;
   Rx<UserRole> userRole = UserRole.UNKNOWN.obs;
+  RxString navHeaderTextP = "~".obs;
+  RxString navHeaderTextS = "~".obs;
 
   late RxList<Widget> mappedNavTree;// = _getFooterNavTree().obs; //= [].obs;
   late Rx<Widget> mappedNavView;// = _getEmptyView().obs;// = [].obs;
@@ -44,6 +47,12 @@ class NavDrawerViewModel extends GetxController{
 
     // mapNavigationTreeForUserRole();
     // _mapNavigationViewsForUserRole();
+  }
+
+  mapUserCredsToNavHeader() async {
+    String fullName = (await AppSession.currentUser.first_name()??"") + (await AppSession.currentUser.last_name()??"");
+    String identifier = await AppSession.currentUser.login_id()??"";
+
   }
 
   mapNavigationTreeForUserRole(BuildContext buildContext)

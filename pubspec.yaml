@@ -119,6 +119,6 @@ flutter:
 
   #launcher icons
 flutter_launcher_icons:
-  android: "launcher_icon"
+  android: true
   ios: true
   image_path: "assets/images/launcher_icon.png"

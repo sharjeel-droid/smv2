@@ -180,6 +180,8 @@ class _layouts {
     Color? bgColor,
     List<Widget>? navigationDrawerItems,
     int? currentSelection,
+    String? navHeaderTextPrimary,
+    String? navHeaderTextSecondary
   }) {
     return _layoutWithNavDrawer().compose(
       title: title ?? "",
@@ -187,6 +189,8 @@ class _layouts {
       bodyContent: bodyContent,
       navigationDrawerItems: navigationDrawerItems,
       currentSelection: currentSelection,
+      navHeaderTextPrimary: navHeaderTextPrimary!!,
+      navHeaderTextSecondary: navHeaderTextSecondary!!
       // onAboutTap: onAboutTap,
       // onSettingsTap: onSettingsTap,
       // onLogoutTap: onLogoutTap
@@ -249,14 +253,18 @@ class _layoutWithNavDrawer {
       required Color bgColor,
       List<Widget>? navigationDrawerItems,
       int? currentSelection,
-      required Widget bodyContent} /*{required Function() body}*/) {
+      required Widget bodyContent,
+      String navHeaderTextPrimary = "primary text",
+      String navHeaderTextSecondary = "secondary text"} /*{required Function() body}*/) {
     return Scaffold(
         appBar: AppBar(
           title: Text(title),
         ),
         drawer: _navDrawers().light(
             navTreeList: navigationDrawerItems,
-            currentSelection: currentSelection),
+            currentSelection: currentSelection,
+        headerTextPrimary: navHeaderTextPrimary,
+        headerTextSecondary: navHeaderTextSecondary),
         body: bodyContent);
 
     return Scaffold(backgroundColor: bgColor, body: bodyContent);
@@ -829,11 +837,15 @@ class _navDrawers {
       int? currentSelection,
       Function()? onAboutTap,
       Function()? onSettingsTap,
-      Function()? onLogoutTap}) {
+      Function()? onLogoutTap,
+      required String headerTextPrimary,
+      required String headerTextSecondary}) {
     return _navDrawerComposer().compose(
       navigationTreeList: navTreeList ?? [],
       currentSelection: currentSelection ??
           0, /*onAboutTap: onAboutTap??(){}, onSettingsTap: onSettingsTap??(){}, onLogoutTap: onLogoutTap??(){}*/
+      textPrimary: headerTextPrimary,
+      textSecondary: headerTextSecondary
     );
   }
 }
@@ -841,7 +853,7 @@ class _navDrawers {
 class _navDrawerComposer {
   const _navDrawerComposer();
   //header
-  _drawerHeader() {
+  _drawerHeader(String textPrimary, String textSecondary) {
     return DrawerHeader(
       child: Stack(
         fit: StackFit.expand,
@@ -861,11 +873,13 @@ class _navDrawerComposer {
                     children: [
                       defaults.images.avatars.def,
                       defaults.widget.label.simple(
-                          labelText: "Name Name",
+                          // labelText: "Name Name",
+                          labelText: TextPrimary,
                           textColor: Color(defaults.colors.argb.white),
                           isBold: true),
                       defaults.widget.label.small(
-                        labelText: "name@gmail.com",
+                        // labelText: "name@gmail.com",
+                        labelText: TextSecondary,
                         textColor: Color(defaults.colors.argb.white),
                         isBold: true,
                       ),
@@ -909,9 +923,10 @@ class _navDrawerComposer {
   compose(
       {required List navigationTreeList,
       required int
-          currentSelection /*, required Function() onAboutTap,required Function() onSettingsTap,required Function() onLogoutTap*/}) {
+          currentSelection /*, required Function() onAboutTap,required Function() onSettingsTap,required Function() onLogoutTap*/,
+      required String textPrimary, required String textSecondary}) {
     List<Widget> treeItems = [
-      _drawerHeader(),
+      _drawerHeader(textPrimary, textSecondary),
     ];
     //adding nav items params
     for (var i = 0; i < navigationTreeList.length; i++) {
