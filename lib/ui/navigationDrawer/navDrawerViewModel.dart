@@ -47,12 +47,17 @@ class NavDrawerViewModel extends GetxController{
 
     // mapNavigationTreeForUserRole();
     // _mapNavigationViewsForUserRole();
+    // _mapUserCredsToNavHeader();
   }
 
-  mapUserCredsToNavHeader() async {
+  _mapUserCredsToNavHeader() async {
     String fullName = (await AppSession.currentUser.first_name()??"") + (await AppSession.currentUser.last_name()??"");
-    String identifier = await AppSession.currentUser.login_id()??"";
+    String identifier = await AppSession.currentUser.login_id()??"~";
+    // UserRole userrole = appSessO.userRoleObs.value;
 
+    // navHeaderTextP(fullName + " (${userrole.name})");
+    navHeaderTextP(fullName + " (${userRole.value.name})");
+    navHeaderTextS(identifier);
   }
 
   mapNavigationTreeForUserRole(BuildContext buildContext)
@@ -63,6 +68,9 @@ class NavDrawerViewModel extends GetxController{
 
     dev.log("userRole check -> ${userRole.value}");
     // UserRole userRole = await AppSession.currentUser.userRole();
+
+    _mapUserCredsToNavHeader();
+
     List<Widget> tree = [];
     switch(userRole.value)
     {

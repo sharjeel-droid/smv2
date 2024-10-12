@@ -28,8 +28,8 @@ class NavigationDrawerView extends StatelessWidget {
             currentSelection: _viewModel.selectedNavItemPos.value,
             bodyContent: _viewModel.mappedNavView.value,
             bgColor: defaults.colors.PrimaryDark,
-          navHeaderTextPrimary: userName,
-          navHeaderTextSecondary: identifier
+          navHeaderTextPrimary: _viewModel.navHeaderTextP.value,
+          navHeaderTextSecondary: _viewModel.navHeaderTextS.value
         )
 
     );

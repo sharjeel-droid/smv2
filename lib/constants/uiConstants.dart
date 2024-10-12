@@ -874,12 +874,12 @@ class _navDrawerComposer {
                       defaults.images.avatars.def,
                       defaults.widget.label.simple(
                           // labelText: "Name Name",
-                          labelText: TextPrimary,
+                          labelText: textPrimary,
                           textColor: Color(defaults.colors.argb.white),
                           isBold: true),
                       defaults.widget.label.small(
                         // labelText: "name@gmail.com",
-                        labelText: TextSecondary,
+                        labelText: textSecondary,
                         textColor: Color(defaults.colors.argb.white),
                         isBold: true,
                       ),
