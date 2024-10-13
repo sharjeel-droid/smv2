@@ -32,22 +32,37 @@ class DriverDashboardViewModel extends GetxController {
   Rxn<DcDriverDashDataRouteDomainModel> route = Rxn();
   RxList<DcDriverDashDataTripDetsDomainModel> tripToday = RxList();
   RxList<DcDriverDashDataTripDetsDomainModel> tripActive = RxList();
-  String firstName = '';
-  String lastName = '';
-  String mobileNumber = '';
+  RxString fullName = ''.obs;
+  RxString identifier = ''.obs;
+  // String firstName = '';
+  // String lastName = '';
+  // String mobileNumber = '';
   // Rxn<DcDriverActiveTripsDataTripDomainModel> activeTripDetails = Rxn();
 
-  Future<void> init() async {
+  init() async {
     dev.log("driverDashVM init");
     // ever(tripActive,
     //         (callback) {
     //           showNewTripAction(callback!=null);
     //     }
     // );
-    firstName = await AppSession.currentUser.first_name() as String;
-    lastName = await AppSession.currentUser.last_name() as String;
-    mobileNumber = await AppSession.currentUser.contact_1() as String;
+    // firstName = await AppSession.currentUser.first_name() as String;
+    // lastName = await AppSession.currentUser.last_name() as String;
+    // mobileNumber = await AppSession.currentUser.contact_1() as String;
+    _getUserCredsFromSession();
     getDashboardDetails();
+  }
+
+  _getUserCredsFromSession() async{
+
+    String fuN = await AppSession.currentUser.full_name();
+    String ide = (await AppSession.currentUser.login_id()) ??"";
+
+
+    dev.log("fullname -> ${fuN}");
+    dev.log("identifier -> ${ide}");
+    fullName(fuN);
+    identifier(ide);
   }
 
   getDashboardDetails() async {

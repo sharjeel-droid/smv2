@@ -222,6 +222,17 @@ class _CurrentUser{
   //last_name
   Future<void> _set_last_name(String last_name)=> setString("last_name", last_name);
   Future<String?> last_name()=> getString ("last_name") ;
+
+  //full_name
+  // Future<void> _set_last_name(String last_name)=> setString("last_name", last_name);
+  full_name() async{
+
+    String fn = (await first_name())??"";
+    String ln = (await last_name())??"";
+
+    return  ( fn +" "+ ln)  ;
+  }
+
   //gender
   Future<void> _set_gender(String gender)=> setString("gender", gender);
   Future<String?> gender()=> getString ("gender") ;

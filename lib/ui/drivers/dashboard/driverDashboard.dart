@@ -20,6 +20,7 @@ class DriverDashboard extends StatelessWidget {
       Get.find<DriverDashboardViewModel>();
   @override
   Widget build(BuildContext context) {
+    _viewModel.init();
     return Scaffold(
       backgroundColor: defaults.colors.SecondaryText,
       body: SafeArea(
@@ -253,88 +254,94 @@ class DriverDashboard extends StatelessWidget {
   }
 
   Widget _viewForMobile(BuildContext context) {
-    _viewModel.init();
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Card(
-              color: defaults.colors.SecondaryText,
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Image.asset(
-                          'assets/images/ic_avt_male_def.png',
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        flex: 2,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                                "${_viewModel.firstName} ${_viewModel.lastName}",
-                                style: TextStyle(
-                                    color: defaults.colors.PrimaryBlue,
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w800)),
-                            Text("${_viewModel.mobileNumber ?? '-'}",
-                                style: TextStyle(
-                                    color: defaults.colors.PrimaryBlue,
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.w600)),
-                          ],
-                        ),
-                      ),
-                    ],
+    // _viewModel.init();
+    return Obx(() =>
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Card(
+                  color: defaults.colors.SecondaryText,
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  Divider(
-                    color: defaults.colors.PrimaryBlue,
-                    thickness: 1,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                          flex: 1,
-                          child: Image.asset(
-                            'assets/images/school-bus.png',
-                            fit: BoxFit.contain,
-                          )),
-                      Expanded(
-                          flex: 2,
-                          child: Obx(() => Text(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: Column(children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Image.asset(
+                              'assets/images/ic_avt_male_def.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            flex: 2,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  // "${_viewModel.firstName} ${_viewModel.lastName}",
+                                    _viewModel.fullName.value,
+                                    style: TextStyle(
+                                        color: defaults.colors.PrimaryBlue,
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w800)),
+                                Text("${_viewModel.identifier.value}",
+                                    style: TextStyle(
+                                        color: defaults.colors.PrimaryBlue,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.w600)),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Divider(
+                        color: defaults.colors.PrimaryBlue,
+                        thickness: 1,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                              flex: 1,
+                              child: Image.asset(
+                                'assets/images/school-bus.png',
+                                fit: BoxFit.contain,
+                              )),
+                          Expanded(
+                              flex: 2,
+                              child: Obx(() => Text(
                                 "${_viewModel.vehicle.value?.vehicle_type ?? "-"} : ${_viewModel.vehicle.value?.reg_number ?? "-"}",
                                 style: TextStyle(
                                     fontSize: 24,
                                     fontWeight: FontWeight.bold,
                                     color: defaults.colors.PrimaryBlue),
                               )))
-                    ],
-                  )
-                ]),
-              ),
+                        ],
+                      )
+                    ]),
+                  ),
+                ),
+                const SizedBox(height: 5),
+                _onGoingTripSection(context),
+                const SizedBox(height: 5),
+                _recentScheduledTripSection(),
+                const SizedBox(height: 5),
+                _recentTripSection(),
+              ],
             ),
-            const SizedBox(height: 5),
-            _recentScheduledTripSection(),
-            const SizedBox(height: 5),
-            _onGoingTripSection(context),
-            const SizedBox(height: 5),
-            _recentTripSection(),
-          ],
-        ),
-      ),
+          ),
+        )
     );
+
+
+
   }
 
   Widget _recentScheduledTripSection() {
